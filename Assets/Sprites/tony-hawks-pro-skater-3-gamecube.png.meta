@@ -1,0 +1,3233 @@
+fileFormatVersion: 2
+guid: 12e276e34cd088042b5fe3e092774635
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 300
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: 10
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a97aebd7e03354ab2bb37ee5be6366
+      internalID: -807889894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_1
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5940059578678d4418e702a67a3d1067
+      internalID: 402137268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_2
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b7a9e28a0f0c1b4cb6d8ced76756a02
+      internalID: -348506918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_3
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5db0d4b1e2e30f49b370f8a0212bcc2
+      internalID: -1074825478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_4
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f21f1d3bc0e284419686067b94b0e86
+      internalID: 1532287605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_5
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e9fd92d6466ab240a868798f7ae5a88
+      internalID: 589372436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_6
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 7486
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4acc1b7c302e95b459139611262f037e
+      internalID: -1997761532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ea238dfe9a511c49bbf2d5a85254b63
+      internalID: -1156808815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_8
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59b5e05b121d505428e49e859d678fc2
+      internalID: -559562605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_9
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efce41b3628468e4abf9ce8e7f5cd1a9
+      internalID: -1172659259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_10
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f9212b117412ae4fa3a8fc7b97b1057
+      internalID: 912096214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_11
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d455b86ece6cc7549a80348f0f580e47
+      internalID: 387679800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_12
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71444bc47b63f63499d6603f28104b75
+      internalID: 356461939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_13
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 7092
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e03fd9a40a6d1746b11fe2348e04137
+      internalID: -2118541585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf9b4d6142135454cba72900d0986cdb
+      internalID: -1875094551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_15
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2eb3953c6dd195f49b5ba3373435a176
+      internalID: 1736878466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_16
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a745b18476ae1740bd39a354903c5e5
+      internalID: 39206309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_17
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f49a1719a45bda246871b714caf09688
+      internalID: -930383173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_18
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5a26323d62536d418b89853ffff68ee
+      internalID: -795018882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_19
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1a971ea501cbcc42b48161fa2cb435b
+      internalID: -615616709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_20
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 6698
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89fddcb51b73533499f2d28b511bdecf
+      internalID: 143802729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48e433f9765de1840bf772abeb7b7891
+      internalID: -1355559451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_22
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f50d3acffeeb7db499deb1cc8a8f6f58
+      internalID: 656123193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_23
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b7567a9b6d59ae4e949dd7a86a4ff59
+      internalID: 1693958004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_24
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e60da510d41421c49adbfd6d9e4ec316
+      internalID: 1023365719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_25
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78b1682ce2098204aabd1c8c3f5355f8
+      internalID: -674120596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_26
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59626da4608b7ac4daf8660ec2f8a903
+      internalID: -1660199070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_27
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 6304
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c831fba03c517104d847dcaa01ed67c3
+      internalID: -706463274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e56d3d58379f9944db297b0d7330a4b7
+      internalID: -937826901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_29
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3b5a6a5bed8d7a4c8753fd725488b7d
+      internalID: -1843877645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_30
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70fd560f0d79b5847a51967d8293965c
+      internalID: 1901800352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_31
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f01121c15f8364eafa0d9cd1662881
+      internalID: -1164964435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_32
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 374c0733796344d4287256dab77a08e7
+      internalID: 1051691809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_33
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af2719506876124b88f58ee09a79a5c
+      internalID: -1807895714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_34
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 5910
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa29aaed745135e4daee92f0b7467a10
+      internalID: -202665762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bb0893dc0ae3da43b9b23a3d0a924be
+      internalID: -507408890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_36
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a41d39b2eeaf490479531bff530253d5
+      internalID: -387340006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_37
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22716ef6abbdce546af2b449d2bf505e
+      internalID: -504685757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_38
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcc2040589a08f441baa98897c092cf8
+      internalID: -1276764463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_39
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c831255dfd956b4aaccd6ffe8fadaa3
+      internalID: 942584473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_40
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebad86283d3a84f48b2c9d227649d96b
+      internalID: 647463378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_41
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 5516
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 082f8cf84b5ebaf4a8e0713953e2fe25
+      internalID: 1351214179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 323700e8e613c9f479ad252e736e5bb8
+      internalID: 243041837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_43
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5186d3d157994e44a0b513b32a51d7c
+      internalID: 75859465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_44
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcb56b49ab7f4b548a0e55da2b1bdb5b
+      internalID: 182649505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_45
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fdb4b8eeee035b45bfa35b4cd7802ac
+      internalID: -1356923881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_46
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a91f6bf327ccbb645869fe46b325de06
+      internalID: 289092314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_47
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 031b902dbfa6c7e489d125af7bd92d38
+      internalID: -424271588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_48
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 5122
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caf2f004a487a2a49a0f321208349e0f
+      internalID: 954003691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_49
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e41d26f27daf60b488a8637fe5350197
+      internalID: -1620019009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_50
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ece5924290fea364ab5f7f88a2d9393c
+      internalID: 1026077983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_51
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6521e5c45f7a67d4ba4121f8d35ae612
+      internalID: -635336567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_52
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b0b1f9bdcdf21b4aa26c5bef2755b49
+      internalID: -1616327551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_53
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9e5d1b6df813b54b88bd2679d173d77
+      internalID: -797390048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_54
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2945e1c6c69055a41b0a55feecfe02bb
+      internalID: -989558595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_55
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 4728
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ef8e1d77afb0dc4fa0063b3c0c787b0
+      internalID: 1199803920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18ea35d8a8723ff4b9e60d5f5b3675ea
+      internalID: -1154596235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_57
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24e936e69a41f5d41beef72f8eb88d4f
+      internalID: -934965306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_58
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd8e6ad78f1260a458e944a5f5643d6b
+      internalID: -1191320199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_59
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 900c608e8e5ce2a488fe64738e2541fd
+      internalID: 666778837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_60
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bf15b147a04a104098add003c59d97d
+      internalID: 1042989764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_61
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfd50f56f9bb6454790b498353fb4763
+      internalID: -612335248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_62
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 4334
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebc233d9dc5cf5240bedf7fb150f45d7
+      internalID: -566228734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_63
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86052a7dbb6d9ee449c2ae17a2daf895
+      internalID: 1228527565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_64
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e18da5c9bbaeb814ba6753cbaa0e9773
+      internalID: 2131904800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_65
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d29e71e249739fa44b2ff4d4d047d396
+      internalID: -1687618140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_66
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8802c3b2e52d63642bdc29a8764ef7ed
+      internalID: -1524039557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_67
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e175f7982c08d745b9c63b552f6c849
+      internalID: -1177358725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_68
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6cfceafed65c4f4c82ddb4746711125
+      internalID: -919607376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_69
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 3940
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6da99d36281bc264e96b0fc77e194d13
+      internalID: -734820243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9df27c57e28b66b498d4ace6cb8306af
+      internalID: -333681966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_71
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b0e194aea1a3534e82680e961cbb0a1
+      internalID: -447401893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_72
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecfbcdd3e4cc2f841be9361085ec600a
+      internalID: -319532403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_73
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c4609c6238a4764c9b24e16a14b0792
+      internalID: -902381695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_74
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c637bdae969663740816a48c6e969828
+      internalID: -2123541061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_75
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c11c0c4f36d79f44be1cf0b87f0396f
+      internalID: -1874499641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_76
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 3546
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f2b2a678280437449a89a976872d1c1
+      internalID: -522955045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_77
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7c653d1573fdfe4796001ce90a2ea02
+      internalID: 95042214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_78
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff5aec59795957a4e8de30c32e3e97c9
+      internalID: 1423307952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_79
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eafebbd300489214983a8e3240f101a9
+      internalID: -146899473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_80
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef6b2c958fd4a9a4c93c7fc45cff9b9b
+      internalID: 1184301207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_81
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7824aa432e1690b4db0e53d091616b5e
+      internalID: -818373023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_82
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 654eabf7b80d3a04388a3c1d7d46119d
+      internalID: -442936195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_83
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 3152
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad09ab6ce2ed21442bb9717030679aa2
+      internalID: 1297139365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_84
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39892a0fba7ef6646ba3832508656d48
+      internalID: -929898798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_85
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c9e66d45ed3c594a9537c63e147490f
+      internalID: -1906092044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_86
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 524a51a4c02ba964c941992a96c45d42
+      internalID: 1325908856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_87
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 476a810c315d64a4c9f7fd7094ef1f5f
+      internalID: -1378146206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_88
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc1c0780d07b7fa418563fe0229bae4c
+      internalID: -1340768178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_89
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb8ffaebed1e1641ba55666a9afc312
+      internalID: -905845199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_90
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 2758
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdf663cd1d6a0214e99f299d99c3cf15
+      internalID: -1316330799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_91
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24476d5b371ce804f909eb609cc72e30
+      internalID: 1812506955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_92
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06157f1a55e60b443af0fe32b3866d3d
+      internalID: -1703983151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_93
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dab84bbd01654bf4a8c3970ce0bb615f
+      internalID: 1025039309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_94
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 242ebadf33d85444896845e06e71cb16
+      internalID: 1614501775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_95
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75342e0fc2b1cc145bebde43d6900548
+      internalID: -676304325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_96
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cdfd33b2b905cf48b29208431949563
+      internalID: 271626457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_97
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 2364
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19b710d9c4cf70748b04c2aa380a203b
+      internalID: -524503262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_98
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96a0857a5bc6c834d8a5b4a673b0c15d
+      internalID: -94512066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_99
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc1f8b5d6bb949b469411d0258dd09b6
+      internalID: -1423382524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_100
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccc151052a93bcb43903f430d4125545
+      internalID: -725863876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_101
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30bcba2e3fa20f6448b0a9ee5327c642
+      internalID: 1529386997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_102
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceeff7dec19dc104db46a592163532e2
+      internalID: 265021656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_103
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eac3a4d252acc10448a479e4ca4d5bb6
+      internalID: -1468041957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_104
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 1970
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3faca30ab5cc3348a2f2c736cf3acec
+      internalID: -1822200398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de3451a210f05994c9139993d64321c0
+      internalID: -535079543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_106
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd58b5f70d3ba624ca1c241300168ef5
+      internalID: 1780474848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_107
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ae466872da758c43adf02ba90bbffc0
+      internalID: -134021398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_108
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f7920606dd05e64eaefc9f6235f5df6
+      internalID: -660815361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_109
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d878f8d8c0a795c4595431aa48e4430b
+      internalID: 1847394400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_110
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92daf1da8da149c419d6d542e8c5e52a
+      internalID: -313999338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_111
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 1576
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b2ff5e7b87116c48bf36167e20e23f5
+      internalID: -571235595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_112
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7273c7466696434ba56d63b46f2efaf
+      internalID: -416026318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_113
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a352d5d77e8ebe44abe71882a5f09c15
+      internalID: 546892277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_114
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06d18e95d8529b543b146972e2997672
+      internalID: -765572772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_115
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30b6db65895cabd458ff4bd682f044e3
+      internalID: -2061255530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_116
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 295e580850c0b2b4cb42a1c4eb640802
+      internalID: 346456877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_117
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aae9513fe6da384fb234fc1b2e72346
+      internalID: 218300116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_118
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 1182
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f3cc5eed83fcd4d9946eded70b508a
+      internalID: 116443192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_119
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0ef3bb89612e8a4b8d13733fde55b61
+      internalID: 1082208830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_120
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee2a40fc7762edf48804819df4a77e15
+      internalID: -922997650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_121
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 251d95578e1e64545b75bb3419954a41
+      internalID: -549679182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_122
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51657cf4c6ec2684d8a9af698846d374
+      internalID: 834709068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_123
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 210a00942515a364f860c5e2a8260566
+      internalID: -1085042463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_124
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1b712fb8ba207349ae94272cee0ffd2
+      internalID: 1390440696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_125
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 788
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c54a946302546df469319b2098647171
+      internalID: -759613557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_126
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78188f7c39b3aa74dafee2027e2c6b5e
+      internalID: -1666128730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_127
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c055cb30539b124ab652462d5d13671
+      internalID: 885282321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_128
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a241fd5d046445b47a058835eb941b45
+      internalID: -899977337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_129
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5830281d2c638d48b31cbba0b6e2d21
+      internalID: -1092486399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_130
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c820c8399e90525488ed89700148cf69
+      internalID: -169863499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_131
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b0518586d7044640b256e93b94ca61d
+      internalID: 1753563177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_132
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 394
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bce310a93bc297f4886f1966a9cc4831
+      internalID: 680615278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_133
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 199f4051f31df8e46946c62b3617c08c
+      internalID: -445674849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_134
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b43f5c152c1414b4ba57f35439ea9d27
+      internalID: 863385225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_135
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ff0f9602972bfe4da5b67a3906cc459
+      internalID: 1501165099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_136
+      rect:
+        serializedVersion: 2
+        x: 1494
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3abad9a5a7a527d4dba58e98afb722c4
+      internalID: 1723510190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_137
+      rect:
+        serializedVersion: 2
+        x: 1992
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc301d577fee5da4eb3e85eddfaed1a9
+      internalID: 1832982304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_138
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a449a604c6f52f14ea7ee1a643968fca
+      internalID: 1901613612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tony-hawks-pro-skater-3-gamecube_139
+      rect:
+        serializedVersion: 2
+        x: 2988
+        y: 0
+        width: 498
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44cb19f0c1492e047893150978f9ddb8
+      internalID: 944444292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 6031ce913a471d54aa1627816a2637a1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tony-hawks-pro-skater-3-gamecube_0: -807889894
+      tony-hawks-pro-skater-3-gamecube_1: 402137268
+      tony-hawks-pro-skater-3-gamecube_10: 912096214
+      tony-hawks-pro-skater-3-gamecube_100: -725863876
+      tony-hawks-pro-skater-3-gamecube_101: 1529386997
+      tony-hawks-pro-skater-3-gamecube_102: 265021656
+      tony-hawks-pro-skater-3-gamecube_103: -1468041957
+      tony-hawks-pro-skater-3-gamecube_104: -1822200398
+      tony-hawks-pro-skater-3-gamecube_105: -535079543
+      tony-hawks-pro-skater-3-gamecube_106: 1780474848
+      tony-hawks-pro-skater-3-gamecube_107: -134021398
+      tony-hawks-pro-skater-3-gamecube_108: -660815361
+      tony-hawks-pro-skater-3-gamecube_109: 1847394400
+      tony-hawks-pro-skater-3-gamecube_11: 387679800
+      tony-hawks-pro-skater-3-gamecube_110: -313999338
+      tony-hawks-pro-skater-3-gamecube_111: -571235595
+      tony-hawks-pro-skater-3-gamecube_112: -416026318
+      tony-hawks-pro-skater-3-gamecube_113: 546892277
+      tony-hawks-pro-skater-3-gamecube_114: -765572772
+      tony-hawks-pro-skater-3-gamecube_115: -2061255530
+      tony-hawks-pro-skater-3-gamecube_116: 346456877
+      tony-hawks-pro-skater-3-gamecube_117: 218300116
+      tony-hawks-pro-skater-3-gamecube_118: 116443192
+      tony-hawks-pro-skater-3-gamecube_119: 1082208830
+      tony-hawks-pro-skater-3-gamecube_12: 356461939
+      tony-hawks-pro-skater-3-gamecube_120: -922997650
+      tony-hawks-pro-skater-3-gamecube_121: -549679182
+      tony-hawks-pro-skater-3-gamecube_122: 834709068
+      tony-hawks-pro-skater-3-gamecube_123: -1085042463
+      tony-hawks-pro-skater-3-gamecube_124: 1390440696
+      tony-hawks-pro-skater-3-gamecube_125: -759613557
+      tony-hawks-pro-skater-3-gamecube_126: -1666128730
+      tony-hawks-pro-skater-3-gamecube_127: 885282321
+      tony-hawks-pro-skater-3-gamecube_128: -899977337
+      tony-hawks-pro-skater-3-gamecube_129: -1092486399
+      tony-hawks-pro-skater-3-gamecube_13: -2118541585
+      tony-hawks-pro-skater-3-gamecube_130: -169863499
+      tony-hawks-pro-skater-3-gamecube_131: 1753563177
+      tony-hawks-pro-skater-3-gamecube_132: 680615278
+      tony-hawks-pro-skater-3-gamecube_133: -445674849
+      tony-hawks-pro-skater-3-gamecube_134: 863385225
+      tony-hawks-pro-skater-3-gamecube_135: 1501165099
+      tony-hawks-pro-skater-3-gamecube_136: 1723510190
+      tony-hawks-pro-skater-3-gamecube_137: 1832982304
+      tony-hawks-pro-skater-3-gamecube_138: 1901613612
+      tony-hawks-pro-skater-3-gamecube_139: 944444292
+      tony-hawks-pro-skater-3-gamecube_14: -1875094551
+      tony-hawks-pro-skater-3-gamecube_15: 1736878466
+      tony-hawks-pro-skater-3-gamecube_16: 39206309
+      tony-hawks-pro-skater-3-gamecube_17: -930383173
+      tony-hawks-pro-skater-3-gamecube_18: -795018882
+      tony-hawks-pro-skater-3-gamecube_19: -615616709
+      tony-hawks-pro-skater-3-gamecube_2: -348506918
+      tony-hawks-pro-skater-3-gamecube_20: 143802729
+      tony-hawks-pro-skater-3-gamecube_21: -1355559451
+      tony-hawks-pro-skater-3-gamecube_22: 656123193
+      tony-hawks-pro-skater-3-gamecube_23: 1693958004
+      tony-hawks-pro-skater-3-gamecube_24: 1023365719
+      tony-hawks-pro-skater-3-gamecube_25: -674120596
+      tony-hawks-pro-skater-3-gamecube_26: -1660199070
+      tony-hawks-pro-skater-3-gamecube_27: -706463274
+      tony-hawks-pro-skater-3-gamecube_28: -937826901
+      tony-hawks-pro-skater-3-gamecube_29: -1843877645
+      tony-hawks-pro-skater-3-gamecube_3: -1074825478
+      tony-hawks-pro-skater-3-gamecube_30: 1901800352
+      tony-hawks-pro-skater-3-gamecube_31: -1164964435
+      tony-hawks-pro-skater-3-gamecube_32: 1051691809
+      tony-hawks-pro-skater-3-gamecube_33: -1807895714
+      tony-hawks-pro-skater-3-gamecube_34: -202665762
+      tony-hawks-pro-skater-3-gamecube_35: -507408890
+      tony-hawks-pro-skater-3-gamecube_36: -387340006
+      tony-hawks-pro-skater-3-gamecube_37: -504685757
+      tony-hawks-pro-skater-3-gamecube_38: -1276764463
+      tony-hawks-pro-skater-3-gamecube_39: 942584473
+      tony-hawks-pro-skater-3-gamecube_4: 1532287605
+      tony-hawks-pro-skater-3-gamecube_40: 647463378
+      tony-hawks-pro-skater-3-gamecube_41: 1351214179
+      tony-hawks-pro-skater-3-gamecube_42: 243041837
+      tony-hawks-pro-skater-3-gamecube_43: 75859465
+      tony-hawks-pro-skater-3-gamecube_44: 182649505
+      tony-hawks-pro-skater-3-gamecube_45: -1356923881
+      tony-hawks-pro-skater-3-gamecube_46: 289092314
+      tony-hawks-pro-skater-3-gamecube_47: -424271588
+      tony-hawks-pro-skater-3-gamecube_48: 954003691
+      tony-hawks-pro-skater-3-gamecube_49: -1620019009
+      tony-hawks-pro-skater-3-gamecube_5: 589372436
+      tony-hawks-pro-skater-3-gamecube_50: 1026077983
+      tony-hawks-pro-skater-3-gamecube_51: -635336567
+      tony-hawks-pro-skater-3-gamecube_52: -1616327551
+      tony-hawks-pro-skater-3-gamecube_53: -797390048
+      tony-hawks-pro-skater-3-gamecube_54: -989558595
+      tony-hawks-pro-skater-3-gamecube_55: 1199803920
+      tony-hawks-pro-skater-3-gamecube_56: -1154596235
+      tony-hawks-pro-skater-3-gamecube_57: -934965306
+      tony-hawks-pro-skater-3-gamecube_58: -1191320199
+      tony-hawks-pro-skater-3-gamecube_59: 666778837
+      tony-hawks-pro-skater-3-gamecube_6: -1997761532
+      tony-hawks-pro-skater-3-gamecube_60: 1042989764
+      tony-hawks-pro-skater-3-gamecube_61: -612335248
+      tony-hawks-pro-skater-3-gamecube_62: -566228734
+      tony-hawks-pro-skater-3-gamecube_63: 1228527565
+      tony-hawks-pro-skater-3-gamecube_64: 2131904800
+      tony-hawks-pro-skater-3-gamecube_65: -1687618140
+      tony-hawks-pro-skater-3-gamecube_66: -1524039557
+      tony-hawks-pro-skater-3-gamecube_67: -1177358725
+      tony-hawks-pro-skater-3-gamecube_68: -919607376
+      tony-hawks-pro-skater-3-gamecube_69: -734820243
+      tony-hawks-pro-skater-3-gamecube_7: -1156808815
+      tony-hawks-pro-skater-3-gamecube_70: -333681966
+      tony-hawks-pro-skater-3-gamecube_71: -447401893
+      tony-hawks-pro-skater-3-gamecube_72: -319532403
+      tony-hawks-pro-skater-3-gamecube_73: -902381695
+      tony-hawks-pro-skater-3-gamecube_74: -2123541061
+      tony-hawks-pro-skater-3-gamecube_75: -1874499641
+      tony-hawks-pro-skater-3-gamecube_76: -522955045
+      tony-hawks-pro-skater-3-gamecube_77: 95042214
+      tony-hawks-pro-skater-3-gamecube_78: 1423307952
+      tony-hawks-pro-skater-3-gamecube_79: -146899473
+      tony-hawks-pro-skater-3-gamecube_8: -559562605
+      tony-hawks-pro-skater-3-gamecube_80: 1184301207
+      tony-hawks-pro-skater-3-gamecube_81: -818373023
+      tony-hawks-pro-skater-3-gamecube_82: -442936195
+      tony-hawks-pro-skater-3-gamecube_83: 1297139365
+      tony-hawks-pro-skater-3-gamecube_84: -929898798
+      tony-hawks-pro-skater-3-gamecube_85: -1906092044
+      tony-hawks-pro-skater-3-gamecube_86: 1325908856
+      tony-hawks-pro-skater-3-gamecube_87: -1378146206
+      tony-hawks-pro-skater-3-gamecube_88: -1340768178
+      tony-hawks-pro-skater-3-gamecube_89: -905845199
+      tony-hawks-pro-skater-3-gamecube_9: -1172659259
+      tony-hawks-pro-skater-3-gamecube_90: -1316330799
+      tony-hawks-pro-skater-3-gamecube_91: 1812506955
+      tony-hawks-pro-skater-3-gamecube_92: -1703983151
+      tony-hawks-pro-skater-3-gamecube_93: 1025039309
+      tony-hawks-pro-skater-3-gamecube_94: 1614501775
+      tony-hawks-pro-skater-3-gamecube_95: -676304325
+      tony-hawks-pro-skater-3-gamecube_96: 271626457
+      tony-hawks-pro-skater-3-gamecube_97: -524503262
+      tony-hawks-pro-skater-3-gamecube_98: -94512066
+      tony-hawks-pro-skater-3-gamecube_99: -1423382524
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
