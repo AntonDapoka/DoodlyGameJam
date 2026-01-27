@@ -19,7 +19,7 @@ public abstract class LookAtPlayerBase : MonoBehaviour
     {
         if (player == null) return;
 
-        Vector3 dir = - transform.position + player.position;
+        Vector3 dir = transform.position - player.position;
 
         if (lockY)
             dir.y = 0f;
