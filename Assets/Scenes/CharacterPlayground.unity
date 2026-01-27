@@ -5536,7 +5536,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 917c6c4b424312e43b4c30587493c892, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.262
+  m_Volume: 0.053
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -49783,6 +49783,7 @@ GameObject:
   - component: {fileID: 5543738659990719153}
   - component: {fileID: 5509052267740542277}
   - component: {fileID: 5530455799321397187}
+  - component: {fileID: 5573864683772550980}
   m_Layer: 0
   m_Name: ExampleCamera
   m_TagString: MainCamera
@@ -49805,6 +49806,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 19.976, y: -0.13, z: 0}
+--- !u!114 &5573864683772550980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5572022742420398803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec3966665a329f47aaf45a505570012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_settings:
+    _StencilUse: 1
+    _Thickness: 2.21
+    _ResolutionAdjust: 1
+    _UseDepthFade: 1
+    _FadeStart: 20
+    _FadeEnd: 50
+    _NormalsEdgeDetection: 1
+    _NormalsOffset: 0.2
+    _NormalsHardness: 0.42
+    _NormalsPower: 1
+    _DepthEdgeDetection: 1
+    _AcuteAngleFix: 0
+    _ViewDirThreshold: 1
+    _DepthThreshold: 3
+    _DepthHardness: 0.9
+    _DepthPower: 5
+    _EdgeColor: {r: 0, g: 0, b: 0, a: 1}
+    _UseEdgeBlendDepthFade: 0
+    _EdgeBlendFadeStart: 10
+    _EdgeBlendFadeEnd: 20
+    _UseSketchEdges: 1
+    _Amplitude: 0.00075
+    _Frequency: 119.4
+    _ChangesPerSecond: 4.2
+    _UseGrain: 0
+    _GrainTexture: {fileID: 2800000, guid: 17a9be99a10ac584b8b7593c9777a0a3, type: 3}
+    _GrainStrength: 0.937
+    _GrainScale: 3
+    _UseUvOffset: 0
+    _OffsetNoise: {fileID: 0}
+    _OffsetNoiseScale: 0.03
+    _OffsetChangesPerSecond: 3.23
+    _OffsetStrength: 0.00437
+    _UseCustomTexture: 0
+    _CustomTexture: {fileID: 0}
+  _StencilMaskLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!23 &6486330055653890480
 MeshRenderer:
   m_ObjectHideFlags: 0
