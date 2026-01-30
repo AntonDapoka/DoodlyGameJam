@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+/*
 public class SkateboardControls : MonoBehaviour
 {
     [SerializeField] GameObject Player;
@@ -270,3 +271,4 @@ public class SkateboardControls : MonoBehaviour
         }
     }
 }
+*/
