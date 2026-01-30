@@ -168,6 +168,11 @@ public class SkateboardControls : MonoBehaviour
 
     }
 
+    private void SnapToGrind()
+    {
+
+    }
+
     //void HandleInertiaAndSlopes()
     //{
     //    if (!isGrounded)

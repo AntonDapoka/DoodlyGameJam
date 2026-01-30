@@ -2,74 +2,148 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChernSkateControl : MonoBehaviour
+[RequireComponent(typeof(CharacterController))]
+public class SkateboardControls : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float accelerationForce = 10f;
-    public float maxSpeed = 20f;
-    public float groundDrag = 0.98f;
-    public float airDrag = 0.95f;
-    public float decelerationRate = 0.95f;
-    public float accelerationDelay = 0.1f; 
-    public float jumpForce = 8f;
-    public float gravity = -9.81f;
+    [SerializeField] GameObject Player;
+    private CharacterController controller;
+    private float currentSpeed = 0;
+    private float turnAngle = 0;
+    private float maxSpeed = 10f;
+    private float groundDrag = 0.994f;
+    private float airDrag = 0.98f;
+    private const float gravity = 9.81f;
+    private float accelerationDelay = 0.8f;
+    private float afterJumpDelay = 0.4f;
+    private float savedSlopeSpeed = 0f;
 
-    [Header("Ground Detection")]
+    private List<KeyCode> keyQueue = new List<KeyCode>();
+
+    private Vector3 velocity;
+    private float critSlopeAngle = 42.5f;
+    private bool isGrounded = false;
+    private bool canPushFwd = true;
+    private bool isGrinding = false;
+    private bool canTurn = true;
+    private bool isRolling = false;
+    private bool isTricking = false;
+
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    [SerializeField] private float groundDistance = 0.3f;
     public LayerMask groundMask;
 
-    [Header("Surface Detection")]
-    public float slopeAngleThreshold = 45f;
+    private bool a;
 
-    private CharacterController controller;
-    private Vector3 velocity;
-    private bool isGrounded;
-    private bool isSliding;
-    private bool isAccelerating;
-    private float accelerationTimer;
-    private float currentSpeed;
-    private float savedSlopeSpeed;
-    private bool wasGroundedLastFrame;
-
-    public bool IsGrounded => isGrounded;
-    public bool IsSliding => isSliding;
-    public bool IsAccelerating => isAccelerating;
-    public float CurrentSpeed => Mathf.Abs(currentSpeed);
+    private Vector3 zeroVec = Vector3.zero;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        controller = Player.GetComponent<CharacterController>();
         velocity = Vector3.zero;
-        accelerationTimer = 0f;
         currentSpeed = 0f;
         savedSlopeSpeed = 0f;
     }
 
     void Update()
     {
-        HandleGrounding();
-        HandleInertiaAndSlopes();
         HandleInput();
-        ApplyMovement();
-
-        wasGroundedLastFrame = isGrounded;
     }
 
-    void HandleGrounding()
+    private void FixedUpdate()
     {
-        bool newIsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
+        CheckState();
+        HandleMovement();
+        ApplyGravity();
+    }
 
-        if (!wasGroundedLastFrame && newIsGrounded)
+    IEnumerator FwdPushDelay(float waitTime)
+    {
+        canPushFwd = false;
+        yield return new WaitForSeconds(waitTime);
+        canPushFwd = true;
+    }
+
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(ControlsCollection.forward)) { keyQueue.Add(ControlsCollection.forward); }
+        if (Input.GetKeyDown(ControlsCollection.backward)) { keyQueue.Add(ControlsCollection.backward); }
+        if (Input.GetKey(ControlsCollection.left)) { keyQueue.Add(ControlsCollection.left); }
+        if (Input.GetKey(ControlsCollection.right)) { keyQueue.Add(ControlsCollection.right); }
+        if (Input.GetKeyDown(ControlsCollection.jump)) { keyQueue.Add(ControlsCollection.jump); }
+        if (Input.GetKeyDown(ControlsCollection.shift)) { keyQueue.Add(ControlsCollection.shift); }
+        if (Input.GetKeyDown(ControlsCollection.trick1)) { keyQueue.Add(ControlsCollection.trick1); } // Fixed: was trick2
+        if (Input.GetKeyDown(ControlsCollection.trick2)) { keyQueue.Add(ControlsCollection.trick2); } // Added missing check
+    }
+
+    private void HandleMovement()
+    {
+        foreach (KeyCode key in keyQueue)
         {
-            if (savedSlopeSpeed != 0)
+            switch (key) // Simplified switch statement
             {
-                currentSpeed = savedSlopeSpeed;
-                savedSlopeSpeed = 0;
+                case var k when k == ControlsCollection.forward && canPushFwd && !isRolling && !isGrinding:
+                    StartCoroutine(FwdPushDelay(accelerationDelay));
+                    Push(true);
+                    break;
+                case var k when k == ControlsCollection.backward && !isGrinding:
+                    Push(false);
+                    break;
+                case var k when k == ControlsCollection.left:
+                    if (canTurn)
+                    {
+                        canTurn = false;
+                        Turn(false, isGrounded, isGrinding);
+                    }
+                    break;
+                case var k when k == ControlsCollection.right:
+                    if (canTurn)
+                    {
+                        canTurn = false;
+                        Turn(true, isGrounded, isGrinding);
+                    }
+                    break;
+                case var k when k == ControlsCollection.jump:
+                    Jump();
+                    break;
+                case var k when k == ControlsCollection.trick1:
+                    Trick(false, isGrounded, isGrinding);
+                    break;
+                case var k when k == ControlsCollection.trick2:
+                    Trick(true, isGrounded, isGrinding);
+                    break;
             }
         }
 
-        isGrounded = newIsGrounded;
+        keyQueue.Clear();
+
+        // Apply movement based on current speed
+        if (!isGrinding)
+        {
+            Vector3 moveDirection = transform.forward * currentSpeed;
+            controller.Move(moveDirection * Time.fixedDeltaTime);
+        }
+
+        float drag = isGrounded ? groundDrag : airDrag;
+        currentSpeed *= drag;
+    }
+
+    private void ApplyGravity()
+    {
+        if (!isGrounded && !isGrinding)
+        {
+            velocity.y -= gravity * Time.fixedDeltaTime;
+        }
+        else
+        {
+            velocity.y = -2f; // Small downward force to keep grounded
+        }
+
+        controller.Move(velocity * Time.fixedDeltaTime);
+    }
+
+    private void CheckState()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {
@@ -77,143 +151,122 @@ public class ChernSkateControl : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance + 0.1f, groundMask))
             {
                 float angle = Vector3.Angle(Vector3.up, hit.normal);
-                isSliding = angle > slopeAngleThreshold;
+
+                if (angle < critSlopeAngle)
+                {
+                    // Handle slope physics
+                    Vector3 slopeDirection = Vector3.ProjectOnPlane(Vector3.down, hit.normal).normalized;
+                    float slopeEffect = Mathf.Clamp01((angle / critSlopeAngle) * 0.5f);
+                    currentSpeed += slopeEffect * gravity * 0.01f;
+                    currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
+                }
+
+                if (hit.collider.CompareTag("Grindable"))
+                {
+                    HandleGrind();
+                }
+                else
+                {
+                    isGrinding = false;
+                }
+            }
+
+            if (!isGrinding)
+            {
+                velocity.y = 0f;
             }
         }
         else
         {
-            isSliding = false;
+            isRolling = false;
+            isGrinding = false;
+        }
+
+        canTurn = !(isTricking || isGrinding);
+        canPushFwd = !isRolling;
+    }
+
+    private void HandleGrind()
+    {
+        isGrinding = true;
+        isGrounded = true; // Treat as grounded while grinding
+        // Move along the grind rail
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f, groundMask))
+        {
+            // Follow the rail position
+            Vector3 targetPos = new Vector3(transform.position.x, hit.point.y + controller.height / 2, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 10f);
         }
     }
 
-    void HandleInertiaAndSlopes()
+    private void Push(bool direction)
     {
-        if (!isGrounded)
-        {
-            velocity.y += gravity * Time.deltaTime;
-        }
-        else
-        {
-            // On ground, align with surface normal
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance + 0.1f, groundMask))
-            {
-                float slopeFactor = Mathf.Sin(Mathf.Deg2Rad * Vector3.Angle(Vector3.up, hit.normal));
-                Vector3 slopeDirection = Vector3.Cross(hit.normal, Vector3.right).normalized;
-
-                float slopeDot = Vector3.Dot(slopeDirection, transform.forward);
-                if (Vector3.Angle(Vector3.up, hit.normal) > 5f) // Not flat ground
-                {
-                    float downSlopeAcceleration = slopeFactor * 15f; 
-                    currentSpeed += downSlopeAcceleration * Time.deltaTime;
-
-                    if (currentSpeed > maxSpeed * 0.7f)
-                    {
-                        currentSpeed = maxSpeed * 0.7f;
-                    }
-                }
-            }
-
-            velocity.y = 0f;
-        }
-
-        float drag = isGrounded ? groundDrag : airDrag;
-        currentSpeed *= drag;
-
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed, maxSpeed);
+        float pushForce = direction ? 1f : -0.7f; // Forward push stronger than backward
+        currentSpeed += pushForce;
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed / 2, maxSpeed);
     }
 
-    void HandleInput()
+    private void Turn(bool direction, bool grounded, bool grinding)
     {
-        if (isGrounded)
+        float turnAmount = grounded ? 45f : 30f; // Less turning in air
+        float turnDirection = direction ? 1f : -1f;
+
+        transform.Rotate(Vector3.up, turnDirection * turnAmount * Time.deltaTime);
+
+        // Add slight sideways movement when turning on ground
+        if (grounded && !grinding && currentSpeed > 2f)
         {
-            float verticalInput = Input.GetAxisRaw("Vertical");
+            Vector3 sidewaysMove = transform.right * turnDirection * 0.1f * currentSpeed * Time.deltaTime;
+            controller.Move(sidewaysMove);
+        }
 
-            if (Mathf.Abs(verticalInput) > 0.1f)
+        // Reset turn ability after delay
+        Invoke(nameof(EnableTurn), 0.1f);
+    }
+
+    private void EnableTurn()
+    {
+        canTurn = true;
+    }
+
+    private void Trick(bool type, bool grounded, bool grinding)
+    {
+        if (!grounded && !grinding) // Only do tricks in air
+        {
+            isTricking = true;
+
+            // Perform different tricks based on type
+            if (type)
             {
-                accelerationTimer += Time.deltaTime;
-
-                if (accelerationTimer >= accelerationDelay)
-                {
-                    isAccelerating = true;
-
-                    float targetSpeed = verticalInput * accelerationForce * Time.deltaTime;
-
-                    if ((currentSpeed >= 0 && targetSpeed >= 0) || (currentSpeed <= 0 && targetSpeed <= 0))
-                    {
-                        currentSpeed += targetSpeed;
-                    }
-                    else
-                    {
-                        currentSpeed += targetSpeed * 0.5f;
-                    }
-
-                    currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed, maxSpeed);
-                }
+                // Kickflip or similar
+                transform.Rotate(Vector3.forward, 360f, Space.Self);
             }
             else
             {
-                accelerationTimer = 0f;
-                isAccelerating = false;
-
-                currentSpeed *= decelerationRate;
+                // Ollie or similar
+                if (currentSpeed > 2f)
+                {
+                    velocity.y = 5f; // Add upward velocity
+                }
             }
 
-            if (Input.GetButtonDown("Jump") && isGrounded)
-            {
-                velocity.y = jumpForce;
-                savedSlopeSpeed = currentSpeed;
-            }
-
-            // Turning
-            float horizontalInput = Input.GetAxisRaw("Horizontal");
-            if (Mathf.Abs(horizontalInput) > 0.1f)
-            {
-                transform.Rotate(Vector3.up, horizontalInput * 100f * Time.deltaTime);
-            }
+            // End trick after delay
+            Invoke(nameof(EndTrick), 0.8f);
         }
     }
 
-    void ApplyMovement()
+    private void EndTrick()
     {
-        Vector3 forwardMovement = transform.forward * currentSpeed * Time.deltaTime;
-
-        Vector3 finalMovement = forwardMovement;
-        finalMovement.y = velocity.y * Time.deltaTime;
-
-        controller.Move(finalMovement);
-
-        ApplyBoardTilt();
+        isTricking = false;
     }
 
-    void ApplyBoardTilt()
+    private void Jump()
     {
-        float tiltAmount = currentSpeed / maxSpeed * 10f;
-        if (tiltAmount > 0)
+        if (isGrounded && !isGrinding)
         {
-            transform.rotation = Quaternion.Euler(
-                transform.eulerAngles.x,
-                transform.eulerAngles.y,
-                -tiltAmount
-            );
+            velocity.y = 8f; // Jump force
+            isGrounded = false;
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck == null) return;
-
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawSphere(groundCheck.position, groundDistance);
-    }
-
-    public void SetSpeed(float newSpeed)
-    {
-        currentSpeed = Mathf.Clamp(newSpeed, -maxSpeed, maxSpeed);
-    }
-
-    public void AddSpeed(float additionalSpeed)
-    {
-        currentSpeed = Mathf.Clamp(currentSpeed + additionalSpeed, -maxSpeed, maxSpeed);
     }
 }
