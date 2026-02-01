@@ -25,9 +25,9 @@ public class SkateboardControls : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private float critSlopeAngle = 42.5f;
-    private bool isGrounded = false;
+    public bool isGrounded { get; private set; }
     private bool canPushFwd = true;
-    private bool isGrinding = false;
+    public bool isGrinding { get; private set; }
     private bool canTurn = true;
     private bool isRolling = false;
     private bool isTricking = false;
@@ -35,18 +35,22 @@ public class SkateboardControls : MonoBehaviour
     public Transform groundCheck;
     [SerializeField] private float groundDistance = 0.3f;
     public LayerMask groundMask;
+    public StyleSystem Style;
+
+    public int[] trickList = new int[3] { -1, -1, -2 };
 
     private bool a;
 
     private Vector3 zeroVec = Vector3.zero;
 
-    void Start()
+    void Awake()
     {
         controller = Player.GetComponent<CharacterController>();
         playerRB = Player.GetComponent<Rigidbody>();
         velocity = Vector3.zero;
         currentSpeed = 0f;
         savedSlopeSpeed = 0f;
+        isGrounded = false;
     }
 
     void Update()
@@ -97,7 +101,7 @@ public class SkateboardControls : MonoBehaviour
                     Turn(a = key == ControlsCollection.right ? true : false, isGrounded, isGrinding);
                     break;
                 case true when key == ControlsCollection.jump:
-
+                    AddTrick(0);
                     break;
                 case true when key == ControlsCollection.trick1 || key == ControlsCollection.trick2:
                     Trick(a = key == ControlsCollection.trick2 ? true : false, isGrounded, isGrinding);
@@ -142,6 +146,7 @@ public class SkateboardControls : MonoBehaviour
         isGrinding = true;
 
 
+
     }
 
     private void Push(bool direction)
@@ -165,12 +170,26 @@ public class SkateboardControls : MonoBehaviour
 
     private void Trick(bool type, bool grounded, bool grinding)
     {
-
+        if (type)
+        {
+            if (grinding) AddTrick(6);
+            else if (!grounded) AddTrick(4);
+            else AddTrick(2);
+        }
+        else
+        {
+            if (grinding) AddTrick(5);
+            else if (!grounded) AddTrick(3);
+            else AddTrick(1);
+        }
     }
 
-    private void SnapToGrind()
+    private void AddTrick(int code)
     {
-
+        this.trickList[0] = code;
+        this.trickList[1] = this.trickList[0];
+        this.trickList[2] = this.trickList[1];
+        Style.TrickAddScore(ref this.trickList);
     }
 
     //void HandleInertiaAndSlopes()

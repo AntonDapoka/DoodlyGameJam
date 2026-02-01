@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-/*
-public class SkateboardControls : MonoBehaviour
+//[RequireComponent(typeof(CharacterController))]
+
+public class ChernSkateControl : MonoBehaviour
 {
     [SerializeField] GameObject Player;
     private CharacterController controller;
@@ -271,4 +271,3 @@ public class SkateboardControls : MonoBehaviour
         }
     }
 }
-*/
