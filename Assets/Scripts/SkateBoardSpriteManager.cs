@@ -10,18 +10,13 @@ public class SkateBoardSpriteManager : MonoBehaviour
     [SerializeField] private Sprite spriteSkateboardLeft;
     [SerializeField] private Sprite spriteSkateboardRight;
 
-    [SerializeField] private Sprite[] animationSprites; 
-    [SerializeField] private float animationFrameTime = 0.1f;
-
     [SerializeField] private KeyCode keyRight;
     [SerializeField] private KeyCode keyLeft;
-    [SerializeField] private KeyCode animationKey = KeyCode.Space;
 
     private SpriteRenderer spriteRenderer;
 
     private bool pressedLeft;
     private bool pressedRight;
-    private bool isAnimating = false;
 
     private void Awake()
     {
@@ -31,17 +26,6 @@ public class SkateBoardSpriteManager : MonoBehaviour
 
     private void Update()
     {
-        if (isAnimating)
-        {
-            return;
-        }
-
-        if (Input.GetKeyDown(animationKey) && animationSprites != null && animationSprites.Length > 0)
-        {
-            StartCoroutine(PlayAnimation());
-            return;
-        }
-
         pressedLeft = Input.GetKey(keyLeft);
         pressedRight = Input.GetKey(keyRight);
 
@@ -57,19 +41,5 @@ public class SkateBoardSpriteManager : MonoBehaviour
         {
             spriteRenderer.sprite = spriteSkateboardRight;
         }
-    }
-
-    private IEnumerator PlayAnimation()
-    {
-        isAnimating = true; 
-
-        foreach (Sprite frame in animationSprites)
-        {
-            spriteRenderer.sprite = frame;
-            yield return new WaitForSeconds(animationFrameTime);
-        }
-
-        spriteRenderer.sprite = spriteSkateboardIdle;
-        isAnimating = false;
     }
 }
