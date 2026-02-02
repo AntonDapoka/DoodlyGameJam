@@ -1,7 +1,11 @@
 fileFormatVersion: 2
 guid: 96a167dc9d4fe144ea812113e8a71a2a
 ModelImporter:
+<<<<<<< Updated upstream
   serializedVersion: 22200
+=======
+  serializedVersion: 20200
+>>>>>>> Stashed changes
   internalIDToNameTable:
   - first:
       1: 100000
@@ -21,6 +25,7 @@ ModelImporter:
   - first:
       43: 4300000
     second: House_01
+<<<<<<< Updated upstream
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -29,6 +34,11 @@ ModelImporter:
     second: {fileID: 2100000, guid: 3642709242beb3a4a91a8e0fa8565329, type: 2}
   materials:
     materialImportMode: 1
+=======
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+>>>>>>> Stashed changes
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -37,7 +47,10 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+<<<<<<< Updated upstream
     removeConstantScaleCurves: 0
+=======
+>>>>>>> Stashed changes
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -63,12 +76,18 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+<<<<<<< Updated upstream
     importPhysicalCameras: 1
+=======
+>>>>>>> Stashed changes
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+<<<<<<< Updated upstream
     nodeNameCollisionStrategy: 0
+=======
+>>>>>>> Stashed changes
     fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -80,7 +99,10 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+<<<<<<< Updated upstream
     optimizeBones: 1
+=======
+>>>>>>> Stashed changes
     meshOptimizationFlags: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -91,7 +113,10 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+<<<<<<< Updated upstream
     strictVertexDataChecks: 0
+=======
+>>>>>>> Stashed changes
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -124,8 +149,11 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+<<<<<<< Updated upstream
   importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 1
+=======
+>>>>>>> Stashed changes
   additionalBone: 0
   userData: 
   assetBundleName: 
