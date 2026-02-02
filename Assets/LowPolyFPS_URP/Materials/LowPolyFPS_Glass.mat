@@ -16,7 +16,11 @@ MonoBehaviour:
 --- !u!21 &2100000
 Material:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   serializedVersion: 8
+=======
+  serializedVersion: 6
+>>>>>>> Stashed changes
 =======
   serializedVersion: 6
 >>>>>>> Stashed changes
@@ -27,12 +31,16 @@ Material:
   m_Name: LowPolyFPS_Glass
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   m_Parent: {fileID: 2100000, guid: ff3c6dc2c4c1ff2468e7d4ec1ec9ca96, type: 2}
   m_ModifiedSerializedProperties: 16
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _GLOSSYREFLECTIONS_OFF
   m_InvalidKeywords: []
+=======
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF
+>>>>>>> Stashed changes
 =======
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF
 >>>>>>> Stashed changes
@@ -50,6 +58,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - SHADOWCASTER
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   m_LockedProperties: 
   m_SavedProperties:
@@ -72,6 +81,8 @@ Material:
     - _BaseColor: {r: 0.4510947, g: 0.6781705, b: 0.8773585, a: 0.59607846}
     - _Color: {r: 0.4510947, g: 0.6781705, b: 0.8773585, a: 0.30588236}
 =======
+=======
+>>>>>>> Stashed changes
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -389,6 +400,9 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   m_BuildTextureStacks: []
 --- !u!114 &8803156243498710001

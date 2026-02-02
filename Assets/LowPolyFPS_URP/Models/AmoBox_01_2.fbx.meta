@@ -2,7 +2,11 @@ fileFormatVersion: 2
 guid: b8360dff6746b2d4983a1f09ab5c2018
 ModelImporter:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   serializedVersion: 22200
+=======
+  serializedVersion: 20200
+>>>>>>> Stashed changes
 =======
   serializedVersion: 20200
 >>>>>>> Stashed changes
@@ -37,7 +41,10 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     removeConstantScaleCurves: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     motionNodeName: 
@@ -66,7 +73,10 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     importPhysicalCameras: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     importVisibility: 0
@@ -74,7 +84,10 @@ ModelImporter:
     importCameras: 0
     importLights: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     nodeNameCollisionStrategy: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     fileIdsGeneration: 1
@@ -89,7 +102,10 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     optimizeBones: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     meshOptimizationFlags: 0
@@ -103,7 +119,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     strictVertexDataChecks: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   tangentSpace:
@@ -139,8 +158,11 @@ ModelImporter:
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   additionalBone: 0

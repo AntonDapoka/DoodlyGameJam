@@ -2,7 +2,11 @@ fileFormatVersion: 2
 guid: 96a167dc9d4fe144ea812113e8a71a2a
 ModelImporter:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   serializedVersion: 22200
+=======
+  serializedVersion: 20200
+>>>>>>> Stashed changes
 =======
   serializedVersion: 20200
 >>>>>>> Stashed changes
@@ -26,6 +30,7 @@ ModelImporter:
       43: 4300000
     second: House_01
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -34,6 +39,11 @@ ModelImporter:
     second: {fileID: 2100000, guid: 3642709242beb3a4a91a8e0fa8565329, type: 2}
   materials:
     materialImportMode: 1
+=======
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+>>>>>>> Stashed changes
 =======
   externalObjects: {}
   materials:
@@ -48,7 +58,10 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     removeConstantScaleCurves: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     motionNodeName: 
@@ -77,7 +90,10 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     importPhysicalCameras: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     importVisibility: 0
@@ -85,7 +101,10 @@ ModelImporter:
     importCameras: 0
     importLights: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     nodeNameCollisionStrategy: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     fileIdsGeneration: 1
@@ -100,7 +119,10 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     optimizeBones: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     meshOptimizationFlags: 0
@@ -114,7 +136,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     strictVertexDataChecks: 0
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   tangentSpace:
@@ -150,8 +175,11 @@ ModelImporter:
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 1
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   additionalBone: 0
