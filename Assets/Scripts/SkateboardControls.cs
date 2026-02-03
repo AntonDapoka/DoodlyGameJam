@@ -6,18 +6,17 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Rigidbody))]
 public class SkateboardControls : MonoBehaviour
 {
-
     [SerializeField] GameObject Player;
-    private Rigidbody playerRB;
+    /*private Rigidbody playerRB;
     private float currentSpeed = 0;
     private float turnAngle = 0;
     private float fwdAcceleration = 0;
-    private float maxSpeed = 10f;
+    private float maxSpeed = 10f;*/
     private float groundDrag = 0.994f;
     private float airDrag = 0.98f;
-    private const float gravity = 9.4f;
+    //private const float gravity = 9.4f;
     private float accelerationDelay = 0.8f;
-    private float afterJumpDelay = 0.4f;
+    //private float afterJumpDelay = 0.4f;
     private float savedSlopeSpeed = 0f;
 
     private List<KeyCode> keyQueue = new List<KeyCode>();
@@ -46,9 +45,9 @@ public class SkateboardControls : MonoBehaviour
     void Awake()
     {
         controller = Player.GetComponent<CharacterController>();
-        playerRB = Player.GetComponent<Rigidbody>();
+        //playerRB = Player.GetComponent<Rigidbody>();
         velocity = Vector3.zero;
-        currentSpeed = 0f;
+        //currentSpeed = 0f;
         savedSlopeSpeed = 0f;
         isGrounded = false;
     }
@@ -112,7 +111,7 @@ public class SkateboardControls : MonoBehaviour
         keyQueue.Clear();
 
         float drag = isGrounded ? groundDrag : airDrag;
-        currentSpeed *= drag;
+        //currentSpeed *= drag;
     }
 
     private void CheckState()
