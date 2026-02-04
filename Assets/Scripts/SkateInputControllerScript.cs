@@ -7,7 +7,7 @@ public class SkateInputControllerScript : MonoBehaviour
     [SerializeField] private SkateMovementInteractorScript skateMovementInteractor;
 
     private InputState currentInput;
-    private bool jumpBuffered;
+    //private bool jumpBuffered;
 
     private void Update()
     {
@@ -16,9 +16,10 @@ public class SkateInputControllerScript : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(ControlsCollection.jump))
-            jumpBuffered = true;
+        //if (Input.GetKeyDown(ControlsCollection.jump))
+            //jumpBuffered = true;
 
+        currentInput.jumpPressed = Input.GetKey(ControlsCollection.jump);
         currentInput.forward = Input.GetKey(ControlsCollection.forward);
         currentInput.backward = Input.GetKey(ControlsCollection.backward);
         currentInput.left = Input.GetKey(ControlsCollection.left);
@@ -27,11 +28,10 @@ public class SkateInputControllerScript : MonoBehaviour
         skateMovementInteractor.SetInput(currentInput);
     }
 
-
     private void FixedUpdate()
     {
-        currentInput.jumpPressed = jumpBuffered;
-        jumpBuffered = false;
+        //currentInput.jumpPressed = jumpBuffered;
+        //jumpBuffered = false;
 
         skateMovementInteractor.SetInput(currentInput);
     }

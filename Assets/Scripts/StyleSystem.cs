@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StyleSystem : MonoBehaviour
 {
-
     public float pointCounter;
     public static float pointMultiplier = 1f;
     public static float refillSpeed = 10f;

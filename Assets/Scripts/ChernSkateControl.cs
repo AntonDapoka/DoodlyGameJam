@@ -37,7 +37,7 @@ public class ChernSkateControl : MonoBehaviour
 
     private Vector3 zeroVec = Vector3.zero;
 
-    void Start()
+    private void Start()
     {
         controller = Player.GetComponent<CharacterController>();
         velocity = Vector3.zero;
@@ -45,7 +45,7 @@ public class ChernSkateControl : MonoBehaviour
         savedSlopeSpeed = 0f;
     }
 
-    void Update()
+    private void Update()
     {
         HandleInput();
     }
@@ -57,7 +57,7 @@ public class ChernSkateControl : MonoBehaviour
         ApplyGravity();
     }
 
-    IEnumerator FwdPushDelay(float waitTime)
+    private IEnumerator FwdPushDelay(float waitTime)
     {
         canPushFwd = false;
         yield return new WaitForSeconds(waitTime);
@@ -156,7 +156,7 @@ public class ChernSkateControl : MonoBehaviour
                 if (angle < critSlopeAngle)
                 {
                     // Handle slope physics
-                    Vector3 slopeDirection = Vector3.ProjectOnPlane(Vector3.down, hit.normal).normalized;
+                    //Vector3 slopeDirection = Vector3.ProjectOnPlane(Vector3.down, hit.normal).normalized;
                     float slopeEffect = Mathf.Clamp01((angle / critSlopeAngle) * 0.5f);
                     currentSpeed += slopeEffect * gravity * 0.01f;
                     currentSpeed = Mathf.Min(currentSpeed, maxSpeed);

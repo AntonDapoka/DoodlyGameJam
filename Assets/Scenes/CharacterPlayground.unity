@@ -90389,7 +90389,7 @@ MonoBehaviour:
   turnAmountWhileGrounded: 45
   turnAmountWhileInTheAir: 30
   critSlopeAngle: 42.5
-  jumpForce: 15
+  jumpForce: 6
   isAbleToPushForward: 1
   isPushingForward: 0
   isGrinding: 0

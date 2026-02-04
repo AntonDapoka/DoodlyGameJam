@@ -29,7 +29,6 @@ public class SkateMovementInteractorScript : MonoBehaviour
     private float currentSpeed = 0;
     //private float currentTurnAngle = 0;
 
-
     public bool isAbleToPushForward = true;
     public bool isPushingForward = false;
     public bool isGrinding = false;
@@ -56,7 +55,7 @@ public class SkateMovementInteractorScript : MonoBehaviour
         currentSpeed = 0f;
     }
 
-    public void SetInput(InputState newInput)
+    public void SetInput(InputState newInput) //ref
     {
         previousInput = currentInput;
         currentInput = newInput;
@@ -88,7 +87,7 @@ public class SkateMovementInteractorScript : MonoBehaviour
         {
             if (!isPushingForward)
             {
-                StartCoroutine(SkateImpulseCoolingDown(skateImpulseCoolDownTime));
+                StartCoroutine(SkateImpulseCoolingDown(true, skateImpulseCoolDownTime));
                 ApplySkateImpulse(true);
             }
         }
@@ -98,12 +97,12 @@ public class SkateMovementInteractorScript : MonoBehaviour
         }
     }
 
-    private IEnumerator SkateImpulseCoolingDown(float waitTime) //ex-ForwardPushDelay
+    private IEnumerator SkateImpulseCoolingDown(bool direction, float waitTime) //ex-ForwardPushDelay
     {
-        isAbleToPushForward = false;
+        isAbleToPushForward = !direction;
         yield return new WaitForSeconds(waitTime);
         isAbleToPushForward = true;
-        isPushingForward = false;
+        isPushingForward = !direction;
     }
 
     private void HandleTurning()
@@ -206,7 +205,7 @@ public class SkateMovementInteractorScript : MonoBehaviour
 
     private void ApplySkateImpulse(bool direction) //ex-Push
     {
-        isPushingForward = true;
+        isPushingForward = direction;
         currentSpeed += direction ? skateImpulseForceForward : skateImpulseForceBackward;
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed / 2, maxSpeed);
     }
@@ -244,7 +243,7 @@ public class SkateMovementInteractorScript : MonoBehaviour
             }
             else if (type == TrickType.Ollie && currentSpeed > 2f)
             {
-                    velocity.y = 5f;
+                velocity.y = 5f;
             }
             Invoke(nameof(EndTrick), 0.8f);
         }
