@@ -7,7 +7,7 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
 {
     [SerializeField] private int _maxAttempts = 1000;
 
-    public List<GraffitiSpot> GetMultipleRandomGraffitiSpots(List<GraffitiSpot> graffitiSpots, int amount, float maxPerimeter, float minPerimeter)
+    public List<GraffitiScript> GetMultipleRandomGraffitiSpots(List<GraffitiScript> graffitiSpots, int amount, float maxPerimeter, float minPerimeter)
     {
         if (amount < 1 || amount > graffitiSpots.Count)
         {
@@ -19,7 +19,7 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
         {
             var subset = GetRandomSubset(graffitiSpots, amount);
 
-            var positions = subset.Select(s => s._objectGraffiti.transform.position).ToList();
+            var positions = subset.Select(s => s.transform.position).ToList();
 
             var hull = ConvexHullXZ(positions);
             float perimeter = CalculatePerimeter(hull);
@@ -92,10 +92,10 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
         return perimeter;
     }
 
-    private List<GraffitiSpot> GetRandomSubset(List<GraffitiSpot> source, int count)
+    private List<GraffitiScript> GetRandomSubset(List<GraffitiScript> source, int count)
     {
-        List<GraffitiSpot> temp = new(source);
-        List<GraffitiSpot> result = new();
+        List<GraffitiScript> temp = new(source);
+        List<GraffitiScript> result = new();
 
         for (int i = 0; i < count; i++)
         {

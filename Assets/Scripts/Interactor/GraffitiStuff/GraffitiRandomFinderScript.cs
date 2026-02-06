@@ -15,7 +15,7 @@ public class GraffitiRandomFinderScript : MonoBehaviour
     [SerializeField] private float _distanceSafeMin;
 
 
-    public GraffitiSpot GetRandomGraffitiSpotInDistance(List<GraffitiSpot> graffitiSpots, Transform pointStart)
+    public GraffitiScript GetRandomGraffitiSpotInDistance(List<GraffitiScript> graffitiSpots, Transform pointStart)
     {
         float minDistance = Random.Range(_distanceMinMin, _distanceMinMax);
         float maxDistance = Random.Range(_distanceMaxMin, _distanceMaxMax);
@@ -27,13 +27,13 @@ public class GraffitiRandomFinderScript : MonoBehaviour
         float maxSqr = maxDistance * maxDistance;
         float safeDistanceSqr = _distanceSafeMin * _distanceSafeMin;
 
-        List<GraffitiSpot> candidates = new();
+        List<GraffitiScript> candidates = new();
 
         foreach (var spot in graffitiSpots)
         {
-            if (spot._objectGraffiti == null) continue;
+            if (spot == null) continue;
 
-            float sqrDist = (spot._objectGraffiti.transform.position - pointStart.position).sqrMagnitude;
+            float sqrDist = (spot.transform.position - pointStart.position).sqrMagnitude;
 
             if (sqrDist >= minSqr && sqrDist <= maxSqr)
             {
@@ -47,9 +47,9 @@ public class GraffitiRandomFinderScript : MonoBehaviour
 
             foreach (var spot in graffitiSpots)
             {
-                if (spot._objectGraffiti == null) continue;
+                if (spot == null) continue;
 
-                float sqrDist = (spot._objectGraffiti.transform.position - pointStart.position).sqrMagnitude;
+                float sqrDist = (spot.transform.position - pointStart.position).sqrMagnitude;
 
                 if (sqrDist > safeDistanceSqr)
                     candidates.Add(spot);

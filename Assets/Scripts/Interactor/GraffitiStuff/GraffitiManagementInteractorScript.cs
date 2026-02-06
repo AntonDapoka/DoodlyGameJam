@@ -4,19 +4,19 @@ using UnityEngine;
 public class GraffitiManagementInteractorScript : MonoBehaviour
 {
     [Header("References:")]
-    [SerializeField] private GraffitiSpot[] _graffitiSpots;
+    [SerializeField] private GraffitiScript[] _graffitiSpots;
     [SerializeField] private GraffitiPresenterScript _presenterGraffity;
     [SerializeField] private GraffitiJarvisAlgorithmFinderScript _graffitiJarvisAlgorithmFinder;
     [SerializeField] private GraffitiRandomFinderScript _graffitiRandomFinder;
 
-    private List<GraffitiSpot> _graffitiSpotsValid = new();
-    private List<GraffitiSpot> _graffitiSpotsActive = new();
+    private readonly List<GraffitiScript> _graffitiSpotsValid = new();
+    private List<GraffitiScript> _graffitiSpotsActive = new();
 
     private void Start()
     {
         foreach (var spot in _graffitiSpots)
         {
-            if (spot._objectGraffiti != null) _graffitiSpotsValid.Add(spot);
+            if (spot != null) _graffitiSpotsValid.Add(spot);
         }
     }
 
@@ -26,17 +26,19 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
         if (_graffitiSpotsActive != null)
         {
-            foreach (GraffitiSpot graffitiSpot in _graffitiSpotsActive)
+            foreach (GraffitiScript graffitiSpot in _graffitiSpotsActive)
             {
-                Debug.Log(graffitiSpot._objectGraffiti.name);
+                graffitiSpot.TurnOn();
             }
         }
     }
 
-    public void SetRandomGraffitiSpot(GraffitiSpot lastSpot)
+    public void SetRandomGraffitiSpot(GraffitiScript lastSpot)
     {
-        _graffitiSpotsActive.Add(_graffitiRandomFinder.GetRandomGraffitiSpotInDistance(_graffitiSpotsValid, lastSpot._objectGraffiti.transform));
-        Debug.Log(_graffitiSpotsActive[_graffitiSpotsActive.Count-1]._objectGraffiti.name);
+        GraffitiScript newSpot = _graffitiRandomFinder.GetRandomGraffitiSpotInDistance(_graffitiSpotsValid, lastSpot.transform);
+        _graffitiSpotsActive.Add(newSpot);
+        newSpot.TurnOn();
+        Debug.Log(newSpot.name);
     }
     /*
     private void Update()
@@ -47,11 +49,4 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
             SetRandomGraffitiSpot(_graffitiSpotsValid[rand]);
         }
     }*/
-}
-
-[System.Serializable]
-public struct GraffitiSpot
-{
-    public GameObject _objectGraffiti;
-    public GameObject _objectGraffitiHint;
 }
