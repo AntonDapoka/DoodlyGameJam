@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class GraffitiScript : MonoBehaviour, IInteractable
 {
+    [SerializeField] private GraffitiManagementInteractorScript _graffitiManagementInteractor;
     public GameObject _objectGraffitiHint;
-    private bool isTurnOn = false;
+    private bool _isTurnOn = false;
 
     private void Start()
     {
@@ -20,14 +21,20 @@ public class GraffitiScript : MonoBehaviour, IInteractable
 
     public void TurnOn()
     {
-        isTurnOn = true;
+        _isTurnOn = true;
         //Add sprite
         gameObject.SetActive(true);
     }
 
     public void TurnOff()
     {
-        isTurnOn = false;
+        _isTurnOn = false;
         gameObject.SetActive(false);
+        _graffitiManagementInteractor.SetRandomGraffitiSpot(this);
+    }
+
+    public bool GetIsTurnOn()
+    {
+        return _isTurnOn;
     }
 }

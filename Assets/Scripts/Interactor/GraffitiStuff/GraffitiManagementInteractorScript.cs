@@ -5,7 +5,7 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 {
     [Header("References:")]
     [SerializeField] private GraffitiScript[] _graffitiSpots;
-    [SerializeField] private GraffitiPresenterScript _presenterGraffity;
+    [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
     [SerializeField] private GraffitiJarvisAlgorithmFinderScript _graffitiJarvisAlgorithmFinder;
     [SerializeField] private GraffitiRandomFinderScript _graffitiRandomFinder;
 
@@ -28,18 +28,47 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         {
             foreach (GraffitiScript graffitiSpot in _graffitiSpotsActive)
             {
+                if (graffitiSpot == null) continue;
+
                 graffitiSpot.TurnOn();
+
+                _graffitiSpotsValid.Remove(graffitiSpot);
             }
         }
     }
 
     public void SetRandomGraffitiSpot(GraffitiScript lastSpot)
     {
+        UpdateGraffitiSpots();
+
         GraffitiScript newSpot = _graffitiRandomFinder.GetRandomGraffitiSpotInDistance(_graffitiSpotsValid, lastSpot.transform);
+
+        if (newSpot == null) return;
+
         _graffitiSpotsActive.Add(newSpot);
+
+        _graffitiSpotsValid.Remove(newSpot);
+
         newSpot.TurnOn();
         Debug.Log(newSpot.name);
     }
+
+    private void UpdateGraffitiSpots()
+    {
+        foreach (GraffitiScript graffiti in _graffitiSpots)
+        {
+            if (!graffiti.GetIsTurnOn() && !_graffitiSpotsValid.Contains(graffiti))
+            {
+                _graffitiSpotsValid.Add(graffiti);
+            }
+
+            if (graffiti.GetIsTurnOn() && !_graffitiSpotsActive.Contains(graffiti))
+            {
+                _graffitiSpotsActive.Add(graffiti);
+            }
+        }
+    }
+
     /*
     private void Update()
     {
