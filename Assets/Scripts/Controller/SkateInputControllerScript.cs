@@ -20,7 +20,7 @@ public class SkateInputControllerScript : MonoBehaviour
             //jumpBuffered = true;
 
         currentInput.jumpPressed = Input.GetKey(ControlsCollection.jump);
-        currentInput.forward = Input.GetKey(ControlsCollection.forward);
+        currentInput.forward = Input.GetKeyDown(ControlsCollection.forward);
         currentInput.backward = Input.GetKey(ControlsCollection.backward);
         currentInput.left = Input.GetKey(ControlsCollection.left);
         currentInput.right = Input.GetKey(ControlsCollection.right);

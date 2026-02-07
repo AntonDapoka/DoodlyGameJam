@@ -91,10 +91,17 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
                 ApplySkateImpulse(true);
             }
         }
-        else if (currentInput.backward && !currentInput.forward && !isGrinding)
+        else if (currentInput.backward && !currentInput.forward && !isGrinding && !isRolling)
         {
             ApplySkateImpulse(false);
         }
+    }
+
+    private void ApplySkateImpulse(bool direction) //ex-Push
+    {
+        isPushingForward = direction;
+        currentSpeed += direction ? skateImpulseForceForward : skateImpulseForceBackward;
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed / 2, maxSpeed);
     }
 
     private IEnumerator SkateImpulseCoolingDown(bool direction, float waitTime) //ex-ForwardPushDelay
@@ -201,13 +208,6 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
             Vector3 targetPos = new Vector3(transform.position.x, hit.point.y + controller.height / 2, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 10f);
         }
-    }
-
-    private void ApplySkateImpulse(bool direction) //ex-Push
-    {
-        isPushingForward = direction;
-        currentSpeed += direction ? skateImpulseForceForward : skateImpulseForceBackward;
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed / 2, maxSpeed);
     }
 
     private void ApplyTurning(bool direction)
