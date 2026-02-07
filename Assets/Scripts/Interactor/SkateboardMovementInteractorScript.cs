@@ -83,7 +83,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
 
     private void HandleForwardBackwardMovement()
     {
-        if (currentInput.forward && !currentInput.backward && isAbleToPushForward && !isRolling && !isGrinding)
+        if (currentInput.forwardbuffer && !currentInput.backward && isAbleToPushForward && !isRolling && !isGrinding)
         {
             if (!isPushingForward)
             {
@@ -91,10 +91,11 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
                 ApplySkateImpulse(true);
             }
         }
-        else if (currentInput.backward && !currentInput.forward && !isGrinding && !isRolling)
+        else if (currentInput.backward && !currentInput.forwardbuffer && !isGrinding && !isRolling)
         {
             ApplySkateImpulse(false);
         }
+        currentInput.forwardbuffer = false;
     }
 
     private void ApplySkateImpulse(bool direction) //ex-Push

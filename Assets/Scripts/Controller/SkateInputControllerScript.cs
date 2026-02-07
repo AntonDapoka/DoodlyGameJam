@@ -26,6 +26,8 @@ public class SkateInputControllerScript : MonoBehaviour
         currentInput.right = Input.GetKey(ControlsCollection.right);
 
         skateMovementInteractor.SetInput(currentInput);
+
+        currentInput.forwardbuffer = currentInput.forward ? currentInput.forward : currentInput.forwardbuffer;
     }
 
     private void FixedUpdate()
