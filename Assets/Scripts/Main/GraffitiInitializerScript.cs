@@ -16,7 +16,7 @@ public class GraffitiInitializerScript : MonoBehaviour
 
         if (_graffityInteractor != null && _graffitiAmountInitial >= 0)
         {
-            _graffityInteractor.SetRandomInitialGraffitiSpots(_graffitiAmountInitial, _graffitiPerimeterMax, _graffitiPerimeterMin);
+            _graffityInteractor.SetRandomInitialOpponentGraffitiSpots(_graffitiAmountInitial, _graffitiPerimeterMax, _graffitiPerimeterMin);
         }
     }
 }

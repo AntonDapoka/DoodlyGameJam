@@ -9,8 +9,8 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
     [SerializeField] private GraffitiJarvisAlgorithmFinderScript _graffitiJarvisAlgorithmFinder;
     [SerializeField] private GraffitiRandomFinderScript _graffitiRandomFinder;
 
-    private readonly List<GraffitiScript> _graffitiSpotsValid = new();
-    private List<GraffitiScript> _graffitiSpotsActive = new();
+    public List<GraffitiScript> _graffitiSpotsValid = new();
+    public List<GraffitiScript> _graffitiSpotsActive = new();
 
     private void Start()
     {
@@ -20,24 +20,24 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         }
     }
 
-    public void SetRandomInitialGraffitiSpots(int amount, float maxPerimeter, float minPerimeter)
+    public void SetRandomInitialOpponentGraffitiSpots(int amount, float maxPerimeter, float minPerimeter)
     {
         _graffitiSpotsActive = _graffitiJarvisAlgorithmFinder.GetMultipleRandomGraffitiSpots(_graffitiSpotsValid, amount, maxPerimeter, minPerimeter);
-
+       
         if (_graffitiSpotsActive != null)
         {
             foreach (GraffitiScript graffitiSpot in _graffitiSpotsActive)
             {
                 if (graffitiSpot == null) continue;
 
-                graffitiSpot.TurnOn();
+                graffitiSpot.TurnOnOpponentGraffiti();
 
                 _graffitiSpotsValid.Remove(graffitiSpot);
             }
         }
     }
 
-    public void SetRandomGraffitiSpot(GraffitiScript lastSpot)
+    public void SetRandomOpponentGraffitiSpot(GraffitiScript lastSpot)
     {
         UpdateGraffitiSpots();
 
@@ -49,23 +49,39 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
         _graffitiSpotsValid.Remove(newSpot);
 
-        newSpot.TurnOn();
+        if (newSpot.GetIsTurnOn() && newSpot.GetIsGraffitiPlayer())
+            newSpot.RedrawGraffitiFromPlayerToOpponent();
+        else if (!newSpot.GetIsTurnOn())
+            newSpot.TurnOnOpponentGraffiti();
+        else
+            Debug.Log("SOME BUG IDK");
+
         Debug.Log(newSpot.name);
+
+        UpdateGraffitiSpots();
     }
 
     private void UpdateGraffitiSpots()
     {
         foreach (GraffitiScript graffiti in _graffitiSpots)
         {
-            if (!graffiti.GetIsTurnOn() && !_graffitiSpotsValid.Contains(graffiti))
-            {
-                _graffitiSpotsValid.Add(graffiti);
-            }
 
-            if (graffiti.GetIsTurnOn() && !_graffitiSpotsActive.Contains(graffiti))
+            bool isTurnedOn = graffiti.GetIsTurnOn();
+            bool isPlayer = graffiti.GetIsGraffitiPlayer();
+
+            if ((!isTurnedOn || isPlayer))
             {
-                _graffitiSpotsActive.Add(graffiti);
+                if (!_graffitiSpotsValid.Contains(graffiti))
+                    _graffitiSpotsValid.Add(graffiti);
             }
+            else _graffitiSpotsValid.Remove(graffiti);
+
+            if (isTurnedOn && !isPlayer)
+            {
+                if (!_graffitiSpotsActive.Contains(graffiti))
+                    _graffitiSpotsActive.Add(graffiti);
+            }
+            else _graffitiSpotsActive.Remove(graffiti);
         }
     }
 

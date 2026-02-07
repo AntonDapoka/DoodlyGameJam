@@ -6,35 +6,75 @@ using UnityEngine;
 public class GraffitiScript : MonoBehaviour, IInteractable
 {
     [SerializeField] private GraffitiManagementInteractorScript _graffitiManagementInteractor;
-    public GameObject _objectGraffitiHint;
+    [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
+    [SerializeField] private GameObject _objectGraffitiHint;
     private bool _isTurnOn = false;
+    private bool _isGraffitiPlayer = false; // true = Player, false = Opponent
 
-    private void Start()
+    private void Awake()
     {
         gameObject.SetActive(false);
+        _objectGraffitiHint.SetActive(false);
     }
 
     public void Interact()
     {
-        TurnOff();
+        if (!_isGraffitiPlayer)
+        {
+            RedrawGraffitiFromOpponentToPlayer();
+        }
     }
 
-    public void TurnOn()
+    public void TurnOnPlayerGraffiti()
     {
         _isTurnOn = true;
-        //Add sprite
+        _isGraffitiPlayer = true;
         gameObject.SetActive(true);
+
+        _graffitiPresenter.ManageGraffitiSprite(this, true);
+    }
+
+    public void TurnOnOpponentGraffiti()
+    {
+        _isTurnOn = true;
+        _isGraffitiPlayer = false;
+        gameObject.SetActive(true);
+        _objectGraffitiHint.SetActive(true);
+
+        _graffitiPresenter.ManageGraffitiSprite(this, false);
+    }
+
+    public void RedrawGraffitiFromOpponentToPlayer()
+    {
+        _isGraffitiPlayer = true;
+        _objectGraffitiHint.SetActive(false);
+        _graffitiPresenter.ManageGraffitiSound();
+        _graffitiPresenter.ManageGraffitiSprite(this, true);
+
+        _graffitiManagementInteractor.SetRandomOpponentGraffitiSpot(this);
+    }
+
+    public void RedrawGraffitiFromPlayerToOpponent()
+    {
+        _isGraffitiPlayer = false;
+        _objectGraffitiHint.SetActive(true);
+        _graffitiPresenter.ManageGraffitiSprite(this, false);
     }
 
     public void TurnOff()
     {
         _isTurnOn = false;
         gameObject.SetActive(false);
-        _graffitiManagementInteractor.SetRandomGraffitiSpot(this);
+        _objectGraffitiHint.SetActive(false);
     }
 
     public bool GetIsTurnOn()
     {
         return _isTurnOn;
+    }
+
+    public bool GetIsGraffitiPlayer()
+    {
+        return _isGraffitiPlayer;
     }
 }
