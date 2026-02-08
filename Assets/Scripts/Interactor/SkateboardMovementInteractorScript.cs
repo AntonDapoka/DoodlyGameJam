@@ -66,6 +66,8 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
         CheckState();
         HandleMovement();
         ApplyGravity();
+
+        Debug.Log(previousInput.forward.ToString() + " "+currentInput.forward.ToString());
     }
 
     private void HandleMovement()
@@ -83,7 +85,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
 
     private void HandleForwardBackwardMovement()
     {
-        if (currentInput.forwardbuffer && !currentInput.backward && isAbleToPushForward && !isRolling && !isGrinding)
+        if (currentInput.forward && previousInput.forward == false && !currentInput.backward && isAbleToPushForward && !isRolling && !isGrinding)
         {
             if (!isPushingForward)
             {
@@ -91,11 +93,10 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
                 ApplySkateImpulse(true);
             }
         }
-        else if (currentInput.backward && !currentInput.forwardbuffer && !isGrinding && !isRolling)
+        else if (currentInput.backward && !currentInput.forward && !isGrinding && !isRolling)
         {
             ApplySkateImpulse(false);
         }
-        currentInput.forwardbuffer = false;
     }
 
     private void ApplySkateImpulse(bool direction) //ex-Push

@@ -11,19 +11,19 @@ namespace Assets.Scripts.Interactor
 
         private void FixedUpdate()
         {
-            SurfaceAllignment();
+            SurfaceAllign();
         }
 
-        private void SurfaceAllignment()
+        private void SurfaceAllign()
         {
             Ray ray = new Ray(transform.position, -transform.up);
             RaycastHit info = new RaycastHit();
-            Quaternion RotationRef = Quaternion.Euler(0f, 0f, 0f);
+            Quaternion rotationRef = Quaternion.Euler(0f, 0f, 0f);
 
             if(Physics.Raycast(ray, out info, groundMask))
             {
-                RotationRef = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(Vector3.up, info.normal), 1f); //, animationCurve.Evaluate(Time)
-                transform.rotation = Quaternion.Euler(RotationRef.eulerAngles.x, RotationRef.eulerAngles.y, RotationRef.eulerAngles.z);
+                rotationRef = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(Vector3.up, info.normal), 1f); //, animationCurve.Evaluate(Time)
+                transform.rotation = Quaternion.Euler(rotationRef.eulerAngles.x, rotationRef.eulerAngles.y, rotationRef.eulerAngles.z);
             }
         }
     }

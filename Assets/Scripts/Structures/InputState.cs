@@ -1,7 +1,6 @@
 public struct InputState
 {
     public bool forward;
-    public bool forwardbuffer;
     public bool backward;
     public bool left;
     public bool right;
