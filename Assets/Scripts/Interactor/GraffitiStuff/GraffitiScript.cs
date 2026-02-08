@@ -8,8 +8,8 @@ public class GraffitiScript : MonoBehaviour, IInteractable
     [SerializeField] private GraffitiManagementInteractorScript _graffitiManagementInteractor;
     [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
     [SerializeField] private GameObject _objectGraffitiHint;
-    private bool _isTurnOn = false;
-    private bool _isGraffitiPlayer = false; // true = Player, false = Opponent
+    public bool _isTurnOn = false;
+    public bool _isGraffitiPlayer = false; // true = Player, false = Opponent
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class GraffitiScript : MonoBehaviour, IInteractable
 
         _graffitiPresenter.ManageGraffitiSprite(this, true);
     }
-
+    
     public void TurnOnOpponentGraffiti()
     {
         _isTurnOn = true;
@@ -51,7 +51,7 @@ public class GraffitiScript : MonoBehaviour, IInteractable
         _graffitiPresenter.ManageGraffitiSound();
         _graffitiPresenter.ManageGraffitiSprite(this, true);
 
-        _graffitiManagementInteractor.SetRandomOpponentGraffitiSpot(this);
+        //_graffitiManagementInteractor.SetRandomOpponentGraffitiSpot(this);
     }
 
     public void RedrawGraffitiFromPlayerToOpponent()

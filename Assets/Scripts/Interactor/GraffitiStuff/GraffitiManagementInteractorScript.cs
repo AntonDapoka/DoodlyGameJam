@@ -35,13 +35,23 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
                 _graffitiSpotsValid.Remove(graffitiSpot);
             }
         }
+
+        UpdateGraffitiSpots();
     }
 
-    public void SetRandomOpponentGraffitiSpot(GraffitiScript lastSpot)
+    public GraffitiScript SetRandomOpponentGraffitiSpot(Transform lastSpotTransform)
     {
         UpdateGraffitiSpots();
 
-        GraffitiScript newSpot = _graffitiRandomFinder.GetRandomGraffitiSpotInDistance(_graffitiSpotsValid, lastSpot.transform);
+        GraffitiScript newSpot = _graffitiRandomFinder.GetRandomGraffitiSpotInDistance(_graffitiSpotsValid, lastSpotTransform);
+
+        if (newSpot == null) return null;
+        else return newSpot; 
+    }
+
+    public void UpdateRandomOpponentGraffitiSpot(GraffitiScript newSpot)
+    {
+        UpdateGraffitiSpots();
 
         if (newSpot == null) return;
 
@@ -56,9 +66,12 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         else
             Debug.Log("SOME BUG IDK");
 
-        Debug.Log(newSpot.name);
-
         UpdateGraffitiSpots();
+    }
+
+    private void Update()
+    {
+        //UpdateGraffitiSpots();
     }
 
     private void UpdateGraffitiSpots()
@@ -83,6 +96,11 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
             }
             else _graffitiSpotsActive.Remove(graffiti);
         }
+    }
+
+    public GraffitiScript[] GetGraffitiSpots()
+    {
+        return _graffitiSpots;
     }
 
     /*
