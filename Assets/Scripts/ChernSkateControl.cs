@@ -3,22 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[RequireComponent(typeof(CharacterController))]
-
 public class ChernSkateControl : MonoBehaviour
 {
     [SerializeField] GameObject Player;
     private CharacterController controller;
-    private float currentSpeed = 0;
-    private float turnAngle = 0;
+    [SerializeField] private float currentSpeed = 0;
     private float maxSpeed = 10f;
     private float groundDrag = 0.994f;
     private float airDrag = 0.98f;
     private const float gravity = 9.81f;
     private float accelerationDelay = 0.8f;
-    private float afterJumpDelay = 0.4f;
-    private float savedSlopeSpeed = 0f;
 
-    private List<KeyCode> keyQueue = new List<KeyCode>();
+    private List<KeyCode> keyQueue = new();
 
     private Vector3 velocity;
     private float critSlopeAngle = 42.5f;
@@ -42,7 +38,6 @@ public class ChernSkateControl : MonoBehaviour
         controller = Player.GetComponent<CharacterController>();
         velocity = Vector3.zero;
         currentSpeed = 0f;
-        savedSlopeSpeed = 0f;
     }
 
     private void Update()
