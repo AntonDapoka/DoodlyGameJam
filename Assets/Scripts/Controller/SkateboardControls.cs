@@ -17,13 +17,13 @@ public class SkateboardControls : MonoBehaviour
     //private const float gravity = 9.4f;
     private float accelerationDelay = 0.8f;
     //private float afterJumpDelay = 0.4f;
-    private float savedSlopeSpeed = 0f;
+    //private float savedSlopeSpeed = 0f;
 
-    private List<KeyCode> keyQueue = new List<KeyCode>();
-
+    private List<KeyCode> keyQueue = new();
+    /*
     private CharacterController controller;
     private Vector3 velocity;
-    private float critSlopeAngle = 42.5f;
+    private float critSlopeAngle = 42.5f;*/
     public bool isGrounded { get; private set; }
     private bool canPushFwd = true;
     public bool isGrinding { get; private set; }
@@ -44,11 +44,11 @@ public class SkateboardControls : MonoBehaviour
 
     void Awake()
     {
-        controller = Player.GetComponent<CharacterController>();
-        //playerRB = Player.GetComponent<Rigidbody>();
+        /*controller = Player.GetComponent<CharacterController>();
+        playerRB = Player.GetComponent<Rigidbody>();
         velocity = Vector3.zero;
-        //currentSpeed = 0f;
-        savedSlopeSpeed = 0f;
+        currentSpeed = 0f;*/
+        //savedSlopeSpeed = 0f;
         isGrounded = false;
     }
 
