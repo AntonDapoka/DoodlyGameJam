@@ -67,7 +67,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour
         HandleMovement();
         ApplyGravity();
 
-        Debug.Log(previousInput.forward.ToString() + " "+currentInput.forward.ToString());
+        //Debug.Log(previousInput.forward.ToString() + " "+currentInput.forward.ToString());
     }
 
     private void HandleMovement()
