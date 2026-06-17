@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(GroundingEvaluator))]
 [RequireComponent(typeof(PushModule))]
 [RequireComponent(typeof(TurnModule))]
-[RequireComponent(typeof(DragModule))]
 [RequireComponent(typeof(AirControlModule))]
 [RequireComponent(typeof(JumpModule))]
 public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActor
@@ -17,23 +16,17 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     private GroundingEvaluator _grounding;
     private PushModule _push;
     private TurnModule _turn;
-    private DragModule _drag;
     private AirControlModule _air;
     private JumpModule _jump;
 
     private float _turnInput;
     private bool _reverseHeld;
+    private bool _forwardHeld;
+    private bool _jumpHeld;
 
     public bool IsGrounded => _grounding != null && _grounding.IsGrounded;
-
-   public bool IsGrinding => throw new System.NotImplementedException();
-
-   public float CurrentSpeed => throw new System.NotImplementedException();
-
-   private void Reset()
-    {
-    
-    }
+    public bool IsGrinding => false;
+    public float CurrentSpeed => _push != null ? _push.CurrentSpeed : 0f;
 
     private void Awake()
     {
@@ -45,47 +38,38 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _grounding = GetComponent<GroundingEvaluator>();
         _push = GetComponent<PushModule>();
         _turn = GetComponent<TurnModule>();
-        _drag = GetComponent<DragModule>();
-        //_air = GetComponent<AirControlModule>();
+        _air = GetComponent<AirControlModule>();
         _jump = GetComponent<JumpModule>();
-
 
         _grounding.Initialize();
         _push.Initialize(this, Rigidbody, _grounding, Collider);
         _turn.Initialize(this, _grounding, Rigidbody);
-        //_drag.Initialize(this, _velocity, _grounding);
-        //_air.Initialize(this, config, _grounding);
-        //_jump.Initialize(, _grounding);
+        _air.Initialize(this, _grounding, Rigidbody, _jump);
+        _jump.Initialize(_grounding, Rigidbody, transform);
 
         Rigidbody.MoveRotation(transform.rotation);
     }
 
     private void FixedUpdate()
     {
-        if (physicsBody == null || Rigidbody == null)
-            return;
+        if (physicsBody == null || Rigidbody == null) return;
 
         float deltaTime = Time.fixedDeltaTime;
 
         float turnThisFrame = _turnInput;
-        bool reverseThisFrame = _reverseHeld;
-
         _turnInput = 0f;
-        _reverseHeld = false;
 
         _grounding.Evaluate(deltaTime);
-
         _push.Tick(deltaTime);
         _jump.Tick(deltaTime);
-
         _turn.TurnInput = turnThisFrame;
         _turn.Tick(deltaTime);
-/*
         _air.TurnInput = turnThisFrame;
-        _air.ReverseInput = reverseThisFrame;
-        _air.Tick(deltaTime);*/
+        _air.ReverseInput = _reverseHeld;
+        _air.ForwardInput = _forwardHeld;
+        _air.JumpHeld = _jumpHeld;
+        _air.Tick(deltaTime);
     }
-
 
     public void Push()
     {
@@ -100,5 +84,20 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     public void Jump()
     {
         _jump.RequestJump();
+    }
+
+    public void SetForwardHeld(bool held)
+    {
+        _forwardHeld = held;
+    }
+
+    public void SetReverseHeld(bool held)
+    {
+        _reverseHeld = held;
+    }
+
+    public void SetJumpHeld(bool held)
+    {
+        _jumpHeld = held;
     }
 }

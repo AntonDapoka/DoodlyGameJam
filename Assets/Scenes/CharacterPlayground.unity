@@ -6914,7 +6914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &319135797
 Transform:
   m_ObjectHideFlags: 0
@@ -6923,13 +6923,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319135796}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.27909186, y: 0.031745963, z: 0.10846837, w: 0.9535904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 640362225}
-  m_LocalEulerAnglesHint: {x: -32.627, y: 0, z: 12.979}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &319135798
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14629,7 +14629,7 @@ Transform:
   m_GameObject: {fileID: 645729587}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.43, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39043,7 +39043,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744936126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -49778,9 +49778,8 @@ GameObject:
   - component: {fileID: 6615662580611611659}
   - component: {fileID: 6615662580611611657}
   - component: {fileID: 6615662580611611655}
-  - component: {fileID: 6615662580611611654}
-  - component: {fileID: 6615662580611611652}
   - component: {fileID: 6615662580611611651}
+  - component: {fileID: 6615662580611611652}
   - component: {fileID: 6615662580611611650}
   - component: {fileID: 6615662580611611660}
   m_Layer: 9
@@ -49827,7 +49826,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b179ee32507a3494fbc939d7a4a7f839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 3
+  jumpForce: 8
+  groundNormalInfluence: 0.4
+  cancelVerticalVelocityOnJump: 0
+  clampUpwardVelocityBeforeJump: 1
+  maxPreJumpUpwardSpeed: 0.5
+  jumpForceBySpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.053710938
+      value: 0.33654785
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpCooldown: 0.18
+  coyoteTimeWindow: 0.12
+  jumpBufferWindow: 0.1
+  minGroundNormalDot: 0.65
+  allowCoyoteJump: 1
+  addForwardBoost: 0
+  forwardBoostBase: 1.23
+  forwardBoostSpeedFactor: 0.1
+  maxForwardBoost: 2
+  snapToGroundBeforeJump: 1
+  preJumpSnapDistance: 0.15
 --- !u!114 &6615662580611611652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49840,18 +49878,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d082e9eba83b47a44ac9156792032479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6615662580611611654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6508550501183087756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1975cde9480caa4c8ad0d02878536fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  airSideForce: 2
+  airBackForce: 4
+  airForwardForce: 6
+  maxAirHorizontalSpeed: 16
+  airTurnTorque: 140
+  airTurnMaxSpeed: 8
+  fallMultiplier: 2
+  lowJumpMultiplier: 1.4
+  maxDownwardSpeed: 60
+  airDrag: 0.5
+  applyEnhancedGravity: 1
 --- !u!114 &6615662580611611655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49872,40 +49909,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0006866455
-      value: 0.99816895
-      inSlope: -1.5732211
-      outSlope: -1.5732211
-      tangentMode: 34
+      time: -0.011230469
+      value: 0.99523926
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.22147802
-      value: 0.6508153
-      inSlope: -0.62243855
-      outSlope: -0.62243855
-      tangentMode: 34
+      time: 0.9439697
+      value: 0.3267517
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.59265006
-      value: 0.77268744
-      inSlope: 0.4431859
-      outSlope: 0.4431859
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.55802774
-      outSlope: 0.55802774
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -49983,7 +50002,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
-  groundDistance: 1.46
+  groundDistance: 0.5
   IsGrounded: 0
 --- !u!114 &6615662580611611660
 MonoBehaviour:
@@ -49998,7 +50017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsBody: {fileID: 640362229}
-  smooth: 100
+  smooth: 40
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
