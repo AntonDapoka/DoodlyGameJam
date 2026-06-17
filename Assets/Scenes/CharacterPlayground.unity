@@ -49866,7 +49866,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnTorque: 180
-  maxSpeed: 40
+  turnSpeedMax: 10
+  sideFriction: 30
+  driftBrake: 2
+  driftSteering: 30
   turnTorqueBySpeed:
     serializedVersion: 2
     m_Curve:
@@ -49909,7 +49912,48 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sideFriction: 100
+  driftByTurnInput:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.15346693
+      outSlope: 0.15346693
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6404976
+      value: 0.0982952
+      inSlope: 0.23088114
+      outSlope: 0.23088114
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18236062
+    - serializedVersion: 3
+      time: 0.90342754
+      value: 0.519698
+      inSlope: 3.2881038
+      outSlope: 3.2881038
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 4.9734883
+      outSlope: 4.9734883
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &6615662580611611657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49922,8 +49966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b780f21817184a9679ea735eb7c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 40
-  maxSpeed: 56.5
+  acceleration: 100
+  maxSpeed: 200
   pushCooldown: 0.1
 --- !u!114 &6615662580611611658
 MonoBehaviour:

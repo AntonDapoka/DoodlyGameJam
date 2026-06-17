@@ -6,8 +6,10 @@ public class TurnModule : MonoBehaviour
     [SerializeField] private float turnTorque = 180f;
     [SerializeField] private float turnSpeedMax = 10f;
     [SerializeField] private float sideFriction = 5f;
+    [SerializeField] private float driftBrake = 5f;
 
     [SerializeField] private AnimationCurve turnTorqueBySpeed;
+    [SerializeField] private AnimationCurve driftByTurnInput;
 
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
@@ -30,12 +32,7 @@ public class TurnModule : MonoBehaviour
         if (!_grounding.IsGrounded) return;
 
         if (Mathf.Abs(TurnInput) >= 0.01f)
-        {
-            float deltaAngle = CalculateTurnAngle(deltaTime);
-
-            _controller.transform.Rotate(0f, deltaAngle, 0f, Space.World);
-            _rigidbody.transform.Rotate(0f, deltaAngle, 0f, Space.World);
-        }
+            _controller.transform.Rotate(0f, CalculateTurnAngle(deltaTime), 0f, Space.World);
 
         ApplyVelocity(deltaTime);
         ClampRoll();
@@ -64,8 +61,13 @@ public class TurnModule : MonoBehaviour
         float forwardSpeed = Vector3.Dot(velocityHorizontal, forward);
         float sideSpeed = Vector3.Dot(velocityHorizontal, right);
 
-        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f, sideFriction * deltaTime);
-        forwardSpeed = Mathf.Max(0f, forwardSpeed);
+        float turnAmount = Mathf.Abs(TurnInput);
+
+        float driftMultiplier = driftByTurnInput.Evaluate(turnAmount);
+        float driftAmount = Mathf.Abs(sideSpeed);
+
+        forwardSpeed = Mathf.Max(0f, forwardSpeed - driftAmount * driftBrake * driftMultiplier * deltaTime);
+        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f, sideFriction * driftMultiplier * deltaTime);
 
         Vector3 velocityHorizontalNew = forward * forwardSpeed + right * sideSpeed;
         _rigidbody.velocity = new(velocityHorizontalNew.x, velocity.y, velocityHorizontalNew.z);
