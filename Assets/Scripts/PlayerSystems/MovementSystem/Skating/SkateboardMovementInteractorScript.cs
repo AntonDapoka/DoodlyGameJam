@@ -1,258 +1,107 @@
-using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class SkateboardMovementInteractorScript : MonoBehaviour
+[RequireComponent(typeof(GroundingEvaluator))]
+[RequireComponent(typeof(VelocityHandler))]
+[RequireComponent(typeof(PushModule))]
+[RequireComponent(typeof(TurnModule))]
+[RequireComponent(typeof(DragModule))]
+[RequireComponent(typeof(AirControlModule))]
+[RequireComponent(typeof(JumpModule))]
+public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActor
 {
-    [Header("References:")]
-    //[SerializeField] private GameObject playerObject; //Interactor should not be on playerObject, we need to change it (maybe)
-    [SerializeField] private TrickInteractorScript trickInteractor;
-    private CharacterController controller;
+    [SerializeField] private Transform physicsBody;
 
-    [Header("Skate Settings:")]
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float groundDrag = 0.994f;
-    [SerializeField] private float airDrag = 0.98f;
-    [SerializeField] private float gravity = 9.81f;
-    [SerializeField] private float skateImpulseForceForward = 1f;
-    [SerializeField] private float skateImpulseForceBackward = -0.7f;
-    [SerializeField] private float skateImpulseCoolDownTime = 5f;
-    [SerializeField] private float turnAmountWhileGrounded = 45f;
-    [SerializeField] private float turnAmountWhileInTheAir = 30f;
-    [SerializeField] private float critSlopeAngle = 42.5f;
-    [SerializeField] private float jumpForce = 10f;
+    public Transform PhysicsBodyTransform => physicsBody;
+    public Rigidbody Rigidbody { get; private set; }
+    public SphereCollider Collider { get; private set; }
 
-    //private float afterJumpDelay = 0.4f;
-    //private float savedSlopeSpeed = 0f;
+    private GroundingEvaluator _grounding;
+    private VelocityHandler _velocity;
+    private PushModule _push;
+    private TurnModule _turn;
+    private DragModule _drag;
+    private AirControlModule _air;
+    private JumpModule _jump;
 
-    private Vector3 velocity;
-    private float currentSpeed = 0;
-    //private float currentTurnAngle = 0;
+    private float _turnInput;
+    private bool _reverseHeld;
 
-    public bool isAbleToPushForward = true;
-    public bool isPushingForward = false;
-    public bool isGrinding = false;
-    private bool isAbleToTurn = true;
-    //private bool isTurning = false;
-    private bool isRolling = false; //???
-    private bool isTricking = false;
+    public bool IsGrounded => _grounding != null && _grounding.IsGrounded;
 
-    private InputState currentInput;
-    private InputState previousInput;
+   public bool IsGrinding => throw new System.NotImplementedException();
 
-    [Header("Ground Settings:")]
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float groundDistance = 0.3f;
-    [SerializeField] private float groundSnapForce = -2f;
+   public float CurrentSpeed => throw new System.NotImplementedException();
 
-    public bool isGrounded = false;
-
-    private void Start()
+   private void Reset()
     {
-        controller = GetComponent<CharacterController>();
-        velocity = Vector3.zero;
-        currentSpeed = 0f;
+    
     }
 
-    public void SetInput(InputState newInput) //ref
+    private void Awake()
     {
-        previousInput = currentInput;
-        currentInput = newInput;
+        physicsBody.localPosition = Vector3.zero;
+
+        Rigidbody = physicsBody.GetComponent<Rigidbody>();
+        Collider = physicsBody.GetComponent<SphereCollider>();
+
+        _grounding = GetComponent<GroundingEvaluator>();
+        _velocity = GetComponent<VelocityHandler>();
+        _push = GetComponent<PushModule>();
+        _turn = GetComponent<TurnModule>();
+        _drag = GetComponent<DragModule>();
+        //_air = GetComponent<AirControlModule>();
+        _jump = GetComponent<JumpModule>();
+
+
+        _grounding.Initialize();
+        _push.Initialize(this, Rigidbody, _grounding, Collider);
+        _turn.Initialize(this, _grounding, Rigidbody);
+        //_drag.Initialize(this, _velocity, _grounding);
+        //_air.Initialize(this, config, _grounding);
+        //_jump.Initialize(, _grounding);
+
+        Rigidbody.MoveRotation(transform.rotation);
     }
 
     private void FixedUpdate()
     {
-        CheckState();
-        HandleMovement();
-        ApplyGravity();
+        if (physicsBody == null || Rigidbody == null)
+            return;
 
-        //Debug.Log(previousInput.forward.ToString() + " "+currentInput.forward.ToString());
+        float deltaTime = Time.fixedDeltaTime;
+
+        float turnThisFrame = _turnInput;
+        bool reverseThisFrame = _reverseHeld;
+
+        _turnInput = 0f;
+        _reverseHeld = false;
+
+        _grounding.Evaluate(deltaTime);
+
+        _push.Tick(deltaTime);
+        _jump.Tick(deltaTime);
+
+        _turn.TurnInput = turnThisFrame;
+        _turn.Tick(deltaTime);
+/*
+        _air.TurnInput = turnThisFrame;
+        _air.ReverseInput = reverseThisFrame;
+        _air.Tick(deltaTime);*/
     }
 
-    private void HandleMovement()
+
+    public void Push()
     {
-        HandleForwardBackwardMovement();
-
-        HandleTurning();
-
-        HandleActions();
-
-        ApplyMovement();
-
-        ApplyDrag();
+        _push.RequestPush();
     }
 
-    private void HandleForwardBackwardMovement()
+    public void Turn(float direction)
     {
-        if (currentInput.forward && previousInput.forward == false && !currentInput.backward && isAbleToPushForward && !isRolling && !isGrinding)
-        {
-            if (!isPushingForward)
-            {
-                StartCoroutine(SkateImpulseCoolingDown(true, skateImpulseCoolDownTime));
-                ApplySkateImpulse(true);
-            }
-        }
-        else if (currentInput.backward && !currentInput.forward && !isGrinding && !isRolling)
-        {
-            ApplySkateImpulse(false);
-        }
+        _turnInput = Mathf.Clamp(direction, -1f, 1f);
     }
 
-    private void ApplySkateImpulse(bool direction) //ex-Push
+    public void Jump()
     {
-        isPushingForward = direction;
-        currentSpeed += direction ? skateImpulseForceForward : skateImpulseForceBackward;
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed / 2, maxSpeed);
-    }
-
-    private IEnumerator SkateImpulseCoolingDown(bool direction, float waitTime) //ex-ForwardPushDelay
-    {
-        isAbleToPushForward = !direction;
-        yield return new WaitForSeconds(waitTime);
-        isAbleToPushForward = true;
-        isPushingForward = !direction;
-    }
-
-    private void HandleTurning()
-    {
-        if (!isAbleToTurn) return;
-
-        int turn = (currentInput.right ? 1 : 0) - (currentInput.left ? 1 : 0);
-        if (turn != 0)
-            ApplyTurning(turn > 0);
-    }
-
-    private void HandleActions()
-    {
-        if (currentInput.jumpPressed) TryJump();
-
-        if (currentInput.trick1Pressed) TryPerformTrick(TrickType.Kickflip);
-
-        if (currentInput.trick2Pressed) TryPerformTrick(TrickType.Ollie); 
-    }
-
-    private void ApplyMovement()
-    {
-        if (!isGrinding)
-        {
-            Vector3 moveDirection = transform.forward * currentSpeed;
-            controller.Move(moveDirection * Time.fixedDeltaTime);
-        }
-    }
-
-    private void ApplyDrag()
-    {
-        float drag = isGrounded ? groundDrag : airDrag;
-        currentSpeed = Mathf.Max(0, currentSpeed * drag);
-    }
-
-    private void ApplyGravity()
-    {
-        if (!isGrounded && !isGrinding)
-            velocity.y -= gravity * Time.fixedDeltaTime;
-        else
-            velocity.y = groundSnapForce; // Small downward force to keep grounded
-
-        controller.Move(velocity * Time.fixedDeltaTime);
-    }
-
-    private void CheckState()
-    {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
-
-        if (isGrounded)
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundDistance + 0.1f, groundMask))
-            {
-                float angle = Vector3.Angle(Vector3.up, hit.normal);
-
-                if (angle < critSlopeAngle)  // Handle slope physics
-                {
-                    float slopeEffect = Mathf.Clamp01((angle / critSlopeAngle) * 0.5f);
-                    currentSpeed += slopeEffect * gravity * 0.01f;
-                    currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
-                }
-
-                if (hit.collider.gameObject.TryGetComponent(out GrindableMarker marker)) HandleGrind();
-                else isGrinding = false;
-            }
-
-            if (!isGrinding) velocity.y = 0f;
-        }
-        else
-        {
-            isRolling = false;
-            isGrinding = false;
-        }
-
-        isAbleToTurn = !(isTricking || isGrinding);
-        isAbleToPushForward = !isRolling;
-    }
-
-    private void TryJump()
-    {
-        if (isGrounded && !isGrinding)
-        {
-            velocity.y = jumpForce;
-            isGrounded = false;
-        }
-    }
-
-    private void HandleGrind()
-    {
-        isGrinding = true;
-        isGrounded = true; // Treat as grounded while grinding -------------- ???????????
-       
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10f, groundMask)) // Move along the grind rail
-        {
-            // Follow the rail position
-            Vector3 targetPos = new Vector3(transform.position.x, hit.point.y + controller.height / 2, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 10f);
-        }
-    }
-
-    private void ApplyTurning(bool direction)
-    {
-        float turnAmount = isGrounded ? turnAmountWhileGrounded : turnAmountWhileInTheAir;
-        float turnDirection = direction ? 1f : -1f;
-
-        transform.Rotate(Vector3.up, turnDirection * turnAmount * Time.deltaTime);
-
-        if (isGrounded && !isGrinding && currentSpeed > 2f)  // Add slight sideways movement when turning on ground
-        {
-            Vector3 sidewaysMove = transform.right * turnDirection * 0.1f * currentSpeed * Time.deltaTime;
-            controller.Move(sidewaysMove);
-        }
-
-        Invoke(nameof(EnableTurn), 0.1f); // Reset turn ability after delay
-    }
-
-    private void EnableTurn()
-    {
-        isAbleToTurn = true;
-    }
-
-    private void TryPerformTrick(TrickType type) //By Anton: Maybe make different Class for Tricks?
-    {
-        if (!isGrounded && !isGrinding) // Only do tricks in air
-        {
-            isTricking = true;
-
-            if (type == TrickType.Kickflip)
-            {
-                transform.Rotate(Vector3.forward, 360f, Space.Self);
-            }
-            else if (type == TrickType.Ollie && currentSpeed > 2f)
-            {
-                velocity.y = 5f;
-            }
-            Invoke(nameof(EndTrick), 0.8f);
-        }
-    }
-
-    private void EndTrick()
-    {
-        isTricking = false;
+        _jump.RequestJump();
     }
 }

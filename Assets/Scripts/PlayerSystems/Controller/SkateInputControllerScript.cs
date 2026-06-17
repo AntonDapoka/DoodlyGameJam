@@ -1,39 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkateInputControllerScript : MonoBehaviour
 {
     [SerializeField] private SkateboardMovementInteractorScript skateMovementInteractor;
 
-    private InputState currentInput;
-    //private bool jumpBuffered;
-
     private void Update()
     {
-        HandleInput();
-    }
+        if (skateMovementInteractor == null) return;
 
-    private void HandleInput()
-    {
-        //if (Input.GetKeyDown(ControlsCollection.jump))
-            //jumpBuffered = true;
+        if (Input.GetKeyDown(ControlsCollection.forward)) new PushForwardCommand(skateMovementInteractor).Execute();
 
-        currentInput.jumpPressed = Input.GetKey(ControlsCollection.jump);
-        currentInput.forward = Input.GetKey(ControlsCollection.forward);
-        currentInput.backward = Input.GetKey(ControlsCollection.backward);
-        currentInput.left = Input.GetKey(ControlsCollection.left);
-        currentInput.right = Input.GetKey(ControlsCollection.right);
+        int turn = (Input.GetKey(ControlsCollection.right) ? 1 : 0) - (Input.GetKey(ControlsCollection.left) ? 1 : 0);
+        if (turn != 0) new TurnCommand(skateMovementInteractor, turn).Execute();
 
-        skateMovementInteractor.SetInput(currentInput);
-    }
-
-    private void FixedUpdate()
-    {
-        //currentInput.jumpPressed = jumpBuffered;
-        //jumpBuffered = false;
-
-        skateMovementInteractor.SetInput(currentInput);
+        if (Input.GetKeyDown(ControlsCollection.jump)) new JumpCommand(skateMovementInteractor).Execute();
     }
 }
-
