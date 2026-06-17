@@ -3,16 +3,13 @@ using UnityEngine;
 public class JumpModule : MonoBehaviour
 {
     [SerializeField] private float jumpForce;
-    private VelocityHandler _velocity;
     private GroundingEvaluator _grounding;
 
     private bool _requested;
 
     public void Initialize(
-        VelocityHandler velocity,
         GroundingEvaluator grounding)
     {
-        _velocity = velocity;
         _grounding = grounding;
     }
 

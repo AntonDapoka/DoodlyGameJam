@@ -67,7 +67,7 @@ public class TurnModule : MonoBehaviour
         float driftAmount = Mathf.Abs(sideSpeed);
 
         forwardSpeed = Mathf.Max(0f, forwardSpeed - driftAmount * driftBrake * driftMultiplier * deltaTime);
-        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f, sideFriction * driftMultiplier * deltaTime);
+        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f,sideFriction * driftMultiplier * deltaTime);
 
         Vector3 velocityHorizontalNew = forward * forwardSpeed + right * sideSpeed;
         _rigidbody.velocity = new(velocityHorizontalNew.x, velocity.y, velocityHorizontalNew.z);

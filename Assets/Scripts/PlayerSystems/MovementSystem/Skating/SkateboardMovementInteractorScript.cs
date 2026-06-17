@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(GroundingEvaluator))]
-[RequireComponent(typeof(VelocityHandler))]
 [RequireComponent(typeof(PushModule))]
 [RequireComponent(typeof(TurnModule))]
 [RequireComponent(typeof(DragModule))]
@@ -16,7 +15,6 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     public SphereCollider Collider { get; private set; }
 
     private GroundingEvaluator _grounding;
-    private VelocityHandler _velocity;
     private PushModule _push;
     private TurnModule _turn;
     private DragModule _drag;
@@ -45,7 +43,6 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         Collider = physicsBody.GetComponent<SphereCollider>();
 
         _grounding = GetComponent<GroundingEvaluator>();
-        _velocity = GetComponent<VelocityHandler>();
         _push = GetComponent<PushModule>();
         _turn = GetComponent<TurnModule>();
         _drag = GetComponent<DragModule>();

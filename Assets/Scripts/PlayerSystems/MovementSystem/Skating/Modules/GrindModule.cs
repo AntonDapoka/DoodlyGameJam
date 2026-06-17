@@ -7,7 +7,6 @@ public class GrindModule : MonoBehaviour
 
     public void Initialize(
         SkateboardMovementInteractorScript controller,
-        VelocityHandler velocity,
         GroundingEvaluator grounding)
     {
         _controller = controller;
