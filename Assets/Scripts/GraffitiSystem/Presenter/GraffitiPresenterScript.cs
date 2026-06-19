@@ -17,6 +17,6 @@ public class GraffitiPresenterScript : MonoBehaviour
 
     public void ManageGraffitiSprite(GraffitiScript graffiti, bool isPlayerGraffiti) //isPlayerGraffiti == false, then it is Opponent's
     {
-        _graffitiView.SetSprite(graffiti, isPlayerGraffiti ? _graffitiSpritesPlayer[0] : _graffitiSpritesOpponent[0]);
+        _graffitiView.SetSprite(graffiti, isPlayerGraffiti ? _graffitiSpritesPlayer[Random.Range(0, _graffitiSpritesPlayer.Length)] : _graffitiSpritesOpponent[Random.Range(0, _graffitiSpritesOpponent.Length)]);
     }
 }

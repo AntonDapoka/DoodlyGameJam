@@ -114,12 +114,13 @@ public class AirControlModule : MonoBehaviour
         if (Mathf.Abs(TurnInput) < 0.01f)
             return;
 
-        Vector3 horizontal = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        Vector3 horizontal = new(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
         float speed = horizontal.magnitude;
         float normalizedSpeed = Mathf.Clamp01(speed / Mathf.Max(airTurnMaxSpeed, 0.01f));
         float speedFactor = Mathf.Lerp(1f, 1f, normalizedSpeed);
 
         _controller.transform.Rotate(0f, TurnInput * airTurnTorque * speedFactor * deltaTime, 0f, Space.World);
+        //_rigidbody.transform.Rotate(0f, TurnInput * airTurnTorque * speedFactor * deltaTime, 0f, Space.World);
     }
 
     private void ApplyEnhancedGravity(float deltaTime)

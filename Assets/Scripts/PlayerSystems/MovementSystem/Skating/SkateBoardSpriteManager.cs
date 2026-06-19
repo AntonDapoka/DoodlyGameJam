@@ -32,9 +32,7 @@ public class SkateBoardSpriteManager : MonoBehaviour
     private void Update()
     {
         if (isAnimating)
-        {
             return;
-        }
 
         if (Input.GetKeyDown(animationKey) && animationSprites != null && animationSprites.Length > 0)
         {

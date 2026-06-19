@@ -131892,7 +131892,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461cd396e3fc7cc4eb9c92bde05c1b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 6611558534064293502}
+  Character: {fileID: 6508550501183087756}
+  cameraFollowPoint: {fileID: 1004713170}
   CharacterCamera: {fileID: 5530455799321397187}
 --- !u!4 &1004713170
 Transform:

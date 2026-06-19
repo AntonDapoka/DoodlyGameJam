@@ -12,11 +12,14 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
     public List<GraffitiScript> _graffitiSpotsValid = new();
     public List<GraffitiScript> _graffitiSpotsActive = new();
 
-    private void Start()
+    private void Awake()
     {
+        int k = 0;
         foreach (var spot in _graffitiSpots)
         {
             if (spot != null) _graffitiSpotsValid.Add(spot);
+            k++;
+            Debug.Log(k);
         }
     }
 
@@ -66,7 +69,7 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         else
             Debug.Log("SOME BUG IDK");
 
-        UpdateGraffitiSpots();
+        //UpdateGraffitiSpots();
     }
 
     private void Update()
@@ -76,13 +79,14 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
     private void UpdateGraffitiSpots()
     {
+        Debug.Log("Here");
         foreach (GraffitiScript graffiti in _graffitiSpots)
         {
 
             bool isTurnedOn = graffiti.GetIsTurnOn();
             bool isPlayer = graffiti.GetIsGraffitiPlayer();
 
-            if ((!isTurnedOn || isPlayer))
+            if (!isTurnedOn || isPlayer)
             {
                 if (!_graffitiSpotsValid.Contains(graffiti))
                     _graffitiSpotsValid.Add(graffiti);

@@ -42,6 +42,7 @@ public class JumpModule : MonoBehaviour
 
     public bool IsJumping { get; private set; }
     public bool JumpRequestedThisFrame { get; private set; }
+    public float JumpForce => jumpForce;
 
     public void Initialize(GroundingEvaluator grounding, Rigidbody rigidbody, Transform controllerTransform)
     {

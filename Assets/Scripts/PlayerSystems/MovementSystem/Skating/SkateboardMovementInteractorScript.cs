@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TurnModule))]
 [RequireComponent(typeof(AirControlModule))]
 [RequireComponent(typeof(JumpModule))]
+[RequireComponent(typeof(GrindModule))]
 public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActor
 {
     [SerializeField] private Transform physicsBody;
@@ -18,6 +19,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     private TurnModule _turn;
     private AirControlModule _air;
     private JumpModule _jump;
+    private GrindModule _grind;
 
     private float _turnInput;
     private bool _reverseHeld;
@@ -25,11 +27,18 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     private bool _jumpHeld;
 
     public bool IsGrounded => _grounding != null && _grounding.IsGrounded;
-    public bool IsGrinding => false;
+    public bool IsGrinding => _grind != null && _grind.IsGrinding;
     public float CurrentSpeed => _push != null ? _push.CurrentSpeed : 0f;
 
     private void Awake()
     {
+        if (physicsBody == null)
+        {
+            Debug.LogError($"[{nameof(SkateboardMovementInteractorScript)}] PhysicsBody is not assigned on {gameObject.name}.", this);
+            enabled = false;
+            return;
+        }
+
         physicsBody.localPosition = Vector3.zero;
 
         Rigidbody = physicsBody.GetComponent<Rigidbody>();
@@ -40,30 +49,57 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _turn = GetComponent<TurnModule>();
         _air = GetComponent<AirControlModule>();
         _jump = GetComponent<JumpModule>();
+        _grind = GetComponent<GrindModule>();
 
         _grounding.Initialize();
-        _push.Initialize(this, Rigidbody, _grounding, Collider);
+        _push.Initialize(this, Rigidbody, _grounding);
         _turn.Initialize(this, _grounding, Rigidbody);
         _air.Initialize(this, _grounding, Rigidbody, _jump);
         _jump.Initialize(_grounding, Rigidbody, transform);
+        _grind.Initialize(Rigidbody, _grounding, _jump);
+
+        SetupGrindTriggerRelay();
 
         Rigidbody.MoveRotation(transform.rotation);
     }
 
+    private void SetupGrindTriggerRelay()
+    {
+        if (physicsBody == null || _grind == null)
+            return;
+
+        var relay = physicsBody.GetComponent<GrindTriggerRelay>();
+        if (relay == null)
+            relay = physicsBody.gameObject.AddComponent<GrindTriggerRelay>();
+
+        relay.Initialize(_grind);
+    }
+
     private void FixedUpdate()
     {
-        if (physicsBody == null || Rigidbody == null) return;
+        if (physicsBody == null || Rigidbody == null)
+            return;
 
         float deltaTime = Time.fixedDeltaTime;
 
         float turnThisFrame = _turnInput;
         _turnInput = 0f;
-
+        
         _grounding.Evaluate(deltaTime);
+
+        if (_grind != null && _grind.IsGrinding)
+        {
+            _grind.Tick(deltaTime);
+            return;
+        }
+
         _push.Tick(deltaTime);
+
         _jump.Tick(deltaTime);
+
         _turn.TurnInput = turnThisFrame;
         _turn.Tick(deltaTime);
+
         _air.TurnInput = turnThisFrame;
         _air.ReverseInput = _reverseHeld;
         _air.ForwardInput = _forwardHeld;
@@ -73,16 +109,28 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
 
     public void Push()
     {
+        if (IsGrinding)
+            return;
+
         _push.RequestPush();
     }
 
     public void Turn(float direction)
     {
+        if (IsGrinding)
+            return;
+
         _turnInput = Mathf.Clamp(direction, -1f, 1f);
     }
 
     public void Jump()
     {
+        if (_grind != null && _grind.IsGrinding)
+        {
+            _grind.RequestGrindExit(true);
+            return;
+        }
+
         _jump.RequestJump();
     }
 
@@ -100,4 +148,5 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     {
         _jumpHeld = held;
     }
+
 }

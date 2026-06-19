@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,9 +8,15 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
 
     public List<GraffitiScript> GetMultipleRandomGraffitiSpots(List<GraffitiScript> graffitiSpots, int amount, float maxPerimeter, float minPerimeter)
     {
-        if (amount < 1 || amount > graffitiSpots.Count)
+        if (amount < 1)
         {
-            Debug.Log("Something isn't right");
+            Debug.Log("Something isn't right < 1");
+            return null;
+        }
+
+        if (amount > graffitiSpots.Count)
+        {
+            Debug.Log("Something isn't right mount > graffitiSpots.Count");
             return null;
         }
 

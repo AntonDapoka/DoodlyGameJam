@@ -122,7 +122,7 @@ Assets/Scripts/
   - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, velocity alignment, auto-leveling, and pitch/roll visuals. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
 - **Tricks:** `TrickType` enum defines `Kickflip`, `Ollie`, `ThreeSixty`. `TrickInteractorScript` is an empty stub and not wired into input.
-- **Grinding:** `GrindableMarker` + `GrindingScript` + `GrindModule` are stubs. `SkateboardMovementInteractorScript.IsGrinding` currently returns `false`.
+- **Grinding:** `GrindableMarker` tags rail-capture triggers spawned by Unity Splines `Items To Instantiate`. `SplineGrindRailSetup` links markers to their `SplineContainer`. `GrindTriggerRelay` (added to the physics body at runtime) forwards trigger events to `GrindModule`. `GrindModule` latches the player onto the rail while airborne, preserves the landing orientation, moves them along the spline with configurable `landingBoost`, `grindAcceleration`, `maxGrindSpeed`, `uphillResistance`, `downhillAcceleration`, and `exitBoost`, and exits on jump or at the spline end.
 - **Score/Style:** `ScoreManagementScript` awards score on W/A/S/D keydowns and drives `SprayPaintUIScript`. `StyleSystem` maintains static global multiplier/refill/increment values and reads the player's grounded/grinding state.
 - **Graffiti:** `GraffitiInitializerScript` seeds initial opponent spots using a convex-hull (Jarvis march) perimeter check. `GraffitiManagementInteractorScript` tracks valid/active spots. `GraffitiScript` implements `IInteractable` for player reclaiming.
 - **Opponent:** `OpponentInteractorScript` picks target graffiti spots and moves toward them to convert them back to opponent graffiti.
@@ -220,9 +220,8 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
    - `ScoreManagementScript` adds score on any W/A/S/D keydown rather than on actual gameplay events.
 4. **Input timing issue:** `SkateInputControllerScript` mixes immediate `Input.GetKeyDown` checks with per-frame command execution. `PushModule` also reads `Input.GetAxisRaw` internally, mixing input responsibilities.
 5. **Unimplemented systems:**
-   - `TrickInteractorScript`, `GraffitiHintScript`, `GrindingScript`, and `GrindModule` are empty or near-empty stubs.
+   - `TrickInteractorScript`, `GraffitiHintScript`, and `GrindingScript` are empty or near-empty stubs.
    - `DragModule` is no longer used; it was removed from `SkateboardMovementInteractorScript`.
-   - `SkateboardMovementInteractorScript.IsGrinding` returns `false` until grinding is implemented.
 6. **Unused assets:** `KinematicCharacterController` is imported but not referenced by custom gameplay.
 7. **Inappropriate debug output:** `GraffitiJarvisAlgorithmFinderScript` and `CompassUIScript` contain informal/offensive `Debug.Log` messages that should be removed before release.
 8. **No CI/CD:** All builds are manual.
@@ -239,7 +238,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: GroundCheck
+  - Name: Spline
   - Tag: Untagged
-  - Layer: 9
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

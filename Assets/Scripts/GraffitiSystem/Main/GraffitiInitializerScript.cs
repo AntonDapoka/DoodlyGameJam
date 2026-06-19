@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GraffitiInitializerScript : MonoBehaviour
@@ -13,10 +11,7 @@ public class GraffitiInitializerScript : MonoBehaviour
 
     private void Start()
     {
-
         if (_graffityInteractor != null && _graffitiAmountInitial >= 0)
-        {
             _graffityInteractor.SetRandomInitialOpponentGraffitiSpots(_graffitiAmountInitial, _graffitiPerimeterMax, _graffitiPerimeterMin);
-        }
     }
 }
