@@ -71,18 +71,10 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
         //UpdateGraffitiSpots();
     }
-
-    private void Update()
-    {
-        //UpdateGraffitiSpots();
-    }
-
     private void UpdateGraffitiSpots()
     {
-        Debug.Log("Here");
         foreach (GraffitiScript graffiti in _graffitiSpots)
         {
-
             bool isTurnedOn = graffiti.GetIsTurnOn();
             bool isPlayer = graffiti.GetIsGraffitiPlayer();
 

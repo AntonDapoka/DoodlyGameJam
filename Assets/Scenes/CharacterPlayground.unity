@@ -38016,7 +38016,7 @@ GameObject:
   - component: {fileID: 1551738475}
   - component: {fileID: 1551738474}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: Compas 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38044,7 +38044,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551738471}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -42509,7 +42509,7 @@ GameObject:
   - component: {fileID: 1730999573}
   - component: {fileID: 1730999572}
   m_Layer: 9
-  m_Name: Cube (1)
+  m_Name: Compas 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42537,7 +42537,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730999569}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -54073,9 +54073,9 @@ Transform:
   m_Children:
   - {fileID: 1115525423}
   - {fileID: 330339264}
-  - {fileID: 1730999570}
   - {fileID: 1744936127}
   - {fileID: 1551738472}
+  - {fileID: 1730999570}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6508550501183087756
@@ -54127,21 +54127,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3593da148e1cd134680221f019038d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGrinding: 0
   requireAirborneToEnter: 1
   minEntrySpeed: 2
-  landingBoost: 3
   heightOffset: 0.5
   entrySnapStrength: 1
+  grindReentryCooldown: 0.5
+  landingBoost: 3
+  exitBoost: 4
   grindAcceleration: 8
   maxGrindSpeed: 20
   stopSpeedThreshold: 0.1
   uphillResistance: 5
   downhillAcceleration: 5
   maxSubstepDistance: 0.2
-  exitBoost: 4
-  preserveExitDirection: 1
-  grindReentryCooldown: 0.5
-  isGrinding: 0
 --- !u!114 &6615662580611611651
 MonoBehaviour:
   m_ObjectHideFlags: 0

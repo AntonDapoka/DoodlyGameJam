@@ -35,24 +35,16 @@ public class GraffitiRandomFinderScript : MonoBehaviour
 
             float sqrDist = (spot.transform.position - pointStart.position).sqrMagnitude;
 
-            if (sqrDist >= minSqr && sqrDist <= maxSqr)
-            {
-                candidates.Add(spot);
-            }
+            if (sqrDist >= minSqr && sqrDist <= maxSqr) candidates.Add(spot);
         }
 
         if (candidates.Count == 0)
         {
-            Debug.Log("Plan B");
-
             foreach (var spot in graffitiSpots)
             {
                 if (spot == null) continue;
-
                 float sqrDist = (spot.transform.position - pointStart.position).sqrMagnitude;
-
-                if (sqrDist > safeDistanceSqr)
-                    candidates.Add(spot);
+                if (sqrDist > safeDistanceSqr) candidates.Add(spot);
             }
 
             for (int i = 0; i < candidates.Count; i++)

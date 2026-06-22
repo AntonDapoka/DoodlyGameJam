@@ -5,55 +5,26 @@ using Unity.Collections;
 
 public class GrindModule : MonoBehaviour
 {
-    [Header("Detection")]
-    [Tooltip("If true, grinding can only start while the player is airborne.")]
-    [SerializeField] private bool requireAirborneToEnter = true;
-
-    [Tooltip("Minimum horizontal speed required to start grinding.")]
-    [SerializeField] private float minEntrySpeed = 2f;
-
-    [Header("Entry")]
-    [Tooltip("Instant speed bonus applied when successfully latching onto a rail.")]
-    [SerializeField] private float landingBoost = 3f;
-
-    [Tooltip("Vertical offset applied to the player position while grinding.")]
-    [SerializeField] private float heightOffset = 0f;
-
-    [Tooltip("How quickly the player position snaps to the rail height on entry.")]
-    [SerializeField] private float entrySnapStrength = 1f;
-
-    [Header("Grind Movement")]
-    [Tooltip("Constant acceleration applied while grinding.")]
-    [SerializeField] private float grindAcceleration = 8f;
-
-    [Tooltip("Maximum speed achievable while grinding.")]
-    [SerializeField] private float maxGrindSpeed = 20f;
-
-    [Tooltip("Speed below which the player automatically drops off the rail.")]
-    [SerializeField] private float stopSpeedThreshold = 0.1f;
-
-    [Tooltip("Resistance applied when grinding uphill. Scales with slope steepness.")]
-    [SerializeField] private float uphillResistance = 5f;
-
-    [Tooltip("Extra acceleration applied when grinding downhill. Scales with slope steepness.")]
-    [SerializeField] private float downhillAcceleration = 5f;
-
-    [Tooltip("Maximum distance integrated in one substep. Lower values improve stability at high speed.")]
-    [SerializeField] private float maxSubstepDistance = 0.2f;
-
-    [Header("Exit")]
-    [Tooltip("Speed bonus preserved into normal movement when exiting a grind.")]
-    [SerializeField] private float exitBoost = 4f;
-
-    [Tooltip("If true, exit velocity keeps the last grinding direction. If false, it uses current input/forward.")]
-    [SerializeField] private bool preserveExitDirection = true;
-
-    [Header("Re-entry Cooldown")]
-    [Tooltip("Delay after leaving a grind before the player can latch onto another rail.")]
-    [SerializeField] private float grindReentryCooldown = 0.5f;
-    [Header("State")]
     [SerializeField] private bool isGrinding;
-
+    [Header("Settings")]
+    [SerializeField] private bool requireAirborneToEnter = true;
+    [SerializeField] private float minEntrySpeed = 2f;
+    [SerializeField] private float heightOffset = 0f;
+    [SerializeField] private float entrySnapStrength = 1f;
+    [SerializeField] private float grindReentryCooldown = 0.5f;
+    
+    [Header("Speed")]
+    [SerializeField] private float landingBoost = 3f;
+    [SerializeField] private float exitBoost = 4f;
+    [SerializeField] private float grindAcceleration = 8f;
+    [SerializeField] private float maxGrindSpeed = 20f;
+    [SerializeField] private float stopSpeedThreshold = 0.1f;
+    [SerializeField] private float uphillResistance = 5f;
+    [SerializeField] private float downhillAcceleration = 5f;
+    [SerializeField] private float maxSubstepDistance = 0.2f; 
+    //Maximum distance integrated in one substep. Lower values improve stability at high speed
+    
+    private SkateboardMovementInteractorScript _controller;
     private Rigidbody _rigidbody;
     private GroundingEvaluator _grounding;
     private JumpModule _jumpModule;
@@ -68,7 +39,6 @@ public class GrindModule : MonoBehaviour
     private float _grindSpeed;
     private float _directionSign;
     private Vector3 _currentWorldTangent;
-    private float _normalizedTime;
     private bool _exitRequested;
     private bool _exitWithJump;
 
@@ -81,11 +51,9 @@ public class GrindModule : MonoBehaviour
     public float DistanceAlongSpline => _distanceAlongSpline;
     public SplineContainer ActiveSplineContainer => _activeSplineContainer;
 
-    public void Initialize(
-        Rigidbody rigidbody,
-        GroundingEvaluator grounding,
-        JumpModule jumpModule)
+    public void Initialize(SkateboardMovementInteractorScript controller, Rigidbody rigidbody, GroundingEvaluator grounding, JumpModule jumpModule)
     {
+        _controller = controller;
         _rigidbody = rigidbody;
         _grounding = grounding;
         _jumpModule = jumpModule;
@@ -101,12 +69,7 @@ public class GrindModule : MonoBehaviour
         Spline.Changed -= OnSplineChanged;
         DisposeCachedNativeSpline();
     }
-
-    private void OnDestroy()
-    {
-        DisposeCachedNativeSpline();
-    }
-
+    
     public void RequestGrindExit(bool withJump = true)
     {
         _exitRequested = true;
@@ -154,8 +117,7 @@ public class GrindModule : MonoBehaviour
         float directionDot = Vector3.Dot(horizontalVelocity.normalized, worldTangent);
         _directionSign = directionDot >= 0f ? 1f : -1f;
         _currentWorldTangent = worldTangent * _directionSign;
-        if (_currentWorldTangent.sqrMagnitude > 0.0001f)
-            _currentWorldTangent.Normalize();
+        if (_currentWorldTangent.sqrMagnitude > 0.0001f) _currentWorldTangent.Normalize();
 
         float entrySpeedAlongRail = Vector3.Dot(horizontalVelocity, _currentWorldTangent);
         if (entrySpeedAlongRail < minEntrySpeed)
@@ -164,7 +126,6 @@ public class GrindModule : MonoBehaviour
             return;
         }
 
-        _splineWorldLength = _cachedNativeSpline.GetLength();
         _distanceAlongSpline = worldDistance;
         _grindSpeed = Mathf.Min(entrySpeedAlongRail + landingBoost, maxGrindSpeed);
         _grindSpeed = Mathf.Max(_grindSpeed, minEntrySpeed);
@@ -175,10 +136,13 @@ public class GrindModule : MonoBehaviour
 
         _wasKinematic = _rigidbody.isKinematic;
         _wasUsingGravity = _rigidbody.useGravity;
-        _rigidbody.isKinematic = true;
-        _rigidbody.useGravity = false;
+
+        // Zero velocity before making the body kinematic; assigning velocity/angularVelocity
+        // on a kinematic body is not supported and logs a warning.
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.isKinematic = true;
+        _rigidbody.useGravity = false;
 
         Vector3 targetPos = nearestWorldPos + Vector3.up * heightOffset;
         _rigidbody.MovePosition(Vector3.Lerp(_rigidbody.position, targetPos, entrySnapStrength));
@@ -201,32 +165,29 @@ public class GrindModule : MonoBehaviour
             ExitGrind(false);
             return;
         }
+
         float totalMove = _grindSpeed * deltaTime;
         int substeps = Mathf.Max(1, Mathf.CeilToInt(Mathf.Abs(totalMove) / Mathf.Max(maxSubstepDistance, 0.001f)));
         float substepDeltaTime = deltaTime / substeps;
 
         for (int i = 0; i < substeps; i++)
         {
-            if (!EvaluateAtDistance(_distanceAlongSpline, out _, out Vector3 worldTangent, out _))
+            if (!EvaluateAtDistance(_distanceAlongSpline, out Vector3 worldTangent))
             {
-                ApplyPositionFromDistance();
-                ExitGrind(false);
+                ExitAtCurrentPosition();
                 return;
             }
 
             Vector3 movementTangent = worldTangent * _directionSign;
-            if (movementTangent.sqrMagnitude > 0.0001f)
-                movementTangent.Normalize();
+            if (movementTangent.sqrMagnitude > 0.0001f) movementTangent.Normalize();
 
             _currentWorldTangent = movementTangent;
 
             float slopeDot = Vector3.Dot(movementTangent, Vector3.up);
             float acceleration = grindAcceleration;
 
-            if (slopeDot > 0.001f)
-                acceleration -= uphillResistance * slopeDot;
-            else if (slopeDot < -0.001f)
-                acceleration += downhillAcceleration * Mathf.Abs(slopeDot);
+            if (slopeDot > 0.001f) acceleration -= uphillResistance * slopeDot;
+            else if (slopeDot < -0.001f) acceleration += downhillAcceleration * Mathf.Abs(slopeDot);
 
             _grindSpeed += acceleration * substepDeltaTime;
             _grindSpeed = Mathf.Clamp(_grindSpeed, 0f, maxGrindSpeed);
@@ -243,9 +204,7 @@ public class GrindModule : MonoBehaviour
             if (_activeSpline != null && _activeSpline.Closed)
             {
                 _distanceAlongSpline += stepMove * _directionSign;
-
-                _distanceAlongSpline =
-                    Mathf.Repeat(_distanceAlongSpline, _splineWorldLength);
+                _distanceAlongSpline = Mathf.Repeat(_distanceAlongSpline, _splineWorldLength);
             }
             else
             {
@@ -256,8 +215,7 @@ public class GrindModule : MonoBehaviour
                     if (stepMove >= remainingToEnd)
                     {
                         _distanceAlongSpline = _splineWorldLength;
-                        ApplyPositionFromDistance();
-                        ExitGrind(false);
+                        ExitAtCurrentPosition();
                         return;
                     }
                 }
@@ -266,8 +224,7 @@ public class GrindModule : MonoBehaviour
                     if (stepMove >= _distanceAlongSpline)
                     {
                         _distanceAlongSpline = 0f;
-                        ApplyPositionFromDistance();
-                        ExitGrind(false);
+                        ExitAtCurrentPosition();
                         return;
                     }
                 }
@@ -276,41 +233,25 @@ public class GrindModule : MonoBehaviour
             }
         }
 
-        // --- Presentation phase: single physics write per tick ---
         ApplyPositionFromDistance();
     }
 
     private void ApplyPositionFromDistance()
     {
-        if (!_hasCachedNativeSpline)
-            return;
+        if (!_hasCachedNativeSpline) return;
 
         if (_activeSpline != null && _activeSpline.Closed)
-        {
-            _distanceAlongSpline =
-                Mathf.Repeat(_distanceAlongSpline, _splineWorldLength);
-        }
+            _distanceAlongSpline = Mathf.Repeat(_distanceAlongSpline, _splineWorldLength);
 
-        _normalizedTime = _cachedNativeSpline.ConvertIndexUnit(
-            _distanceAlongSpline,
-            PathIndexUnit.Distance,
-            PathIndexUnit.Normalized);
+        float _normalizedTime = _cachedNativeSpline.ConvertIndexUnit(_distanceAlongSpline, PathIndexUnit.Distance, PathIndexUnit.Normalized);
 
-        if (_activeSpline != null && _activeSpline.Closed)
-        {
-            _normalizedTime = Mathf.Repeat(_normalizedTime, 1f);
-        }
+        if (_activeSpline != null && _activeSpline.Closed) _normalizedTime = Mathf.Repeat(_normalizedTime, 1f);
 
-        Vector3 worldPos =
-            (Vector3)_cachedNativeSpline.EvaluatePosition(_normalizedTime);
-
-        Vector3 worldTangent =
-            (Vector3)_cachedNativeSpline.EvaluateTangent(_normalizedTime);
-
+        Vector3 worldPos = (Vector3)_cachedNativeSpline.EvaluatePosition(_normalizedTime);
+        Vector3 worldTangent = (Vector3)_cachedNativeSpline.EvaluateTangent(_normalizedTime);
         Vector3 movementTangent = worldTangent * _directionSign;
 
-        if (movementTangent.sqrMagnitude > 0.0001f)
-            movementTangent.Normalize();
+        if (movementTangent.sqrMagnitude > 0.0001f) movementTangent.Normalize();
 
         _currentWorldTangent = movementTangent;
 
@@ -321,21 +262,20 @@ public class GrindModule : MonoBehaviour
 
     private void ExitGrind(bool withJump)
     {
-        if (!isGrinding)
-            return;
+        if (!isGrinding) return;
 
-        Vector3 exitHorizontal = preserveExitDirection
-            ? _currentWorldTangent * (_grindSpeed + exitBoost)
-            : new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z).normalized * (_grindSpeed + exitBoost);
-
+        Vector3 exitHorizontal = _currentWorldTangent * (_grindSpeed + exitBoost);
         float verticalVelocity = 0f;
-        if (withJump && _jumpModule != null)
-            verticalVelocity = _jumpModule.JumpForce;
+        if (withJump && _jumpModule != null) verticalVelocity = _jumpModule.JumpForce;
 
         _rigidbody.isKinematic = _wasKinematic;
         _rigidbody.useGravity = _wasUsingGravity;
-        _rigidbody.velocity = new Vector3(exitHorizontal.x, verticalVelocity, exitHorizontal.z);
-        _rigidbody.angularVelocity = Vector3.zero;
+
+        if (!_rigidbody.isKinematic)
+        {
+            _rigidbody.velocity = new(exitHorizontal.x, verticalVelocity, exitHorizontal.z);
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
 
         _reentryUnlockTime = Time.time + grindReentryCooldown;
         DisposeCachedNativeSpline();
@@ -344,15 +284,18 @@ public class GrindModule : MonoBehaviour
 
     private void StopGrind()
     {
-        if (!isGrinding)
-            return;
+        if (!isGrinding) return;
 
-        Vector3 horizontal = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+        Vector3 horizontal = new(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
 
         _rigidbody.isKinematic = _wasKinematic;
         _rigidbody.useGravity = _wasUsingGravity;
-        _rigidbody.velocity = new Vector3(horizontal.x, 0f, horizontal.z);
-        _rigidbody.angularVelocity = Vector3.zero;
+
+        if (!_rigidbody.isKinematic)
+        {
+            _rigidbody.velocity = new(horizontal.x, 0f, horizontal.z);
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
 
         _reentryUnlockTime = Time.time + grindReentryCooldown;
         DisposeCachedNativeSpline();
@@ -372,8 +315,7 @@ public class GrindModule : MonoBehaviour
     {
         DisposeCachedNativeSpline();
 
-        if (_activeSpline == null || _activeSplineContainer == null)
-            return;
+        if (_activeSpline == null || _activeSplineContainer == null)  return;
 
         _cachedNativeSpline = new NativeSpline(_activeSpline, _activeSplineContainer.transform.localToWorldMatrix, Allocator.Persistent);
         _hasCachedNativeSpline = true;
@@ -400,8 +342,7 @@ public class GrindModule : MonoBehaviour
 
     private void DisposeCachedNativeSpline()
     {
-        if (!_hasCachedNativeSpline)
-            return;
+        if (!_hasCachedNativeSpline) return;
 
         _cachedNativeSpline.Dispose();
         _hasCachedNativeSpline = false;
@@ -409,14 +350,13 @@ public class GrindModule : MonoBehaviour
 
     private void OnSplineChanged(Spline spline, int knotIndex, SplineModification modification)
     {
-        if (_activeSpline == spline && _hasCachedNativeSpline)
-            RebuildNativeSplineCache();
+        if (_activeSpline == spline && _hasCachedNativeSpline) RebuildNativeSplineCache();
     }
 
     private bool TryGetNearestPoint(Vector3 worldPosition, out float worldDistance, out Vector3 worldPos, out Vector3 worldTangent)
     {
         worldDistance = 0f;
-        worldPos = worldPosition;
+        worldPos = default;
         worldTangent = Vector3.forward;
 
         if (!_hasCachedNativeSpline) return false;
@@ -427,36 +367,34 @@ public class GrindModule : MonoBehaviour
 
         worldPos = nearestWorld;
         worldTangent = (Vector3)_cachedNativeSpline.EvaluateTangent(t);
-        if (worldTangent.sqrMagnitude > 0.0001f)
-            worldTangent.Normalize();
+        if (worldTangent.sqrMagnitude > 0.0001f) worldTangent.Normalize();
 
         worldDistance = _cachedNativeSpline.ConvertIndexUnit(t, PathIndexUnit.Normalized, PathIndexUnit.Distance);
         return true;
     }
 
-    private bool EvaluateAtDistance(float worldDistance, out Vector3 worldPos, out Vector3 worldTangent, out float normalizedTime)
+    private bool EvaluateAtDistance(float worldDistance, out Vector3 worldTangent)
     {
-        worldPos = Vector3.zero;
         worldTangent = Vector3.forward;
-        normalizedTime = 0f;
 
-        if (!_hasCachedNativeSpline)
-            return false;
+        if (!_hasCachedNativeSpline) return false;
 
-        normalizedTime = _cachedNativeSpline.ConvertIndexUnit(worldDistance, PathIndexUnit.Distance, PathIndexUnit.Normalized);
-        worldPos = (Vector3)_cachedNativeSpline.EvaluatePosition(normalizedTime);
+        float normalizedTime = _cachedNativeSpline.ConvertIndexUnit(worldDistance, PathIndexUnit.Distance, PathIndexUnit.Normalized);
         worldTangent = (Vector3)_cachedNativeSpline.EvaluateTangent(normalizedTime);
 
         if (normalizedTime < 0 || normalizedTime > 1)
-        {
             Debug.LogWarning(
                 $"Grind invalid t={normalizedTime}, dist={worldDistance}, len={_splineWorldLength}");
-        }
 
-        if (worldTangent.sqrMagnitude > 0.0001f)
-            worldTangent.Normalize();
+        if (worldTangent.sqrMagnitude > 0.0001f) worldTangent.Normalize();
 
         return true;
+    }
+
+    private void ExitAtCurrentPosition()
+    {
+        ApplyPositionFromDistance();
+        ExitGrind(false);
     }
 
     private void OnValidate()
