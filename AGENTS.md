@@ -238,7 +238,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: PhysicsBody
+  - Name: Player
   - Tag: Untagged
   - Layer: 9
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

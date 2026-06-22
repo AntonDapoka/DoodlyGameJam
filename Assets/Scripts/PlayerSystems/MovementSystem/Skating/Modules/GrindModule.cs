@@ -24,8 +24,8 @@ public class GrindModule : MonoBehaviour
     [SerializeField] private float maxSubstepDistance = 0.2f; 
     //Maximum distance integrated in one substep. Lower values improve stability at high speed
     
-    private SkateboardMovementInteractorScript _controller;
     private Rigidbody _rigidbody;
+    private Transform _controller;
     private GroundingEvaluator _grounding;
     private JumpModule _jumpModule;
 
@@ -38,6 +38,7 @@ public class GrindModule : MonoBehaviour
     private float _splineWorldLength;
     private float _grindSpeed;
     private float _directionSign;
+    private float _yawOffset;
     private Vector3 _currentWorldTangent;
     private bool _exitRequested;
     private bool _exitWithJump;
@@ -51,10 +52,10 @@ public class GrindModule : MonoBehaviour
     public float DistanceAlongSpline => _distanceAlongSpline;
     public SplineContainer ActiveSplineContainer => _activeSplineContainer;
 
-    public void Initialize(SkateboardMovementInteractorScript controller, Rigidbody rigidbody, GroundingEvaluator grounding, JumpModule jumpModule)
+    public void Initialize(Rigidbody rigidbody, Transform controller, GroundingEvaluator grounding, JumpModule jumpModule)
     {
-        _controller = controller;
         _rigidbody = rigidbody;
+        _controller = controller;
         _grounding = grounding;
         _jumpModule = jumpModule;
     }
@@ -130,6 +131,8 @@ public class GrindModule : MonoBehaviour
         _grindSpeed = Mathf.Min(entrySpeedAlongRail + landingBoost, maxGrindSpeed);
         _grindSpeed = Mathf.Max(_grindSpeed, minEntrySpeed);
 
+        CaptureYawOffset(_currentWorldTangent);
+
         isGrinding = true;
         _exitRequested = false;
         _exitWithJump = false;
@@ -146,6 +149,7 @@ public class GrindModule : MonoBehaviour
 
         Vector3 targetPos = nearestWorldPos + Vector3.up * heightOffset;
         _rigidbody.MovePosition(Vector3.Lerp(_rigidbody.position, targetPos, entrySnapStrength));
+        ApplyRotationFromSpline(_currentWorldTangent);
     }
 
     public void Tick(float deltaTime)
@@ -258,6 +262,36 @@ public class GrindModule : MonoBehaviour
         Vector3 targetPosition = worldPos + Vector3.up * heightOffset;
 
         _rigidbody.MovePosition(targetPosition);
+        ApplyRotationFromSpline(movementTangent);
+    }
+
+    private void CaptureYawOffset(Vector3 splineTangent)
+    {
+        _yawOffset = 0f;
+        if (_controller == null) return;
+
+        Vector3 horizontalTangent = Vector3.ProjectOnPlane(splineTangent, Vector3.up);
+        Vector3 controllerForward = Vector3.ProjectOnPlane(_controller.forward, Vector3.up);
+
+        if (horizontalTangent.sqrMagnitude < 0.0001f || controllerForward.sqrMagnitude < 0.0001f)
+            return;
+
+        _yawOffset = Vector3.SignedAngle(horizontalTangent.normalized, controllerForward.normalized, Vector3.up);
+    }
+
+    private void ApplyRotationFromSpline(Vector3 splineTangent)
+    {
+        if (_controller == null) return;
+
+        Vector3 horizontalTangent = Vector3.ProjectOnPlane(splineTangent, Vector3.up);
+        if (horizontalTangent.sqrMagnitude < 0.0001f) return;
+
+        horizontalTangent.Normalize();
+        Quaternion offset = Quaternion.AngleAxis(_yawOffset, Vector3.up);
+        Vector3 targetForward = offset * horizontalTangent;
+
+        if (targetForward.sqrMagnitude > 0.0001f)
+            _controller.rotation = Quaternion.LookRotation(targetForward, Vector3.up);
     }
 
     private void ExitGrind(bool withJump)
@@ -309,6 +343,7 @@ public class GrindModule : MonoBehaviour
         _activeSpline = null;
         _exitRequested = false;
         _exitWithJump = false;
+        _yawOffset = 0f;
     }
 
     private void RebuildNativeSplineCache()
