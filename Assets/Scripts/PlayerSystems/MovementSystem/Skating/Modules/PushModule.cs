@@ -32,7 +32,6 @@ public class PushModule : MonoBehaviour
     public float CurrentSpeed { get; private set; }
 
     public void Initialize(
-        SkateboardMovementInteractorScript controller,
         Rigidbody rigidbody,
         GroundingEvaluator grounding)
     {
@@ -58,7 +57,7 @@ public class PushModule : MonoBehaviour
             if (_grounding.IsGrounded && _cooldownTimer <= 0f)
             {
                 Vector3 forward = transform.forward;
-                forward.y = 0f;
+                //forward.y = 0f;
                 forward.Normalize();
 
                 if (forward.sqrMagnitude >= 0.001f)
@@ -107,6 +106,11 @@ public class PushModule : MonoBehaviour
         if (forward.sqrMagnitude < 0.001f) return;
 
         _rigidbody.AddForce(coastForce * forward, ForceMode.Acceleration);
+    }
+
+    public Vector3 GetForward()
+    {
+        return transform.forward;
     }
 
     private void UpdateSpeed()

@@ -45,7 +45,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _grind = GetComponent<GrindModule>();
 
         _grounding.Initialize();
-        _push.Initialize(this, Rigidbody, _grounding);
+        _push.Initialize(Rigidbody, _grounding);
         _turn.Initialize(this, _grounding, Rigidbody);
         _air.Initialize(this, _grounding, Rigidbody, _jump);
         _jump.Initialize(_grounding, Rigidbody, transform);
