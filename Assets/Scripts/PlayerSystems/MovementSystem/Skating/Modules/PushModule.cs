@@ -20,6 +20,13 @@ public class PushModule : MonoBehaviour
     [Tooltip("Fraction of cruiseSpeed at which coast force starts being applied.")]
     [SerializeField, Range(0f, 1f)] private float coastThreshold = 0.8f;
 
+    [Header("Loop Assist")]
+    [Tooltip("Adds extra forward force on steep slopes/loops if the player drops below minimum speed.")]
+    [SerializeField] private bool useLoopAssist = true;
+    [SerializeField] private float loopAssistAngleThreshold = 45f;
+    [SerializeField] private float minLoopSpeed = 6f;
+    [SerializeField] private float loopAssistForce = 15f;
+
     [SerializeField] private TextMeshProUGUI testSpeed;
     [SerializeField] private TextMeshProUGUI testCruise;
 
@@ -56,9 +63,7 @@ public class PushModule : MonoBehaviour
 
             if (_grounding.IsGrounded && _cooldownTimer <= 0f)
             {
-                Vector3 forward = transform.forward;
-                //forward.y = 0f;
-                forward.Normalize();
+                Vector3 forward = GetForward();
 
                 if (forward.sqrMagnitude >= 0.001f)
                 {
@@ -69,6 +74,7 @@ public class PushModule : MonoBehaviour
         }
 
         ApplyCoastForce();
+        ApplyLoopAssist();
         testSpeed.text = CurrentSpeed.ToString();
         testCruise.text = isCruise ? "Yes" : "No";
     }
@@ -100,16 +106,32 @@ public class PushModule : MonoBehaviour
         float threshold = cruiseSpeed * coastThreshold;
         if (speed < threshold || speed >= maxSpeed) return;
 
-        Vector3 forward = transform.forward;
-        forward.y = 0f;
-        forward.Normalize();
+        Vector3 forward = GetForward();
         if (forward.sqrMagnitude < 0.001f) return;
 
         _rigidbody.AddForce(coastForce * forward, ForceMode.Acceleration);
     }
 
+    private void ApplyLoopAssist()
+    {
+        if (!useLoopAssist || _grounding == null || !_grounding.IsGrounded) return;
+        if (_grounding.GroundAngle < loopAssistAngleThreshold) return;
+
+        Vector3 velocity = _rigidbody.velocity;
+        Vector3 horizontalVelocity = new(velocity.x, 0f, velocity.z);
+        float speed = horizontalVelocity.magnitude;
+
+        if (speed >= minLoopSpeed) return;
+
+        Vector3 forward = GetForward();
+        if (forward.sqrMagnitude < 0.001f) return;
+
+        _rigidbody.AddForce(loopAssistForce * forward, ForceMode.Acceleration);
+    }
+
     public Vector3 GetForward()
     {
+        // Local forward of the tilted board (follows surface slope).
         return transform.forward;
     }
 

@@ -87,6 +87,10 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _air.ForwardInput = _forwardHeld;
         _air.JumpHeld = _jumpHeld;
         _air.Tick(deltaTime);
+
+        // Keep the physics body's rotation in sync with the visual board (important for loops/walls).
+        if (Rigidbody != null)
+            Rigidbody.MoveRotation(transform.rotation);
     }
 
     public void Push()

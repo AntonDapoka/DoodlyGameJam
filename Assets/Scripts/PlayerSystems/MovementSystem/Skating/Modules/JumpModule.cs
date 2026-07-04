@@ -19,6 +19,8 @@ public class JumpModule : MonoBehaviour
     [SerializeField] private float coyoteTimeWindow = 0.12f;
     [SerializeField] private float jumpBufferWindow = 0.1f;
     [SerializeField, Range(0f, 1f)] private float minGroundNormalDot = 0.65f;
+    [Tooltip("If true, the player can jump on walls and ceilings (needed for loops).")]
+    [SerializeField] private bool allowJumpOnCeiling = true;
     [SerializeField] private bool allowCoyoteJump = true;
 
     [Header("Forward Boost")]
@@ -69,7 +71,9 @@ public class JumpModule : MonoBehaviour
             JumpRequestedThisFrame = true;
         }
 
-        bool groundSuitable = _grounding != null && _grounding.IsGrounded && _grounding.GroundNormal.y >= minGroundNormalDot;
+        bool groundSuitable = _grounding != null && _grounding.IsGrounded;
+        if (!allowJumpOnCeiling)
+            groundSuitable &= _grounding.GroundNormal.y >= minGroundNormalDot;
         bool canUseCoyote = allowCoyoteJump && _coyoteTimer > 0f;
         bool hasBufferedInput = _bufferTimer > 0f;
 

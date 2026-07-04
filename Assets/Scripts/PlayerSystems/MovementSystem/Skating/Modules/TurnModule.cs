@@ -10,24 +10,16 @@ public class TurnModule : MonoBehaviour
     [SerializeField] private AnimationCurve driftByTurnInput;
 
     [Header("Surface Tilt")]
-    [Tooltip("Visually align the board with the ground surface while keeping control over limits.")]
+    [Tooltip("Visually align the board with the ground surface.")]
     [SerializeField] private bool alignToSurface = true;
-    [SerializeField] private float maxPitch = 35f;
-    [SerializeField] private float minPitch = -35f;
-    [SerializeField] private float maxRoll = 35f;
-    [SerializeField] private float minRoll = -35f;
-    [SerializeField, Range(0f, 2f)] private float pitchSensitivity = 1f;
-    [SerializeField, Range(0f, 2f)] private float rollSensitivity = 1f;
-    [SerializeField] private float tiltSmoothSpeed = 8f;
+    [Tooltip("Max tilt speed in degrees per second when following the surface.")]
+    [SerializeField] private float tiltSmoothSpeed = 360f;
 
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
     private Rigidbody _rigidbody;
 
     public float TurnInput { private get; set; }
-
-    private float _currentPitch;
-    private float _currentRoll;
 
     [Header("Delete me")]
     [SerializeField] private Transform indicator;
@@ -42,9 +34,6 @@ public class TurnModule : MonoBehaviour
         _controller = controller;
         _grounding = grounding;
         _rigidbody = rigidbody;
-
-        _currentPitch = Mathf.DeltaAngle(0f, _controller.transform.eulerAngles.x);
-        _currentRoll = Mathf.DeltaAngle(0f, _controller.transform.eulerAngles.z);
     }
 
     public void Tick(float deltaTime)
@@ -66,41 +55,36 @@ public class TurnModule : MonoBehaviour
 
     private void ApplyTilt(float yawDelta, float deltaTime)
     {
-        float currentYaw = _controller.transform.eulerAngles.y;
-        float newYaw = currentYaw + yawDelta;
+        Quaternion currentRotation = _controller.transform.rotation;
 
-        float targetPitch = 0f;
-        float targetRoll = 0f;
-
-        if (alignToSurface)
+        // Apply yaw around the board's local up axis so turning works on walls/ceilings too.
+        if (Mathf.Abs(yawDelta) >= 0.001f)
         {
-            // Build a forward vector that lies on the ground plane and preserves yaw.
-            Vector3 desiredForward = Quaternion.Euler(0f, newYaw, 0f) * Vector3.forward;
-            Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, _grounding.GroundNormal);
-
-            if (projectedForward.sqrMagnitude < 0.0001f)
-                projectedForward = desiredForward;
-
-            projectedForward.Normalize();
-
-            // This rotation has the board's up axis aligned with the surface normal.
-            Quaternion targetRotation = Quaternion.LookRotation(projectedForward, _grounding.GroundNormal);
-            Vector3 targetEuler = targetRotation.eulerAngles;
-
-            targetPitch = Mathf.DeltaAngle(0f, targetEuler.x) * pitchSensitivity;
-            targetRoll = Mathf.DeltaAngle(0f, targetEuler.z) * rollSensitivity;
-
-            // Clamp to designer-defined limits so the board never clips or over-rotates.
-            targetPitch = Mathf.Clamp(targetPitch, minPitch, maxPitch);
-            targetRoll = Mathf.Clamp(targetRoll, minRoll, maxRoll);
+            currentRotation = Quaternion.AngleAxis(yawDelta, currentRotation * Vector3.up) * currentRotation;
         }
 
-        _currentPitch = Mathf.MoveTowardsAngle(_currentPitch, targetPitch, tiltSmoothSpeed * deltaTime);
-        _currentRoll = Mathf.MoveTowardsAngle(_currentRoll, targetRoll, tiltSmoothSpeed * deltaTime);
+        if (!alignToSurface)
+        {
+            _controller.transform.rotation = currentRotation;
+            return;
+        }
 
-        // Compose yaw (existing steering), pitch (surface slope forward/back)
-        // and roll (surface slope left/right).
-        _controller.transform.rotation = Quaternion.Euler(_currentPitch, newYaw, _currentRoll);
+        // Build a rotation whose up axis matches the surface normal while preserving yaw.
+        Vector3 desiredForward = currentRotation * Vector3.forward;
+        Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, _grounding.GroundNormal);
+
+        if (projectedForward.sqrMagnitude < 0.0001f)
+            projectedForward = desiredForward;
+
+        projectedForward.Normalize();
+
+        Quaternion targetRotation = Quaternion.LookRotation(projectedForward, _grounding.GroundNormal);
+
+        _controller.transform.rotation = Quaternion.RotateTowards(
+            currentRotation,
+            targetRotation,
+            tiltSmoothSpeed * deltaTime);
+        
     }
 
     private float CalculateTurnAngle(float deltaTime)
@@ -108,12 +92,12 @@ public class TurnModule : MonoBehaviour
         Vector3 velocityHorizontal = GetHorizontalVelocity();
 
         float speed = velocityHorizontal.magnitude;
-        float normalizedSpeed = Mathf.Clamp01(speed/turnSpeedMax);
+        float normalizedSpeed = Mathf.Clamp01(speed / turnSpeedMax);
         float multiplier = turnTorqueBySpeed.Evaluate(normalizedSpeed);
 
         return TurnInput * turnTorque * multiplier * deltaTime;
     }
-    
+
     private void ApplyVelocity(float deltaTime)
     {
         Vector3 velocity = _rigidbody.velocity;

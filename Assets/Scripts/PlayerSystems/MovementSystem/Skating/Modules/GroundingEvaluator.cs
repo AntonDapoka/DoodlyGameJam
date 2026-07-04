@@ -3,8 +3,11 @@ using UnityEngine;
 public class GroundingEvaluator : MonoBehaviour
 {
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform frontGroundCheck;
+    [SerializeField] private Transform backGroundCheck;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float groundDistance = 0.3f;
+    [SerializeField] private float raycastExtraDistance = 0.3f;
     [SerializeField] private bool showGizmos = true;
 
     public bool IsGrounded;
@@ -33,33 +36,69 @@ public class GroundingEvaluator : MonoBehaviour
             mask,
             QueryTriggerInteraction.Ignore);
 
-        if (IsGrounded)
+        if (!IsGrounded)
         {
-            Vector3 origin = groundCheck.position;
-            Vector3 boardDown = -transform.up;
-            float maxDistance = groundDistance + 0.25f;
+            ResetState();
+            return;
+        }
 
-            // Prefer the board-relative down direction so tilted surfaces are detected correctly.
-            // Fall back to world down in case the board-relative ray misses (thin colliders, edges, etc.).
-            if (TryGetGroundHit(origin, boardDown, maxDistance, mask, out RaycastHit hit) ||
-                TryGetGroundHit(origin, Vector3.down, maxDistance, mask, out hit))
-            {
-                GroundHit = hit;
-                GroundNormal = hit.normal;
-                GroundAngle = Vector3.Angle(Vector3.up, hit.normal);
-                return;
-            }
+        float maxDistance = groundDistance + raycastExtraDistance;
+
+        // Average normals from multiple probes so seams and sharp transitions don't break grounding.
+        Vector3 normalSum = Vector3.zero;
+        Vector3 pointSum = Vector3.zero;
+        int hitCount = 0;
+        RaycastHit closestHit = default;
+        float closestDistance = float.MaxValue;
+
+        TryProbe(groundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(frontGroundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(backGroundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+
+        if (hitCount > 0)
+        {
+            GroundNormal = normalSum.normalized;
+            GroundAngle = Vector3.Angle(Vector3.up, GroundNormal);
+            GroundHit = closestHit;
+            return;
         }
 
         ResetState();
     }
 
-    private bool TryGetGroundHit(Vector3 origin, Vector3 direction, float maxDistance, LayerMask mask, out RaycastHit hit)
+    private void TryProbe(
+        Transform probe,
+        float maxDistance,
+        LayerMask mask,
+        ref Vector3 normalSum,
+        ref Vector3 pointSum,
+        ref int hitCount,
+        ref RaycastHit closestHit,
+        ref float closestDistance)
     {
-        if (Physics.Raycast(origin, direction, out hit, maxDistance, mask, QueryTriggerInteraction.Ignore))
-            return true;
+        if (probe == null) return;
 
-        return false;
+        Vector3 origin = probe.position;
+
+        // Try board-relative down first (correct when upside-down), then world-down fallback.
+        if (TryRaycast(origin, -transform.up, maxDistance, mask, out RaycastHit hit) ||
+            TryRaycast(origin, Vector3.down, maxDistance, mask, out hit))
+        {
+            normalSum += hit.normal;
+            pointSum += hit.point;
+            hitCount++;
+
+            if (hit.distance < closestDistance)
+            {
+                closestDistance = hit.distance;
+                closestHit = hit;
+            }
+        }
+    }
+
+    private bool TryRaycast(Vector3 origin, Vector3 direction, float maxDistance, LayerMask mask, out RaycastHit hit)
+    {
+        return Physics.Raycast(origin, direction, out hit, maxDistance, mask, QueryTriggerInteraction.Ignore);
     }
 
     private void ResetState()
@@ -74,29 +113,36 @@ public class GroundingEvaluator : MonoBehaviour
     {
         if (!showGizmos || groundCheck == null) return;
 
-        Vector3 origin = groundCheck.position;
-        Vector3 boardDown = -transform.up;
-        float maxDistance = groundDistance + 0.25f;
+        float maxDistance = groundDistance + raycastExtraDistance;
 
-        // Sphere check
-        Gizmos.color = IsGrounded ? new Color(0f, 1f, 0f, 0.75f) : new Color(1f, 0f, 0f, 0.75f);
-        Gizmos.DrawWireSphere(origin, groundDistance);
+        DrawProbeGizmos(groundCheck, maxDistance);
+        DrawProbeGizmos(frontGroundCheck, maxDistance);
+        DrawProbeGizmos(backGroundCheck, maxDistance);
 
-        // Board-relative ray
-        Gizmos.color = IsGrounded ? Color.cyan : Color.yellow;
-        Gizmos.DrawRay(origin, boardDown * maxDistance);
-
-        // World down fallback ray
-        Gizmos.color = IsGrounded ? Color.green : Color.magenta;
-        Gizmos.DrawRay(origin, Vector3.down * maxDistance);
-
-        // Hit normal and point
         if (IsGrounded && GroundHit.collider != null)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(GroundHit.point, 0.04f);
-            Gizmos.DrawLine(GroundHit.point, GroundHit.point + GroundHit.normal * 0.4f);
+            Gizmos.DrawLine(GroundHit.point, GroundHit.point + GroundNormal * 0.4f);
         }
+    }
+
+    private void DrawProbeGizmos(Transform probe, float maxDistance)
+    {
+        if (probe == null) return;
+
+        Vector3 origin = probe.position;
+
+        bool isMain = probe == groundCheck;
+        Gizmos.color = IsGrounded ? Color.green : Color.red;
+        if (isMain)
+            Gizmos.DrawWireSphere(origin, groundDistance);
+
+        Gizmos.color = IsGrounded ? Color.cyan : Color.yellow;
+        Gizmos.DrawRay(origin, -transform.up * maxDistance);
+
+        Gizmos.color = IsGrounded ? Color.green : Color.magenta;
+        Gizmos.DrawRay(origin, Vector3.down * maxDistance);
     }
 
     private void OnValidate()

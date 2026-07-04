@@ -115,10 +115,10 @@ Assets/Scripts/
 
 - **Player input:** `ControlsCollection` defines hard-coded `KeyCode`s (W/A/S/D, Space, Q, E, LeftShift). `SkateInputControllerScript` polls input and dispatches `Command` instances (`PushForwardCommand`, `TurnCommand`, `JumpCommand`) against an `ISkateboardActor`.
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
-  - `GroundingEvaluator` — sphere check and board-relative raycast ground check, defaulting to the `Ground` layer if no mask is set.
-  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward.
-  - `TurnModule` — yaw rotation, side-friction/drift adjustment, and visual ground-surface tilt with clamped pitch/roll.
-  - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence, and an optional speed-based force curve.
+  - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
+  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward, with optional loop-assist force on steep slopes.
+  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
+  - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence, optional ceiling/wall jumping, and an optional speed-based force curve.
   - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, velocity alignment, auto-leveling, and pitch/roll visuals. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
 - **Tricks:** `TrickType` enum defines `Kickflip`, `Ollie`, `ThreeSixty`. `TrickInteractorScript` is an empty stub and not wired into input.
@@ -238,7 +238,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: Player
+  - Name: Sphere
   - Tag: Untagged
-  - Layer: 9
+  - Layer: Ground
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

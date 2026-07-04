@@ -88743,6 +88743,7 @@ MonoBehaviour:
   coyoteTimeWindow: 0.12
   jumpBufferWindow: 0.1
   minGroundNormalDot: 0.65
+  allowJumpOnCeiling: 1
   allowCoyoteJump: 1
   addForwardBoost: 0
   forwardBoostBase: 1.23
@@ -88855,13 +88856,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   alignToSurface: 1
+  allowFullSurfaceRotation: 0
+  tiltSmoothSpeed: 1000
   maxPitch: 360
   minPitch: -360
   maxRoll: 90
   minRoll: -90
   pitchSensitivity: 2
   rollSensitivity: 2
-  tiltSmoothSpeed: 1000
   indicator: {fileID: 1551738472}
   radius: 1
   angleCurrent: 0
@@ -88908,6 +88910,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   coastForce: 4
   coastThreshold: 0.902
+  useLoopAssist: 1
+  loopAssistAngleThreshold: 45
+  minLoopSpeed: 6
+  loopAssistForce: 15
   testSpeed: {fileID: 1314721710}
   testCruise: {fileID: 914605681}
 --- !u!114 &6615662580611611659
@@ -88923,10 +88929,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1744936127}
+  frontGroundCheck: {fileID: 0}
+  backGroundCheck: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   groundDistance: 0.76
+  raycastExtraDistance: 0.3
   showGizmos: 1
   IsGrounded: 0
 --- !u!114 &6615662580611611660
