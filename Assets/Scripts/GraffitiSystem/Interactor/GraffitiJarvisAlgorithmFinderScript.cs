@@ -31,7 +31,7 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
 
             if (perimeter <= maxPerimeter && perimeter >= minPerimeter)
             {
-                Debug.Log(perimeter);
+                //Debug.Log(perimeter);
                 return subset;
             }
         }

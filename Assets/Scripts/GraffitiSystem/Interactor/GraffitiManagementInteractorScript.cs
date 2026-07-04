@@ -62,7 +62,7 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
         _graffitiSpotsValid.Remove(newSpot);
 
-        if (newSpot.GetIsTurnOn() && newSpot.GetIsGraffitiPlayer())
+        if (newSpot.GetIsTurnOn() && newSpot.GetGraffitiType() == GraffitiType.Player)
             newSpot.RedrawGraffitiFromPlayerToOpponent();
         else if (!newSpot.GetIsTurnOn())
             newSpot.TurnOnOpponentGraffiti();
@@ -76,16 +76,16 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         foreach (GraffitiScript graffiti in _graffitiSpots)
         {
             bool isTurnedOn = graffiti.GetIsTurnOn();
-            bool isPlayer = graffiti.GetIsGraffitiPlayer();
+            GraffitiType graffitiType = graffiti.GetGraffitiType();
 
-            if (!isTurnedOn || isPlayer)
+            if (!isTurnedOn || graffitiType == GraffitiType.Player)
             {
                 if (!_graffitiSpotsValid.Contains(graffiti))
                     _graffitiSpotsValid.Add(graffiti);
             }
             else _graffitiSpotsValid.Remove(graffiti);
 
-            if (isTurnedOn && !isPlayer)
+            if (isTurnedOn && graffitiType == GraffitiType.Opponent)
             {
                 if (!_graffitiSpotsActive.Contains(graffiti))
                     _graffitiSpotsActive.Add(graffiti);

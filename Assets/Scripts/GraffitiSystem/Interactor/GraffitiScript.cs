@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GraffitiScript : MonoBehaviour, IInteractable
@@ -9,26 +6,25 @@ public class GraffitiScript : MonoBehaviour, IInteractable
     [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
     [SerializeField] private GameObject _objectGraffitiHint;
     public bool _isTurnOn = false;
-    public bool _isGraffitiPlayer = false; // true = Player, false = Opponent
+    public GraffitiType _graffitiType; // true = Player, false = Opponent
 
     private void Awake()
     {
         gameObject.SetActive(false);
         _objectGraffitiHint.SetActive(false);
+        _graffitiType = GraffitiType.Opponent;
     }
 
     public void Interact()
     {
-        if (!_isGraffitiPlayer)
-        {
+        if (_graffitiType == GraffitiType.Opponent)
             RedrawGraffitiFromOpponentToPlayer();
-        }
     }
 
     public void TurnOnPlayerGraffiti()
     {
         _isTurnOn = true;
-        _isGraffitiPlayer = true;
+        _graffitiType = GraffitiType.Player;
         gameObject.SetActive(true);
 
         _graffitiPresenter.ManageGraffitiSprite(this, true);
@@ -37,7 +33,7 @@ public class GraffitiScript : MonoBehaviour, IInteractable
     public void TurnOnOpponentGraffiti()
     {
         _isTurnOn = true;
-        _isGraffitiPlayer = false;
+        _graffitiType = GraffitiType.Opponent;
         gameObject.SetActive(true);
         _objectGraffitiHint.SetActive(true);
 
@@ -46,7 +42,7 @@ public class GraffitiScript : MonoBehaviour, IInteractable
 
     public void RedrawGraffitiFromOpponentToPlayer()
     {
-        _isGraffitiPlayer = true;
+        _graffitiType = GraffitiType.Player;
         _objectGraffitiHint.SetActive(false);
         _graffitiPresenter.ManageGraffitiSound();
         _graffitiPresenter.ManageGraffitiSprite(this, true);
@@ -56,7 +52,7 @@ public class GraffitiScript : MonoBehaviour, IInteractable
 
     public void RedrawGraffitiFromPlayerToOpponent()
     {
-        _isGraffitiPlayer = false;
+        _graffitiType = GraffitiType.Opponent;
         _objectGraffitiHint.SetActive(true);
         _graffitiPresenter.ManageGraffitiSprite(this, false);
     }
@@ -73,8 +69,8 @@ public class GraffitiScript : MonoBehaviour, IInteractable
         return _isTurnOn;
     }
 
-    public bool GetIsGraffitiPlayer()
+    public GraffitiType GetGraffitiType()
     {
-        return _isGraffitiPlayer;
+        return _graffitiType;
     }
 }

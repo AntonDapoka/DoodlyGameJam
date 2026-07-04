@@ -6,7 +6,6 @@ public class TurnModule : MonoBehaviour
     [SerializeField] private float turnTorque = 180f;
     [SerializeField] private float turnSpeedMax = 10f;
     [SerializeField] private float sideFriction = 5f;
-    [SerializeField] private float speedDriftMin = 5f;
     [SerializeField] private AnimationCurve turnTorqueBySpeed;
     [SerializeField] private AnimationCurve driftByTurnInput;
 
@@ -36,9 +35,7 @@ public class TurnModule : MonoBehaviour
         if (!_grounding.IsGrounded) return;
 
         if (Mathf.Abs(TurnInput) >= 0.01f)
-        {
             _controller.transform.Rotate(0f, CalculateTurnAngle(deltaTime), 0f, Space.World);
-        }
 
         ApplyVelocity(deltaTime);
     }
@@ -46,17 +43,6 @@ public class TurnModule : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateIndicator();
-
-        /*float deltaTime = Time.fixedDeltaTime;
-        Vector3 velocity = _rigidbody.velocity;
-        Vector3 velocityHorizontal = GetHorizontalVelocity(); //ball
-        Vector3 right = GetRight();                           //skate
-
-        float sideSpeed = Vector3.Dot(velocityHorizontal, right);
-        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f, sideFriction * deltaTime);
-
-        Vector3 velocityHorizontalNew = velocity - right * sideSpeed;
-        _rigidbody.velocity = new(velocityHorizontalNew.x, velocity.y, velocityHorizontalNew.z);*/
     }
 
     private float CalculateTurnAngle(float deltaTime)
@@ -69,63 +55,27 @@ public class TurnModule : MonoBehaviour
 
         return TurnInput * turnTorque * multiplier * deltaTime;
     }
-
-    /*private void ApplyVelocity(float deltaTime)
-    {
-        Vector3 velocity = _rigidbody.velocity;
-        Vector3 velocityHorizontal = GetHorizontalVelocity(); //ball
-
-        Vector3 forward = GetForward();  //skate
-        Vector3 right = GetRight();      //skate
-
-        float forwardSpeed = Vector3.Dot(velocityHorizontal, forward);
-        float turnAmount = Mathf.Abs(TurnInput);
-
-        float driftMultiplier = driftByTurnInput.Evaluate(turnAmount);
-        float driftAmount = Mathf.Abs(sideSpeed);*
-        Debug.Log(forwardSpeed);
-        //forwardSpeed = Mathf.Max(0f, forwardSpeed - driftBrake * deltaTime);
-        //
-        Vector3 velocityHorizontalNew = forward * forwardSpeed;// + right * sideSpeed;
-        _rigidbody.velocity = new(velocityHorizontalNew.x, velocity.y, velocityHorizontalNew.z);
-    }*/
-
     
     private void ApplyVelocity(float deltaTime)
     {
         Vector3 velocity = _rigidbody.velocity;
-        Vector3 velocityHorizontal = GetHorizontalVelocity(); //ball
+        Vector3 sideVelocity = Vector3.Project(GetHorizontalVelocity(), GetRight());
 
-        Vector3 forward = GetForward();  //skate
-        Vector3 right = GetRight();
-
-        float forwardSpeed = Vector3.Dot(velocityHorizontal, forward);
-        float sideSpeed = Vector3.Dot(velocityHorizontal, right);
-
-        sideSpeed = Mathf.MoveTowards(sideSpeed, 0f, sideFriction * deltaTime);
-
-        Vector3 velocityHorizontalNew = forward * forwardSpeed + (forwardSpeed <= speedDriftMin ? 1 : 0) * sideSpeed * right;
-        _rigidbody.velocity = new(velocityHorizontalNew.x, velocity.y, velocityHorizontalNew.z);
+        velocity -= deltaTime * sideFriction * sideVelocity;
+        _rigidbody.velocity = velocity;
     }
 
     private Vector3 GetHorizontalVelocity()
     {
         Vector3 velocity = _rigidbody.velocity;
-        velocity.y = 0f;
+        //velocity.y = 0f;
         return velocity;
-    }
-
-    private Vector3 GetForward()
-    {
-        Vector3 forward = _controller.transform.forward;
-        forward.y = 0f;
-        return forward.normalized;
     }
 
     private Vector3 GetRight()
     {
         Vector3 right = _controller.transform.right;
-        right.y = 0f;
+        //right.y = 0f;
         return right.normalized;
     }
 
