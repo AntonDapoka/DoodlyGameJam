@@ -28,12 +28,10 @@ public class GroundingEvaluator : MonoBehaviour
             return;
         }
 
-        LayerMask mask = groundMask;
-
         IsGrounded = Physics.CheckSphere(
             groundCheck.position,
             groundDistance,
-            mask,
+            groundMask,
             QueryTriggerInteraction.Ignore);
 
         if (!IsGrounded)
@@ -51,9 +49,9 @@ public class GroundingEvaluator : MonoBehaviour
         RaycastHit closestHit = default;
         float closestDistance = float.MaxValue;
 
-        TryProbe(groundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(frontGroundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(backGroundCheck, maxDistance, mask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(groundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(frontGroundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(backGroundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
 
         if (hitCount > 0)
         {

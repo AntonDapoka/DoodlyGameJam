@@ -21,6 +21,20 @@ public class AirControlModule : MonoBehaviour
     [Tooltip("If true, manual gravity enhancement is applied. Disable if using Rigidbody gravity only.")]
     [SerializeField] private bool applyEnhancedGravity = true;
 
+    [Header("Air Orientation")]
+    [Tooltip("If true, the board levels out to a horizontal (world-up) orientation while airborne.")]
+    [SerializeField] private bool levelToHorizontal = true;
+    [Tooltip("If true, the board rotates to face the direction of horizontal movement while airborne.")]
+    [SerializeField] private bool alignToMovementDirection = true;
+    [Tooltip("How fast the board levels out, in degrees per second.")]
+    [SerializeField] private float levelRotationSpeed = 360f;
+    [Tooltip("Multiplier for Level Rotation Speed based on how far the board is from horizontal. X = normalized angle (0 = horizontal, 1 = upside-down), Y = speed multiplier.")]
+    [SerializeField] private AnimationCurve levelRotationSpeedByAngle = AnimationCurve.Linear(0f, 0.25f, 1f, 1f);
+    [Tooltip("How fast the board aligns with the movement direction, in degrees per second.")]
+    [SerializeField] private float alignRotationSpeed = 360f;
+    [Tooltip("Minimum horizontal speed required to align with the movement direction.")]
+    [SerializeField] private float alignMinHorizontalSpeed = 0.5f;
+
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
     private Rigidbody _rigidbody;
@@ -58,6 +72,7 @@ public class AirControlModule : MonoBehaviour
 
         ApplyAirControl(deltaTime);
         ApplyAirTurn(deltaTime);
+        ApplyAirOrientation(deltaTime);
 
         if (applyEnhancedGravity)
             ApplyEnhancedGravity(deltaTime);
@@ -123,6 +138,51 @@ public class AirControlModule : MonoBehaviour
         //_rigidbody.transform.Rotate(0f, TurnInput * airTurnTorque * speedFactor * deltaTime, 0f, Space.World);
     }
 
+    private void ApplyAirOrientation(float deltaTime)
+    {
+        if (!levelToHorizontal && !alignToMovementDirection)
+            return;
+
+        Quaternion currentRotation = _controller.transform.rotation;
+        Quaternion workingRotation = currentRotation;
+
+        if (levelToHorizontal)
+        {
+            Vector3 currentForward = workingRotation * Vector3.forward;
+            Vector3 currentUp = workingRotation * Vector3.up;
+            Vector3 flattenedForward = Vector3.ProjectOnPlane(currentForward, Vector3.up);
+
+            if (flattenedForward.sqrMagnitude < 0.0001f)
+                flattenedForward = Vector3.ProjectOnPlane(Vector3.forward, Vector3.up);
+
+            float angleFromHorizontal = Vector3.Angle(currentUp, Vector3.up);
+            float normalizedAngle = Mathf.Clamp01(angleFromHorizontal / 180f);
+            float angleMultiplier = levelRotationSpeedByAngle.Evaluate(normalizedAngle);
+            float effectiveLevelSpeed = levelRotationSpeed * angleMultiplier;
+
+            Quaternion levelTarget = Quaternion.LookRotation(flattenedForward.normalized, Vector3.up);
+            workingRotation = Quaternion.RotateTowards(workingRotation, levelTarget, effectiveLevelSpeed * deltaTime);
+        }
+
+        if (alignToMovementDirection)
+        {
+            Vector3 horizontalVelocity = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+            if (horizontalVelocity.sqrMagnitude > alignMinHorizontalSpeed * alignMinHorizontalSpeed)
+            {
+                Vector3 targetUp = levelToHorizontal ? Vector3.up : workingRotation * Vector3.up;
+                Vector3 targetForward = Vector3.ProjectOnPlane(horizontalVelocity.normalized, targetUp);
+
+                if (targetForward.sqrMagnitude > 0.0001f)
+                {
+                    Quaternion alignTarget = Quaternion.LookRotation(targetForward.normalized, targetUp);
+                    workingRotation = Quaternion.RotateTowards(workingRotation, alignTarget, alignRotationSpeed * deltaTime);
+                }
+            }
+        }
+
+        _controller.transform.rotation = workingRotation;
+    }
+
     private void ApplyEnhancedGravity(float deltaTime)
     {
         if (_rigidbody.velocity.y < 0f)
@@ -159,5 +219,8 @@ public class AirControlModule : MonoBehaviour
         if (maxDownwardSpeed < 0f) maxDownwardSpeed = 0f;
         if (airDrag < 0f) airDrag = 0f;
         if (maxAirHorizontalSpeed < 0f) maxAirHorizontalSpeed = 0f;
+        if (levelRotationSpeed < 0f) levelRotationSpeed = 0f;
+        if (alignRotationSpeed < 0f) alignRotationSpeed = 0f;
+        if (alignMinHorizontalSpeed < 0f) alignMinHorizontalSpeed = 0f;
     }
 }

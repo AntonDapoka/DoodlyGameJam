@@ -113,7 +113,7 @@ public class JumpModule : MonoBehaviour
             if (!clampUpwardVelocityBeforeJump || velocity.y < maxPreJumpUpwardSpeed) velocity.y = 0f;
         }
 
-        Vector3 jumpDirection = Vector3.Lerp(Vector3.up, _grounding.GroundNormal, groundNormalInfluence).normalized;
+        Vector3 jumpDirection = Vector3.Lerp(_controllerTransform.up, _grounding.GroundNormal, groundNormalInfluence).normalized;
         float force = jumpForce * EvaluateJumpForceCurve();
         velocity += jumpDirection * force;
 

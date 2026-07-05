@@ -10,10 +10,9 @@ public class TurnModule : MonoBehaviour
     [SerializeField] private AnimationCurve driftByTurnInput;
 
     [Header("Surface Tilt")]
-    [Tooltip("Visually align the board with the ground surface.")]
-    [SerializeField] private bool alignToSurface = true;
-    [Tooltip("Max tilt speed in degrees per second when following the surface.")]
     [SerializeField] private float tiltSmoothSpeed = 360f;
+    [Tooltip("Multiplier for tilt smoothing speed based on normalized horizontal speed.")]
+    [SerializeField] private AnimationCurve tiltBySpeed = AnimationCurve.Linear(0f, 1f, 1f, 1f);
 
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
@@ -21,10 +20,10 @@ public class TurnModule : MonoBehaviour
 
     public float TurnInput { private get; set; }
 
-    [Header("Delete me")]
+    [Header("Indicator")]
     [SerializeField] private Transform indicator;
     [SerializeField] private float radius;
-    [SerializeField] private float angleCurrent = 0f;
+    private float angleCurrent = 0f;
 
     public void Initialize(
         SkateboardMovementInteractorScript controller,
@@ -41,8 +40,7 @@ public class TurnModule : MonoBehaviour
         if (!_grounding.IsGrounded) return;
 
         float yawDelta = 0f;
-        if (Mathf.Abs(TurnInput) >= 0.01f)
-            yawDelta = CalculateTurnAngle(deltaTime);
+        if (Mathf.Abs(TurnInput) >= 0.01f) yawDelta = CalculateTurnAngle(deltaTime);
 
         ApplyTilt(yawDelta, deltaTime);
         ApplyVelocity(deltaTime);
@@ -53,40 +51,7 @@ public class TurnModule : MonoBehaviour
         UpdateIndicator();
     }
 
-    private void ApplyTilt(float yawDelta, float deltaTime)
-    {
-        Quaternion currentRotation = _controller.transform.rotation;
-
-        // Apply yaw around the board's local up axis so turning works on walls/ceilings too.
-        if (Mathf.Abs(yawDelta) >= 0.001f)
-        {
-            currentRotation = Quaternion.AngleAxis(yawDelta, currentRotation * Vector3.up) * currentRotation;
-        }
-
-        if (!alignToSurface)
-        {
-            _controller.transform.rotation = currentRotation;
-            return;
-        }
-
-        // Build a rotation whose up axis matches the surface normal while preserving yaw.
-        Vector3 desiredForward = currentRotation * Vector3.forward;
-        Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, _grounding.GroundNormal);
-
-        if (projectedForward.sqrMagnitude < 0.0001f)
-            projectedForward = desiredForward;
-
-        projectedForward.Normalize();
-
-        Quaternion targetRotation = Quaternion.LookRotation(projectedForward, _grounding.GroundNormal);
-
-        _controller.transform.rotation = Quaternion.RotateTowards(
-            currentRotation,
-            targetRotation,
-            tiltSmoothSpeed * deltaTime);
-        
-    }
-
+    
     private float CalculateTurnAngle(float deltaTime)
     {
         Vector3 velocityHorizontal = GetHorizontalVelocity();
@@ -96,6 +61,29 @@ public class TurnModule : MonoBehaviour
         float multiplier = turnTorqueBySpeed.Evaluate(normalizedSpeed);
 
         return TurnInput * turnTorque * multiplier * deltaTime;
+    }
+
+    private void ApplyTilt(float yawDelta, float deltaTime)
+    {
+        Quaternion currentRotation = _controller.transform.rotation;
+
+        if (Mathf.Abs(yawDelta) >= 0.001f)
+            currentRotation = Quaternion.AngleAxis(yawDelta, currentRotation * Vector3.up) * currentRotation;
+
+        Vector3 desiredForward = currentRotation * Vector3.forward;
+        Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, _grounding.GroundNormal);
+
+        if (projectedForward.sqrMagnitude < 0.0001f) projectedForward = desiredForward;
+
+        projectedForward.Normalize();
+        Quaternion targetRotation = Quaternion.LookRotation(projectedForward, _grounding.GroundNormal);
+
+        float speed = GetHorizontalVelocity().magnitude;
+        float normalizedSpeed = Mathf.Clamp01(speed / Mathf.Max(turnSpeedMax, 0.01f));
+        float tiltMultiplier = tiltBySpeed.Evaluate(normalizedSpeed);
+
+        _controller.transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, tiltSmoothSpeed * tiltMultiplier * deltaTime);
+     
     }
 
     private void ApplyVelocity(float deltaTime)
@@ -110,14 +98,14 @@ public class TurnModule : MonoBehaviour
     private Vector3 GetHorizontalVelocity()
     {
         Vector3 velocity = _rigidbody.velocity;
-        //velocity.y = 0f;
+        velocity.y = 0f; //?
         return velocity;
     }
 
     private Vector3 GetRight()
     {
         Vector3 right = _controller.transform.right;
-        //right.y = 0f;
+        //right.y = 0f; //?
         return right.normalized;
     }
 

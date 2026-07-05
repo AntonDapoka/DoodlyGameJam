@@ -117,9 +117,9 @@ Assets/Scripts/
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
   - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward, with optional loop-assist force on steep slopes.
-  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
-  - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence, optional ceiling/wall jumping, and an optional speed-based force curve.
-  - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, velocity alignment, auto-leveling, and pitch/roll visuals. Tracks air time for style scoring.
+  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
+  - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence blended with the board's local up, optional ceiling/wall jumping, and an optional speed-based force curve.
+  - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, and optional orientation control (level to horizontal and/or align to movement direction) with configurable speeds. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
 - **Tricks:** `TrickType` enum defines `Kickflip`, `Ollie`, `ThreeSixty`. `TrickInteractorScript` is an empty stub and not wired into input.
 - **Grinding:** `GrindableMarker` tags rail-capture triggers spawned by Unity Splines `Items To Instantiate`. `SplineGrindRailSetup` links markers to their `SplineContainer`. `GrindTriggerRelay` (added to the physics body at runtime) forwards trigger events to `GrindModule`. `GrindModule` latches the player onto the rail while airborne, preserves the landing orientation, moves them along the spline with configurable `landingBoost`, `grindAcceleration`, `maxGrindSpeed`, `uphillResistance`, `downhillAcceleration`, and `exitBoost`, and exits on jump or at the spline end.
@@ -238,7 +238,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: Sphere
+  - Name: Player
   - Tag: Untagged
-  - Layer: Ground
+  - Layer: 9
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -17737,6 +17737,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703605264}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &705695739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705695740}
+  m_Layer: 9
+  m_Name: GroundCheck (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &705695740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705695739}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6505057340831361182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705725800
 GameObject:
   m_ObjectHideFlags: 0
@@ -17947,6 +17978,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 710497680}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &710863454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710863455}
+  m_Layer: 9
+  m_Name: GroundCheck (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &710863455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710863454}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6505057340831361182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &711829065
 GameObject:
   m_ObjectHideFlags: 0
@@ -20212,7 +20274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &781380571
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -88631,6 +88693,8 @@ Transform:
   - {fileID: 1115525423}
   - {fileID: 330339264}
   - {fileID: 1744936127}
+  - {fileID: 710863455}
+  - {fileID: 705695740}
   - {fileID: 1551738472}
   - {fileID: 1730999570}
   m_Father: {fileID: 0}
@@ -88774,6 +88838,62 @@ MonoBehaviour:
   maxDownwardSpeed: 60
   airDrag: 0.5
   applyEnhancedGravity: 1
+  levelToHorizontal: 1
+  alignToMovementDirection: 0
+  levelRotationSpeed: 150
+  levelRotationSpeedByAngle:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0059814453
+      value: 0.29434204
+      inSlope: 2.6857538
+      outSlope: 2.6857538
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.19990118
+    - serializedVersion: 3
+      time: 0.20169196
+      value: 0.689199
+      inSlope: 0.54870546
+      outSlope: 0.54870546
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.42869464
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49016422
+      value: 0.8292707
+      inSlope: 0.28944048
+      outSlope: 0.28944048
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13887398
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7508338
+      value: 0.9377183
+      inSlope: 0.3448662
+      outSlope: 0.3448662
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.29293463
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  alignRotationSpeed: 40
+  alignMinHorizontalSpeed: 0.5
 --- !u!114 &6615662580611611655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88786,7 +88906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0833e20e99173b4fbd9500c04ce3ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnTorque: 180
+  turnTorque: 100
   turnSpeedMax: 20
   sideFriction: 7
   turnTorqueBySpeed:
@@ -88855,18 +88975,42 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  alignToSurface: 1
-  allowFullSurfaceRotation: 0
-  tiltSmoothSpeed: 1000
-  maxPitch: 360
-  minPitch: -360
-  maxRoll: 90
-  minRoll: -90
-  pitchSensitivity: 2
-  rollSensitivity: 2
+  tiltSmoothSpeed: 200
+  tiltBySpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.009414673
+      value: 0.36309814
+      inSlope: 0.4461679
+      outSlope: 0.4461679
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5838156
+      value: 0.6193774
+      inSlope: 0.6803603
+      outSlope: 0.6803603
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.9145528
+      outSlope: 0.9145528
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   indicator: {fileID: 1551738472}
   radius: 1
-  angleCurrent: 0
 --- !u!114 &6615662580611611657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88929,8 +89073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1744936127}
-  frontGroundCheck: {fileID: 0}
-  backGroundCheck: {fileID: 0}
+  frontGroundCheck: {fileID: 705695740}
+  backGroundCheck: {fileID: 710863455}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -88962,8 +89106,6 @@ SceneRoots:
   - {fileID: 1052016072}
   - {fileID: 1453498348}
   - {fileID: 243719861}
-  - {fileID: 6505057340831361182}
-  - {fileID: 640362225}
   - {fileID: 2511035928454684248}
   - {fileID: 1452720318}
   - {fileID: 540488778}
@@ -88972,3 +89114,5 @@ SceneRoots:
   - {fileID: 1889331676}
   - {fileID: 1336601359}
   - {fileID: 781380576}
+  - {fileID: 6505057340831361182}
+  - {fileID: 640362225}
