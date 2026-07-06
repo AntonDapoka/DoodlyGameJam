@@ -7702,7 +7702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &319135797
 Transform:
   m_ObjectHideFlags: 0
@@ -7746,7 +7746,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319135796}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -16388,7 +16388,7 @@ Transform:
   m_GameObject: {fileID: 645729587}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76983,7 +76983,7 @@ Transform:
   m_GameObject: {fileID: 1730999569}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.13}
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -89058,6 +89058,7 @@ MonoBehaviour:
   loopAssistAngleThreshold: 45
   minLoopSpeed: 6
   loopAssistForce: 15
+  loopAssistMaxGroundNormalY: 0.5
   testSpeed: {fileID: 1314721710}
   testCruise: {fileID: 914605681}
 --- !u!114 &6615662580611611659
@@ -89095,6 +89096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsBody: {fileID: 640362229}
+  x: 0.001
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

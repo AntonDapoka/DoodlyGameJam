@@ -26,6 +26,8 @@ public class PushModule : MonoBehaviour
     [SerializeField] private float loopAssistAngleThreshold = 45f;
     [SerializeField] private float minLoopSpeed = 6f;
     [SerializeField] private float loopAssistForce = 15f;
+    [Tooltip("Only apply loop assist when the ground normal's Y component is at most this value (0 = vertical wall, 1 = flat). Prevents an artificial boost on ordinary ramps.")]
+    [SerializeField, Range(0f, 1f)] private float loopAssistMaxGroundNormalY = 0.5f;
 
     [SerializeField] private TextMeshProUGUI testSpeed;
     [SerializeField] private TextMeshProUGUI testCruise;
@@ -117,16 +119,21 @@ public class PushModule : MonoBehaviour
         if (!useLoopAssist || _grounding == null || !_grounding.IsGrounded) return;
         if (_grounding.GroundAngle < loopAssistAngleThreshold) return;
 
+        // Avoid giving an unnatural boost on ordinary uphill ramps. Loop assist should only
+        // help on near-vertical walls / loops where the surface normal is mostly horizontal or points down.
+        if (_grounding.GroundNormal.y > loopAssistMaxGroundNormalY) return;
+
         Vector3 velocity = _rigidbody.velocity;
-        Vector3 horizontalVelocity = new(velocity.x, 0f, velocity.z);
-        float speed = horizontalVelocity.magnitude;
+        Vector3 groundVelocity = Vector3.ProjectOnPlane(velocity, _grounding.GroundNormal);
+        float speed = groundVelocity.magnitude;
 
         if (speed >= minLoopSpeed) return;
 
         Vector3 forward = GetForward();
-        if (forward.sqrMagnitude < 0.001f) return;
+        Vector3 groundForward = Vector3.ProjectOnPlane(forward, _grounding.GroundNormal);
+        if (groundForward.sqrMagnitude < 0.001f) return;
 
-        _rigidbody.AddForce(loopAssistForce * forward, ForceMode.Acceleration);
+        _rigidbody.AddForce(loopAssistForce * groundForward.normalized, ForceMode.Acceleration);
     }
 
     public Vector3 GetForward()
