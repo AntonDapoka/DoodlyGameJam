@@ -21,19 +21,19 @@ public class PushModule : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float coastThreshold = 0.8f;
 
     [Header("Loop Assist")]
-    [Tooltip("Adds extra forward force on steep slopes/loops if the player drops below minimum speed.")]
+    [Tooltip("Adds extra forward force on walls/loops if the player drops below minimum speed.")]
     [SerializeField] private bool useLoopAssist = true;
-    [SerializeField] private float loopAssistAngleThreshold = 45f;
     [SerializeField] private float minLoopSpeed = 6f;
     [SerializeField] private float loopAssistForce = 15f;
-    [Tooltip("Only apply loop assist when the ground normal's Y component is at most this value (0 = vertical wall, 1 = flat). Prevents an artificial boost on ordinary ramps.")]
-    [SerializeField, Range(0f, 1f)] private float loopAssistMaxGroundNormalY = 0.5f;
+    [Tooltip("Loop assist only activates when the board's local up Y is at most this value. Ordinary uphill ramps have positive Y, so they are excluded. Walls have Y ~ 0, ceilings have Y < 0.")]
+    [SerializeField, Range(-1f, 1f)] private float loopAssistMaxUpY = 0.05f;
 
     [SerializeField] private TextMeshProUGUI testSpeed;
     [SerializeField] private TextMeshProUGUI testCruise;
 
     private Rigidbody _rigidbody;
     private GroundingEvaluator _grounding;
+    private Camera _camera;
 
     private bool _requested;
     private float _cooldownTimer;
@@ -42,10 +42,12 @@ public class PushModule : MonoBehaviour
 
     public void Initialize(
         Rigidbody rigidbody,
-        GroundingEvaluator grounding)
+        GroundingEvaluator grounding,
+        Camera camera)
     {
         _rigidbody = rigidbody;
         _grounding = grounding;
+        _camera = camera;
     }
 
     public void RequestPush()
@@ -65,11 +67,11 @@ public class PushModule : MonoBehaviour
 
             if (_grounding.IsGrounded && _cooldownTimer <= 0f)
             {
-                Vector3 forward = GetForward();
+                Vector3 thrustDirection = GetThrustDirection();
 
-                if (forward.sqrMagnitude >= 0.001f)
+                if (thrustDirection.sqrMagnitude >= 0.001f)
                 {
-                    ApplyAcceleration(forward);
+                    ApplyAcceleration(thrustDirection);
                     _cooldownTimer = pushCooldown;
                 }
             }
@@ -108,30 +110,30 @@ public class PushModule : MonoBehaviour
         float threshold = cruiseSpeed * coastThreshold;
         if (speed < threshold || speed >= maxSpeed) return;
 
-        Vector3 forward = GetForward();
-        if (forward.sqrMagnitude < 0.001f) return;
+        Vector3 thrustDirection = GetThrustDirection();
+        if (thrustDirection.sqrMagnitude < 0.001f) return;
 
-        _rigidbody.AddForce(coastForce * forward, ForceMode.Acceleration);
+        _rigidbody.AddForce(coastForce * thrustDirection, ForceMode.Acceleration);
     }
 
     private void ApplyLoopAssist()
     {
         if (!useLoopAssist || _grounding == null || !_grounding.IsGrounded) return;
-        if (_grounding.GroundAngle < loopAssistAngleThreshold) return;
 
-        // Avoid giving an unnatural boost on ordinary uphill ramps. Loop assist should only
-        // help on near-vertical walls / loops where the surface normal is mostly horizontal or points down.
-        if (_grounding.GroundNormal.y > loopAssistMaxGroundNormalY) return;
+        // Ordinary ramps always have transform.up.y > 0. Loop assist should only help when the board
+        // is on a wall (up.y ~ 0) or ceiling/overhang (up.y < 0), otherwise it creates an unnatural
+        // uphill boost at the start of riding up a slope.
+        if (transform.up.y > loopAssistMaxUpY) return;
 
-        Vector3 velocity = _rigidbody.velocity;
-        Vector3 groundVelocity = Vector3.ProjectOnPlane(velocity, _grounding.GroundNormal);
-        float speed = groundVelocity.magnitude;
+        Vector3 groundVelocity = Vector3.ProjectOnPlane(_rigidbody.velocity, _grounding.GroundNormal);
+        if (groundVelocity.magnitude >= minLoopSpeed) return;
 
-        if (speed >= minLoopSpeed) return;
-
-        Vector3 forward = GetForward();
-        Vector3 groundForward = Vector3.ProjectOnPlane(forward, _grounding.GroundNormal);
+        Vector3 thrustDirection = GetThrustDirection();
+        Vector3 groundForward = Vector3.ProjectOnPlane(thrustDirection, _grounding.GroundNormal);
         if (groundForward.sqrMagnitude < 0.001f) return;
+
+        // Don't assist if the player is moving substantially against the thrust direction.
+        if (Vector3.Dot(groundVelocity, groundForward) < -0.1f) return;
 
         _rigidbody.AddForce(loopAssistForce * groundForward.normalized, ForceMode.Acceleration);
     }
@@ -140,6 +142,30 @@ public class PushModule : MonoBehaviour
     {
         // Local forward of the tilted board (follows surface slope).
         return transform.forward;
+    }
+
+    private Vector3 GetThrustDirection()
+    {
+        if (_camera == null) return GetForward();
+
+        // Project the camera's look direction onto the board's local plane (spanned by forward/up).
+        // This keeps the comparison valid even when the board is vertical or upside-down.
+        Vector3 cameraForward = ProjectOnBoardPlane(_camera.transform.forward);
+
+        if (cameraForward.sqrMagnitude < 0.0001f)
+            return GetForward();
+
+        float dot = Vector3.Dot(cameraForward.normalized, transform.forward.normalized);
+        return dot >= 0f ? transform.forward : -transform.forward;
+    }
+
+    private Vector3 ProjectOnBoardPlane(Vector3 vector)
+    {
+        Vector3 boardRight = transform.right;
+        if (boardRight.sqrMagnitude < 0.0001f) return vector;
+
+        Vector3 normal = boardRight.normalized;
+        return vector - Vector3.Dot(vector, normal) * normal;
     }
 
     private void UpdateSpeed()

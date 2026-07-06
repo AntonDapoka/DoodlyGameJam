@@ -9,6 +9,7 @@ using UnityEngine;
 public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActor
 {
     [SerializeField] private Transform physicsBody;
+    [SerializeField] private Camera cameraReference;
 
     public Transform PhysicsBodyTransform => physicsBody;
     public Rigidbody Rigidbody { get; private set; }
@@ -44,9 +45,12 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _jump = GetComponent<JumpModule>();
         _grind = GetComponent<GrindModule>();
 
+        if (cameraReference == null)
+            cameraReference = Camera.main;
+
         _grounding.Initialize();
-        _push.Initialize(Rigidbody, _grounding);
-        _turn.Initialize(this, _grounding, Rigidbody);
+        _push.Initialize(Rigidbody, _grounding, cameraReference);
+        _turn.Initialize(this, _grounding, Rigidbody, cameraReference);
         _air.Initialize(this, _grounding, Rigidbody, _jump);
         _jump.Initialize(_grounding, Rigidbody, transform);
         _grind.Initialize(Rigidbody, transform, _grounding, _jump);

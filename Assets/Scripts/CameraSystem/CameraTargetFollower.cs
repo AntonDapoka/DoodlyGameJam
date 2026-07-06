@@ -2,58 +2,66 @@ using UnityEngine;
 
 public class CameraTargetFollower : MonoBehaviour
 {
-    [Tooltip("The transform whose position the camera target should follow (e.g. the Player).")]
+    [Tooltip("The skateboard/controller transform the camera target should follow.")]
     [SerializeField] private Transform target;
 
-    [Tooltip("World-space offset applied to the target position (e.g. camera height).")]
-    [SerializeField] private Vector3 positionOffset;
+    [Header("Offsets")]
+    [Tooltip("World-space offset used on flat ground / small tilts (original smooth camera behavior).")]
+    [SerializeField] private Vector3 flatOffset = new Vector3(0f, 1.25f, 0f);
 
-    [Tooltip("How quickly the target catches up to the player's position. Higher = tighter.")]
-    [SerializeField] private float positionSmoothSpeed = 15f;
+    [Tooltip("Local-space offset used at large tilts. It rotates with the board.")]
+    [SerializeField] private Vector3 loopOffset = new Vector3(0f, 1.5f, 0f);
 
-    [Tooltip("If true, the camera target also copies the yaw of YawReference. Usually keep false for a stable horizon.")]
-    [SerializeField] private bool inheritYaw;
+    [Header("Tilt Blend")]
+    [Tooltip("Angle (degrees) at which the camera switches from flat to loop behavior.")]
+    [SerializeField] private float tiltThreshold = 30f;
 
-    [Tooltip("Reference used for yaw when InheritYaw is true. If null, the target stays upright.")]
-    [SerializeField] private Transform yawReference;
+    [Tooltip("Range around the threshold over which the two modes are blended. 0 = hard switch.")]
+    [SerializeField] private float tiltBlendRange = 10f;
+
+    [Tooltip("How quickly the blend between flat and loop modes changes.")]
+    [SerializeField] private float blendSpeed = 5f;
+
+    [Header("Smoothing")]
+    [Tooltip("How quickly the camera target reaches the computed position. Lower = smoother, higher = tighter.")]
+    [SerializeField] private float positionSmoothSpeed = 25f;
 
     private Vector3 _currentVelocity;
+    private float _currentBlend;
 
     private void Awake()
     {
-        if (target != null)
-        {
-            transform.position = target.position;
-        }
+        if (target == null) return;
 
+        transform.position = target.position + flatOffset;
         transform.rotation = Quaternion.identity;
+        _currentBlend = 0f;
     }
 
     private void Update()
     {
         if (target == null) return;
 
-        Vector3 targetPosition = target.position + positionOffset;
+        UpdateBlend();
+
+        Vector3 flatPosition = target.position + flatOffset;
+        Vector3 loopPosition = target.TransformPoint(loopOffset);
+        Vector3 desiredPosition = Vector3.Lerp(flatPosition, loopPosition, _currentBlend);
+
         float smoothTime = positionSmoothSpeed > 0f ? 1f / positionSmoothSpeed : 0f;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _currentVelocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref _currentVelocity, smoothTime);
 
-        if (inheritYaw && yawReference != null)
-        {
-            Vector3 forward = yawReference.forward;
-            forward.y = 0f;
+        Quaternion desiredRotation = Quaternion.Slerp(Quaternion.identity, target.rotation, _currentBlend);
+        transform.rotation = desiredRotation;
+    }
 
-            if (forward.sqrMagnitude > 0.0001f)
-            {
-                transform.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
-            }
-            else
-            {
-                transform.rotation = Quaternion.identity;
-            }
-        }
-        else
-        {
-            transform.rotation = Quaternion.identity;
-        }
+    private void UpdateBlend()
+    {
+        float angle = Vector3.Angle(target.up, Vector3.up);
+        float halfRange = Mathf.Max(0f, tiltBlendRange * 0.5f);
+        float targetBlend = Mathf.InverseLerp(tiltThreshold - halfRange, tiltThreshold + halfRange, angle);
+        targetBlend = Mathf.Clamp01(targetBlend);
+
+        _currentBlend = Mathf.MoveTowards(_currentBlend, targetBlend, blendSpeed * Time.deltaTime);
     }
 }

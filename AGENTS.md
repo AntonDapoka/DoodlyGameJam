@@ -95,7 +95,7 @@ Assets/Scripts/
 │   ├── Marker/              # GraffitiMarker
 │   ├── Presenter/           # GraffitiPresenterScript
 │   └── View/                # GraffitiViewScript
-├── CameraSystem/            # Camera target smoothing; keeps the follow point upright
+├── CameraSystem/            # Blends between smooth upright offset (small tilts) and fixed local board offset (large tilts / loops)
 │   └── CameraTargetFollower.cs
 ├── Main/                    # EnvironmentInitializer
 ├── NPC&PropsSystem/         # Reusable interactions, look-at-player, BPM pulse
@@ -118,8 +118,8 @@ Assets/Scripts/
 - **Player input:** `ControlsCollection` defines hard-coded `KeyCode`s (W/A/S/D, Space, Q, E, LeftShift). `SkateInputControllerScript` polls input and dispatches `Command` instances (`PushForwardCommand`, `TurnCommand`, `JumpCommand`) against an `ISkateboardActor`.
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
-  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward. Loop assist now only applies on near-vertical walls / loops (ground normal `y <= 0.5`) so it no longer gives an unnatural boost on ordinary uphill ramps.
-  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
+  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward or its reverse, choosing whichever is closer to the camera's facing direction. The comparison is done by projecting the camera's look vector onto the board's local plane, so it stays correct when the board is vertical or upside-down. `SkateboardMovementInteractorScript` passes a `Camera` reference into the module; if none is assigned it falls back to `Camera.main`. Loop assist now only applies when the board is on a wall or ceiling (`transform.up.y <= 0.05`), so ordinary uphill ramps never get an artificial boost.
+  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode. Also maintains a second `cameraFacingIndicator` placed on the board end that is closest to the camera's facing direction.
   - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence blended with the board's local up, optional ceiling/wall jumping, and an optional speed-based force curve.
   - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, and optional orientation control (level to horizontal and/or align to movement direction) with configurable speeds. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
@@ -220,7 +220,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
 3. **Stale/broken references:**
    - `StyleSystem` references `SkateboardMovementInteractorScript` via a serialized field named `playerScript`; if unassigned it will throw at runtime.
    - `ScoreManagementScript` adds score on any W/A/S/D keydown rather than on actual gameplay events.
-4. **Input timing issue:** `SkateInputControllerScript` mixes immediate `Input.GetKeyDown` checks with per-frame command execution. `PushModule` also reads `Input.GetAxisRaw` internally, mixing input responsibilities.
+4. **Input timing issue:** `SkateInputControllerScript` mixes immediate `Input.GetKeyDown` checks with per-frame command execution.
 5. **Unimplemented systems:**
    - `TrickInteractorScript`, `GraffitiHintScript`, and `GrindingScript` are empty or near-empty stubs.
    - `DragModule` is no longer used; it was removed from `SkateboardMovementInteractorScript`.

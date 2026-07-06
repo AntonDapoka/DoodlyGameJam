@@ -22,6 +22,7 @@ public class TurnModule : MonoBehaviour
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
     private Rigidbody _rigidbody;
+    private Camera _camera;
     private Vector3 _smoothedGroundNormal;
 
     public float TurnInput { private get; set; }
@@ -31,15 +32,25 @@ public class TurnModule : MonoBehaviour
     [SerializeField] private float radius;
     private float angleCurrent = 0f;
 
+    [Header("Camera-Facing Indicator")]
+    [Tooltip("Second indicator placed on the end of the board that is closest to the camera's facing direction.")]
+    [SerializeField] private Transform cameraFacingIndicator;
+    [SerializeField] private float cameraFacingIndicatorOffset;
+
     public void Initialize(
         SkateboardMovementInteractorScript controller,
         GroundingEvaluator grounding,
-        Rigidbody rigidbody)
+        Rigidbody rigidbody,
+        Camera camera)
     {
         _controller = controller;
         _grounding = grounding;
         _rigidbody = rigidbody;
+        _camera = camera;
         _smoothedGroundNormal = Vector3.up;
+
+        if (cameraFacingIndicatorOffset <= 0f && radius > 0f)
+            cameraFacingIndicatorOffset = radius;
     }
 
     public void Tick(float deltaTime)
@@ -56,6 +67,7 @@ public class TurnModule : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateIndicator();
+        UpdateCameraFacingIndicator();
     }
 
     
@@ -125,6 +137,8 @@ public class TurnModule : MonoBehaviour
 
     private void UpdateIndicator()
     {
+        if (indicator == null) return;
+
         Vector3 velocityHorizontal = GetHorizontalVelocity();
         velocityHorizontal.Normalize();
 
@@ -133,5 +147,36 @@ public class TurnModule : MonoBehaviour
         Vector3 positionNew = new Vector3(Mathf.Cos(angleCurrent * Mathf.Deg2Rad), 0f, Mathf.Sin(angleCurrent * Mathf.Deg2Rad)) * radius;
 
         indicator.position = transform.position + positionNew;
+    }
+
+    private void UpdateCameraFacingIndicator()
+    {
+        if (cameraFacingIndicator == null || _camera == null) return;
+
+        // Project the camera's look direction onto the board's local plane (spanned by forward/up).
+        // This keeps the comparison valid even when the board is vertical or upside-down.
+        Vector3 cameraForward = ProjectOnBoardPlane(_camera.transform.forward);
+
+        Vector3 chosenEnd;
+        if (cameraForward.sqrMagnitude < 0.0001f)
+        {
+            chosenEnd = transform.forward;
+        }
+        else
+        {
+            float dot = Vector3.Dot(cameraForward.normalized, transform.forward.normalized);
+            chosenEnd = dot >= 0f ? transform.forward : -transform.forward;
+        }
+
+        cameraFacingIndicator.position = transform.position + chosenEnd * cameraFacingIndicatorOffset;
+    }
+
+    private Vector3 ProjectOnBoardPlane(Vector3 vector)
+    {
+        Vector3 boardRight = transform.right;
+        if (boardRight.sqrMagnitude < 0.0001f) return vector;
+
+        Vector3 normal = boardRight.normalized;
+        return vector - Vector3.Dot(vector, normal) * normal;
     }
 }
