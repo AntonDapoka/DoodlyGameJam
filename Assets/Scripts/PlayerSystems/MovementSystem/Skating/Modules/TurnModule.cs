@@ -14,9 +14,15 @@ public class TurnModule : MonoBehaviour
     [Tooltip("Multiplier for tilt smoothing speed based on normalized horizontal speed.")]
     [SerializeField] private AnimationCurve tiltBySpeed = AnimationCurve.Linear(0f, 1f, 1f, 1f);
 
+    [Header("Ground Normal Smoothing")]
+    [Tooltip("If true, the ground normal is smoothed before the board is tilted. Reduces jitter on uneven surfaces.")]
+    [SerializeField] private bool smoothGroundNormal = true;
+    [SerializeField] private float groundNormalSmoothSpeed = 12f;
+
     private SkateboardMovementInteractorScript _controller;
     private GroundingEvaluator _grounding;
     private Rigidbody _rigidbody;
+    private Vector3 _smoothedGroundNormal;
 
     public float TurnInput { private get; set; }
 
@@ -33,6 +39,7 @@ public class TurnModule : MonoBehaviour
         _controller = controller;
         _grounding = grounding;
         _rigidbody = rigidbody;
+        _smoothedGroundNormal = Vector3.up;
     }
 
     public void Tick(float deltaTime)
@@ -70,13 +77,20 @@ public class TurnModule : MonoBehaviour
         if (Mathf.Abs(yawDelta) >= 0.001f)
             currentRotation = Quaternion.AngleAxis(yawDelta, currentRotation * Vector3.up) * currentRotation;
 
+        Vector3 targetNormal = _grounding.GroundNormal;
+        if (smoothGroundNormal)
+        {
+            _smoothedGroundNormal = Vector3.Slerp(_smoothedGroundNormal, targetNormal, groundNormalSmoothSpeed * deltaTime);
+            targetNormal = _smoothedGroundNormal;
+        }
+
         Vector3 desiredForward = currentRotation * Vector3.forward;
-        Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, _grounding.GroundNormal);
+        Vector3 projectedForward = Vector3.ProjectOnPlane(desiredForward, targetNormal);
 
         if (projectedForward.sqrMagnitude < 0.0001f) projectedForward = desiredForward;
 
         projectedForward.Normalize();
-        Quaternion targetRotation = Quaternion.LookRotation(projectedForward, _grounding.GroundNormal);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedForward, targetNormal);
 
         float speed = GetHorizontalVelocity().magnitude;
         float normalizedSpeed = Mathf.Clamp01(speed / Mathf.Max(turnSpeedMax, 0.01f));

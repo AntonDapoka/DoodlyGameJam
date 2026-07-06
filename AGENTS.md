@@ -95,6 +95,8 @@ Assets/Scripts/
 │   ├── Marker/              # GraffitiMarker
 │   ├── Presenter/           # GraffitiPresenterScript
 │   └── View/                # GraffitiViewScript
+├── CameraSystem/            # Camera target smoothing; keeps the follow point upright
+│   └── CameraTargetFollower.cs
 ├── Main/                    # EnvironmentInitializer
 ├── NPC&PropsSystem/         # Reusable interactions, look-at-player, BPM pulse
 │   └── IInteractable.cs     # Core interaction interface
@@ -117,7 +119,7 @@ Assets/Scripts/
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
   - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward. Loop assist now only applies on near-vertical walls / loops (ground normal `y <= 0.5`) so it no longer gives an unnatural boost on ordinary uphill ramps.
-  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
+  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode.
   - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence blended with the board's local up, optional ceiling/wall jumping, and an optional speed-based force curve.
   - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, and optional orientation control (level to horizontal and/or align to movement direction) with configurable speeds. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
@@ -238,7 +240,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: Player
+  - Name: CameraTargetSmooth
   - Tag: Untagged
-  - Layer: 9
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
