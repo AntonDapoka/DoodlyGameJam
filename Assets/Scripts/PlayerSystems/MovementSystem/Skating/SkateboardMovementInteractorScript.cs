@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(GrindModule))]
 [RequireComponent(typeof(AirControlModule))]
 [RequireComponent(typeof(GroundingEvaluator))]
+[RequireComponent(typeof(FrictionModule))]
 public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActor
 {
     [SerializeField] private Transform physicsBody;
@@ -22,6 +23,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
     private AirControlModule _air;
     private JumpModule _jump;
     private GrindModule _grind;
+    private FrictionModule _friction;
 
     private float _turnInput;
     private bool _reverseHeld;
@@ -46,6 +48,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _air = GetComponent<AirControlModule>();
         _jump = GetComponent<JumpModule>();
         _grind = GetComponent<GrindModule>();
+        _friction = GetComponent<FrictionModule>();
 
         if (cameraReference == null) cameraReference = Camera.main;
 
@@ -55,6 +58,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _air.Initialize(this, _grounding, Rigidbody, _jump);
         _jump.Initialize(_grounding, Rigidbody, transform);
         _grind.Initialize(Rigidbody, transform, _grounding, _jump);
+        _friction.Initialize(this, _grounding, Rigidbody);
 
         physicsBody.gameObject.GetComponent<GrindTriggerRelay>().Initialize(_grind);
 
@@ -80,6 +84,7 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _jump.Tick(deltaTime);
         _turn.TurnInput = turnThisFrame;
         _turn.Tick(deltaTime);
+        _friction.Tick(deltaTime);
         _air.TurnInput = turnThisFrame;
         _air.ReverseInput = _reverseHeld;
         _air.ForwardInput = _forwardHeld;

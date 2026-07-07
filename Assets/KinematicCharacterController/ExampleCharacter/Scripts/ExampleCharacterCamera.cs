@@ -12,13 +12,6 @@ namespace KinematicCharacterController.Examples
         public Vector2 FollowPointFraming = new Vector2(0f, 0f);
         public float FollowingSharpness = 10000f;
 
-        [Header("Distance")]
-        public float DefaultDistance = 6f;
-        public float MinDistance = 0f;
-        public float MaxDistance = 10f;
-        public float DistanceMovementSpeed = 5f;
-        public float DistanceMovementSharpness = 10f;
-
         [Header("Rotation")]
         public bool InvertX = false;
         public bool InvertY = false;
@@ -32,41 +25,27 @@ namespace KinematicCharacterController.Examples
         public float RotationSharpness = 10000f;
         public bool RotateWithPhysicsMover = false;
 
-        [Header("Obstruction")]
-        public float ObstructionCheckRadius = 0.2f;
-        public LayerMask ObstructionLayers = -1;
-        public float ObstructionSharpness = 10000f;
-        public List<Collider> IgnoredColliders = new List<Collider>();
+        // Kept for API compatibility with example scripts; distance is fixed at 0.
+        public float DefaultDistance { get; set; } = 6f;
+        public float TargetDistance { get; set; } = 0f;
+        public List<Collider> IgnoredColliders { get; set; } = new List<Collider>();
 
         public Transform Transform { get; private set; }
         public Transform FollowTransform { get; private set; }
 
         public Vector3 PlanarDirection { get; set; }
-        public float TargetDistance { get; set; }
 
-        private bool _distanceIsObstructed;
-        private float _currentDistance;
         private float _targetVerticalAngle;
-        private RaycastHit _obstructionHit;
-        private int _obstructionCount;
-        private RaycastHit[] _obstructions = new RaycastHit[MaxObstructions];
-        private float _obstructionTime;
         private Vector3 _currentFollowPosition;
-
-        private const int MaxObstructions = 32;
 
         void OnValidate()
         {
-            DefaultDistance = Mathf.Clamp(DefaultDistance, MinDistance, MaxDistance);
             DefaultVerticalAngle = Mathf.Clamp(DefaultVerticalAngle, MinVerticalAngle, MaxVerticalAngle);
         }
 
         void Awake()
         {
             Transform = this.transform;
-
-            _currentDistance = DefaultDistance;
-            TargetDistance = _currentDistance;
 
             _targetVerticalAngle = 0f;
 
@@ -108,64 +87,11 @@ namespace KinematicCharacterController.Examples
                 // Apply rotation
                 Transform.rotation = targetRotation;
 
-                // Process distance input
-                if (_distanceIsObstructed && Mathf.Abs(zoomInput) > 0f)
-                {
-                    TargetDistance = _currentDistance;
-                }
-                TargetDistance += zoomInput * DistanceMovementSpeed;
-                TargetDistance = Mathf.Clamp(TargetDistance, MinDistance, MaxDistance);
-
                 // Find the smoothed follow position
                 _currentFollowPosition = Vector3.Lerp(_currentFollowPosition, FollowTransform.position, 1f - Mathf.Exp(-FollowingSharpness * deltaTime));
 
-                // Handle obstructions
-                {
-                    RaycastHit closestHit = new RaycastHit();
-                    closestHit.distance = Mathf.Infinity;
-                    _obstructionCount = Physics.SphereCastNonAlloc(_currentFollowPosition, ObstructionCheckRadius, -Transform.forward, _obstructions, TargetDistance, ObstructionLayers, QueryTriggerInteraction.Ignore);
-                    for (int i = 0; i < _obstructionCount; i++)
-                    {
-                        bool isIgnored = false;
-                        for (int j = 0; j < IgnoredColliders.Count; j++)
-                        {
-                            if (IgnoredColliders[j] == _obstructions[i].collider)
-                            {
-                                isIgnored = true;
-                                break;
-                            }
-                        }
-                        for (int j = 0; j < IgnoredColliders.Count; j++)
-                        {
-                            if (IgnoredColliders[j] == _obstructions[i].collider)
-                            {
-                                isIgnored = true;
-                                break;
-                            }
-                        }
-
-                        if (!isIgnored && _obstructions[i].distance < closestHit.distance && _obstructions[i].distance > 0)
-                        {
-                            closestHit = _obstructions[i];
-                        }
-                    }
-
-                    // If obstructions detecter
-                    if (closestHit.distance < Mathf.Infinity)
-                    {
-                        _distanceIsObstructed = true;
-                        _currentDistance = Mathf.Lerp(_currentDistance, closestHit.distance, 1 - Mathf.Exp(-ObstructionSharpness * deltaTime));
-                    }
-                    // If no obstruction
-                    else
-                    {
-                        _distanceIsObstructed = false;
-                        _currentDistance = Mathf.Lerp(_currentDistance, TargetDistance, 1 - Mathf.Exp(-DistanceMovementSharpness * deltaTime));
-                    }
-                }
-
-                // Find the smoothed camera orbit position
-                Vector3 targetPosition = _currentFollowPosition - ((targetRotation * Vector3.forward) * _currentDistance);
+                // Camera stays at the follow point (Distance = 0)
+                Vector3 targetPosition = _currentFollowPosition;
 
                 // Handle framing
                 targetPosition += Transform.right * FollowPointFraming.x;

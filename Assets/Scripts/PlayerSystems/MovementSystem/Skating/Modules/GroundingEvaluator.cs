@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class GroundingEvaluator : MonoBehaviour
 {
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private Transform frontGroundCheck;
-    [SerializeField] private Transform backGroundCheck;
+    public bool IsGrounded;
+
+    [SerializeField] private Transform groundCheckFront;
+    [SerializeField] private Transform groundCheckCenter;
+    [SerializeField] private Transform groundCheckBack;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float groundDistance = 0.3f;
     [SerializeField] private float raycastExtraDistance = 0.3f;
     [SerializeField] private bool showGizmos = true;
 
-    public bool IsGrounded;
     public Vector3 GroundNormal { get; private set; }
     public float GroundAngle { get; private set; }
     public RaycastHit GroundHit { get; private set; }
@@ -23,13 +24,13 @@ public class GroundingEvaluator : MonoBehaviour
 
     public void Evaluate(float deltaTime)
     {
-        if (groundCheck == null)
+        if (groundCheckCenter == null)
         {
             ResetState();
             return;
         }
 
-        IsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
+        IsGrounded = Physics.CheckSphere(groundCheckCenter.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
 
         if (!IsGrounded)
         {
@@ -44,9 +45,9 @@ public class GroundingEvaluator : MonoBehaviour
         RaycastHit closestHit = default;
         float closestDistance = float.MaxValue;
 
-        TryProbe(groundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(frontGroundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(backGroundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(groundCheckCenter, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(groundCheckFront, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(groundCheckBack, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
 
         if (hitCount > 0)
         {
@@ -96,13 +97,13 @@ public class GroundingEvaluator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!showGizmos || groundCheck == null) return;
+        if (!showGizmos || groundCheckCenter == null) return;
 
         float maxDistance = groundDistance + raycastExtraDistance;
 
-        DrawProbeGizmos(groundCheck, maxDistance);
-        DrawProbeGizmos(frontGroundCheck, maxDistance);
-        DrawProbeGizmos(backGroundCheck, maxDistance);
+        DrawProbeGizmos(groundCheckCenter, maxDistance);
+        DrawProbeGizmos(groundCheckFront, maxDistance);
+        DrawProbeGizmos(groundCheckBack, maxDistance);
 
         if (IsGrounded && GroundHit.collider != null)
         {
@@ -118,7 +119,7 @@ public class GroundingEvaluator : MonoBehaviour
 
         Vector3 origin = probe.position;
 
-        bool isMain = probe == groundCheck;
+        bool isMain = probe == groundCheckCenter;
 
         Color rayColor = IsGrounded ? Color.cyan : Color.yellow;
         Color localColor = IsGrounded ? Color.green : Color.magenta;

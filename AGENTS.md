@@ -119,7 +119,8 @@ Assets/Scripts/
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
   - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward or its reverse, choosing whichever is closer to the camera's facing direction. The comparison is done by projecting the camera's look vector onto the board's local plane, so it stays correct when the board is vertical or upside-down. `SkateboardMovementInteractorScript` passes a `Camera` reference into the module; if none is assigned it falls back to `Camera.main`. Loop assist now only applies when the board is on a wall or ceiling (`transform.up.y <= 0.05`), so ordinary uphill ramps never get an artificial boost.
-  - `TurnModule` — yaw rotation around the board's local up, side-friction/drift adjustment, and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode. Also maintains a second `cameraFacingIndicator` placed on the board end that is closest to the camera's facing direction.
+  - `TurnModule` — yaw rotation around the board's local up and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode. Also maintains a second `cameraFacingIndicator` placed on the board end that is closest to the camera's facing direction.
+  - `FrictionModule` — side-friction reduction and configurable planar deceleration while grounded (rolling resistance).
   - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence blended with the board's local up, optional ceiling/wall jumping, and an optional speed-based force curve.
   - `AirControlModule` — applies airborne steering, yaw turning, enhanced fall/low-jump gravity, air drag, and optional orientation control (level to horizontal and/or align to movement direction) with configurable speeds. Tracks air time for style scoring.
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
@@ -234,7 +235,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
 - Project name: DoodlyGameJam
 - Unity version: Unity 2022.3.62f3
 - Active scene:
-  - Name: CharacterPlayground
+  - Name: TownScene
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:

@@ -35338,7 +35338,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 561820986}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &397163473
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88112,7 +88112,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 338187656}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &641192063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -235547,7 +235547,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 468117949}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &1451389251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -255162,7 +255162,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 1421881437}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &1631939992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -281005,7 +281005,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 1409851534}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &1937411937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -286880,7 +286880,7 @@ MonoBehaviour:
   _graffitiPresenter: {fileID: 1363519893}
   _objectGraffitiHint: {fileID: 1318191603}
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
+  _graffitiType: 0
 --- !u!65 &2033014282
 BoxCollider:
   m_ObjectHideFlags: 0

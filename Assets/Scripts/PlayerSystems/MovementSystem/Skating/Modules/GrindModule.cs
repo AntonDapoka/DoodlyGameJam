@@ -140,8 +140,6 @@ public class GrindModule : MonoBehaviour
         _wasKinematic = _rigidbody.isKinematic;
         _wasUsingGravity = _rigidbody.useGravity;
 
-        // Zero velocity before making the body kinematic; assigning velocity/angularVelocity
-        // on a kinematic body is not supported and logs a warning.
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
         _rigidbody.isKinematic = true;

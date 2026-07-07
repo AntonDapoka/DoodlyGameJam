@@ -4,7 +4,6 @@ public class TurnModule : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float turnTorque = 180f;
-    [SerializeField] private float sideFriction = 5f;
     [SerializeField] private AnimationCurve turnTorqueBySpeed;
 
     [Header("Surface Tilt")]
@@ -49,9 +48,7 @@ public class TurnModule : MonoBehaviour
         float yawDelta = CalculateTurnAngle(planarVelocity, deltaTime);
 
         ApplyTilt(yawDelta, planarVelocity, deltaTime);
-        ApplyVelocity(planarVelocity, deltaTime);
     }
-
 
     private void LateUpdate()
     {
@@ -104,15 +101,6 @@ public class TurnModule : MonoBehaviour
         float tiltMultiplier = tiltBySpeed.Evaluate(normalizedSpeed);
 
         _controller.transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, tiltSmoothSpeed * tiltMultiplier * deltaTime);
-    }
-
-    private void ApplyVelocity(Vector3 planarVelocity, float deltaTime)
-    {
-        Vector3 velocity = _rigidbody.velocity;
-        Vector3 sideVelocity = Vector3.Project(planarVelocity, _controller.transform.right);
-
-        velocity -= deltaTime * sideFriction * sideVelocity;
-        _rigidbody.velocity = velocity;
     }
 
     private Vector3 GetPlanarVelocity()

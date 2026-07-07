@@ -89858,6 +89858,7 @@ GameObject:
   - component: {fileID: 6615662580611611659}
   - component: {fileID: 6615662580611611657}
   - component: {fileID: 6615662580611611655}
+  - component: {fileID: 9000000000000000004}
   - component: {fileID: 6615662580611611651}
   - component: {fileID: 6615662580611611652}
   - component: {fileID: 6615662580611611650}
@@ -90053,7 +90054,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnTorque: 75
-  sideFriction: 4.5
   turnTorqueBySpeed:
     serializedVersion: 2
     m_Curve:
@@ -90074,48 +90074,6 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  driftByTurnInput:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.15346693
-      outSlope: 0.15346693
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6404976
-      value: 0.0982952
-      inSlope: 0.23088114
-      outSlope: 0.23088114
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.18236062
-    - serializedVersion: 3
-      time: 0.90342754
-      value: 0.519698
-      inSlope: 3.2881038
-      outSlope: 3.2881038
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 4.9734883
-      outSlope: 4.9734883
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -90171,7 +90129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b780f21817184a9679ea735eb7c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 50
+  acceleration: 75
   maxSpeed: 75
   pushCooldown: 0.1
   pushForceBySpeed:
@@ -90211,16 +90169,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9270fe95c18a21346ad54686801c6110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheck: {fileID: 1744936127}
-  frontGroundCheck: {fileID: 705695740}
-  backGroundCheck: {fileID: 710863455}
+  IsGrounded: 0
+  groundCheckFront: {fileID: 705695740}
+  groundCheckCenter: {fileID: 1744936127}
+  groundCheckBack: {fileID: 710863455}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   groundDistance: 0.76
   raycastExtraDistance: 0.3
   showGizmos: 1
-  IsGrounded: 0
 --- !u!114 &6615662580611611660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90286,6 +90244,21 @@ MonoBehaviour:
   tiltBlendRange: 19
   blendSpeed: 3
   positionSmoothSpeed: 100
+--- !u!114 &9000000000000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6508550501183087756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f081695b05014ea390df130cbc524a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundedDeceleration: 2.25
+  decelerationMinSpeed: 0.025
+  sideFriction: 3.75
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

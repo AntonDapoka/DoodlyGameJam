@@ -11,16 +11,12 @@ namespace KinematicCharacterController.Examples
 
         private const string MouseXInput = "Mouse X";
         private const string MouseYInput = "Mouse Y";
-        private const string MouseScrollInput = "Mouse ScrollWheel";
 
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
 
             CharacterCamera.SetFollowTransform(cameraFollowPoint);
-
-            CharacterCamera.IgnoredColliders.Clear();
-            CharacterCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
         }
 
         private void Update()
@@ -42,19 +38,8 @@ namespace KinematicCharacterController.Examples
 
             if (Cursor.lockState != CursorLockMode.Locked) lookInputVector = Vector3.zero;
 
-            float scrollInput = -Input.GetAxis(MouseScrollInput);
-#if UNITY_WEBGL
-        scrollInput = 0f;
-#endif
-
-            // Apply inputs to the camera
-            CharacterCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
-
-            // Handle toggling zoom level
-            if (Input.GetMouseButtonDown(1))
-            {
-                CharacterCamera.TargetDistance = (CharacterCamera.TargetDistance == 0f) ? CharacterCamera.DefaultDistance : 0f;
-            }
+            // Apply inputs to the camera (zoom is ignored; distance is fixed at 0)
+            CharacterCamera.UpdateWithInput(Time.deltaTime, 0f, lookInputVector);
         }
     }
 }
