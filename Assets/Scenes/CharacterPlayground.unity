@@ -2965,10 +2965,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -9430,6 +9430,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &351380322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351380323}
+  m_Layer: 9
+  m_Name: Holder Compases
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &351380323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351380322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1551738472}
+  - {fileID: 1730999570}
+  m_Father: {fileID: 6505057340831361182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &354849234
 GameObject:
   m_ObjectHideFlags: 0
@@ -18696,7 +18729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705695740}
   m_Layer: 9
-  m_Name: GroundCheck (2)
+  m_Name: GroundCheckFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18715,7 +18748,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6505057340831361182}
+  m_Father: {fileID: 1469274993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705725800
 GameObject:
@@ -18937,7 +18970,7 @@ GameObject:
   m_Component:
   - component: {fileID: 710863455}
   m_Layer: 9
-  m_Name: GroundCheck (1)
+  m_Name: GroundCheckBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18956,7 +18989,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6505057340831361182}
+  m_Father: {fileID: 1469274993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &711829065
 GameObject:
@@ -72233,6 +72266,40 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465824954}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1469274992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469274993}
+  m_Layer: 9
+  m_Name: Holder GroundChecks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1469274993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469274992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 705695740}
+  - {fileID: 1744936127}
+  - {fileID: 710863455}
+  m_Father: {fileID: 6505057340831361182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1477484566
 GameObject:
   m_ObjectHideFlags: 0
@@ -73571,12 +73638,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551738471}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6505057340831361182}
+  m_Father: {fileID: 351380323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1551738474
 MeshRenderer:
@@ -78064,12 +78131,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730999569}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.13}
-  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6505057340831361182}
+  m_Father: {fileID: 351380323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1730999572
 MeshRenderer:
@@ -78341,7 +78408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1744936127}
   m_Layer: 9
-  m_Name: GroundCheck
+  m_Name: GroundCheckCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78356,11 +78423,11 @@ Transform:
   m_GameObject: {fileID: 1744936126}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6505057340831361182}
+  m_Father: {fileID: 1469274993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744944225
 GameObject:
@@ -89773,11 +89840,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330339264}
-  - {fileID: 1744936127}
-  - {fileID: 710863455}
-  - {fileID: 705695740}
-  - {fileID: 1551738472}
-  - {fileID: 1730999570}
+  - {fileID: 1469274993}
+  - {fileID: 351380323}
   - {fileID: 9000000000000000002}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89891,7 +89955,6 @@ MonoBehaviour:
   jumpBufferWindow: 0.1
   minGroundNormalDot: 0.65
   allowJumpOnCeiling: 1
-  allowCoyoteJump: 1
   addForwardBoost: 0
   forwardBoostBase: 1.23
   forwardBoostSpeedFactor: 0.1
@@ -89989,9 +90052,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0833e20e99173b4fbd9500c04ce3ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnTorque: 100
-  turnSpeedMax: 20
-  sideFriction: 7
+  turnTorque: 75
+  sideFriction: 4.5
   turnTorqueBySpeed:
     serializedVersion: 2
     m_Curve:
@@ -90058,6 +90120,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  groundNormalSmoothSpeed: 12
   tiltSmoothSpeed: 800
   tiltBySpeed:
     serializedVersion: 2
@@ -90092,12 +90155,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  smoothGroundNormal: 1
-  groundNormalSmoothSpeed: 12
-  indicator: {fileID: 1551738472}
-  radius: 1
-  cameraFacingIndicator: {fileID: 1730999570}
-  cameraFacingIndicatorOffset: 0
+  indicatorMoving: {fileID: 1551738472}
+  radiusIndicatorMoving: 1
+  indicatorFacing: {fileID: 1730999570}
+  radiusIndicatorMovingFacing: 1.1
 --- !u!114 &6615662580611611657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90110,11 +90171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b780f21817184a9679ea735eb7c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 125
-  maxSpeed: 350
-  cruiseSpeed: 100
+  acceleration: 50
+  maxSpeed: 75
   pushCooldown: 0.1
-  isCruise: 1
   pushForceBySpeed:
     serializedVersion: 2
     m_Curve:
@@ -90139,14 +90198,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  coastForce: 4
-  coastThreshold: 0.902
-  useLoopAssist: 1
-  minLoopSpeed: 6
-  loopAssistForce: 15
-  loopAssistMaxUpY: 0.05
   testSpeed: {fileID: 1314721710}
-  testCruise: {fileID: 914605681}
 --- !u!114 &6615662580611611659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90194,7 +90246,7 @@ GameObject:
   - component: {fileID: 9000000000000000002}
   - component: {fileID: 9000000000000000003}
   m_Layer: 0
-  m_Name: CameraTargetSmooth
+  m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

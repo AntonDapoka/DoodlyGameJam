@@ -18,6 +18,7 @@ public class GroundingEvaluator : MonoBehaviour
     public void Initialize()
     {
         GroundNormal = Vector3.up;
+        ResetState();
     }
 
     public void Evaluate(float deltaTime)
@@ -28,11 +29,7 @@ public class GroundingEvaluator : MonoBehaviour
             return;
         }
 
-        IsGrounded = Physics.CheckSphere(
-            groundCheck.position,
-            groundDistance,
-            groundMask,
-            QueryTriggerInteraction.Ignore);
+        IsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
 
         if (!IsGrounded)
         {
@@ -42,16 +39,14 @@ public class GroundingEvaluator : MonoBehaviour
 
         float maxDistance = groundDistance + raycastExtraDistance;
 
-        // Average normals from multiple probes so seams and sharp transitions don't break grounding.
         Vector3 normalSum = Vector3.zero;
-        Vector3 pointSum = Vector3.zero;
         int hitCount = 0;
         RaycastHit closestHit = default;
         float closestDistance = float.MaxValue;
 
-        TryProbe(groundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(frontGroundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
-        TryProbe(backGroundCheck, maxDistance, groundMask, ref normalSum, ref pointSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(groundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(frontGroundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
+        TryProbe(backGroundCheck, maxDistance, groundMask, ref normalSum, ref hitCount, ref closestHit, ref closestDistance);
 
         if (hitCount > 0)
         {
@@ -69,7 +64,6 @@ public class GroundingEvaluator : MonoBehaviour
         float maxDistance,
         LayerMask mask,
         ref Vector3 normalSum,
-        ref Vector3 pointSum,
         ref int hitCount,
         ref RaycastHit closestHit,
         ref float closestDistance)
@@ -78,12 +72,10 @@ public class GroundingEvaluator : MonoBehaviour
 
         Vector3 origin = probe.position;
 
-        // Try board-relative down first (correct when upside-down), then world-down fallback.
-        if (TryRaycast(origin, -transform.up, maxDistance, mask, out RaycastHit hit) ||
-            TryRaycast(origin, Vector3.down, maxDistance, mask, out hit))
+        if (Physics.Raycast(origin, -transform.up, out RaycastHit hit, maxDistance, mask, QueryTriggerInteraction.Ignore) ||
+            Physics.Raycast(origin, Vector3.down, out hit, maxDistance, mask, QueryTriggerInteraction.Ignore))
         {
             normalSum += hit.normal;
-            pointSum += hit.point;
             hitCount++;
 
             if (hit.distance < closestDistance)
@@ -92,11 +84,6 @@ public class GroundingEvaluator : MonoBehaviour
                 closestHit = hit;
             }
         }
-    }
-
-    private bool TryRaycast(Vector3 origin, Vector3 direction, float maxDistance, LayerMask mask, out RaycastHit hit)
-    {
-        return Physics.Raycast(origin, direction, out hit, maxDistance, mask, QueryTriggerInteraction.Ignore);
     }
 
     private void ResetState()
@@ -132,24 +119,17 @@ public class GroundingEvaluator : MonoBehaviour
         Vector3 origin = probe.position;
 
         bool isMain = probe == groundCheck;
-        Gizmos.color = IsGrounded ? Color.green : Color.red;
-        if (isMain)
-            Gizmos.DrawWireSphere(origin, groundDistance);
 
-        Gizmos.color = IsGrounded ? Color.cyan : Color.yellow;
+        Color rayColor = IsGrounded ? Color.cyan : Color.yellow;
+        Color localColor = IsGrounded ? Color.green : Color.magenta;
+        
+        Gizmos.color = localColor;
+        if (isMain) Gizmos.DrawWireSphere(origin, groundDistance);
+
+        Gizmos.color = rayColor;
         Gizmos.DrawRay(origin, -transform.up * maxDistance);
 
-        Gizmos.color = IsGrounded ? Color.green : Color.magenta;
+        Gizmos.color = localColor;
         Gizmos.DrawRay(origin, Vector3.down * maxDistance);
-    }
-
-    private void OnValidate()
-    {
-        if (groundMask == 0)
-        {
-            Debug.LogWarning(
-                $"[{nameof(GroundingEvaluator)}] groundMask is not set on '{gameObject.name}'. Ground detection will not work.",
-                this);
-        }
     }
 }

@@ -240,7 +240,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: CameraTargetSmooth
+  - Name: Floor
   - Tag: Untagged
-  - Layer: Default
+  - Layer: Ground
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
