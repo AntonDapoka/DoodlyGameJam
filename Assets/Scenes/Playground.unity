@@ -89661,11 +89661,6 @@ MonoBehaviour:
   Camera: {fileID: 5553693056096936871}
   FollowPointFraming: {x: 0, y: 0}
   FollowingSharpness: 1e+9
-  DefaultDistance: 6
-  MinDistance: 0
-  MaxDistance: 10
-  DistanceMovementSpeed: 5
-  DistanceMovementSharpness: 10
   InvertX: 0
   InvertY: 0
   DefaultVerticalAngle: 20
@@ -89674,12 +89669,6 @@ MonoBehaviour:
   RotationSpeed: 1.3
   RotationSharpness: 10000
   RotateWithPhysicsMover: 0
-  ObstructionCheckRadius: 0.2
-  ObstructionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  ObstructionSharpness: 10000
-  IgnoredColliders: []
 --- !u!124 &5543738659990719153
 Behaviour:
   m_ObjectHideFlags: 0
