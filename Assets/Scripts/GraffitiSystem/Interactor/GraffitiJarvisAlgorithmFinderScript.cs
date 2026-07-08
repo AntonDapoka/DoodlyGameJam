@@ -29,11 +29,7 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
             var hull = ConvexHullXZ(positions);
             float perimeter = CalculatePerimeter(hull);
 
-            if (perimeter <= maxPerimeter && perimeter >= minPerimeter)
-            {
-                //Debug.Log(perimeter);
-                return subset;
-            }
+            if (perimeter <= maxPerimeter && perimeter >= minPerimeter) return subset;
         }
         Debug.Log("WHAT THE FUCK IS A PEREMITAAAAAAAAAAAR *gunshots* *gunshots* *gunshots* *eagle*");
         return null;

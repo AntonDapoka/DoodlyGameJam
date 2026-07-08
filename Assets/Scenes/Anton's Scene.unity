@@ -218515,6 +218515,7 @@ MonoBehaviour:
   - {fileID: 913998440, guid: dcc3ba28837f49d43a83645c07002849, type: 3}
   - {fileID: 1762235500, guid: dcc3ba28837f49d43a83645c07002849, type: 3}
   _graffitiView: {fileID: 2038322416}
+  _sprayPaintUI: {fileID: 1985313889}
   _graffitiJingleSound: {fileID: 8300000, guid: e50aed4ac8527b6438d78ce769cef26e, type: 3}
 --- !u!43 &1364747736
 Mesh:

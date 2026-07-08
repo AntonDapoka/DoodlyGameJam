@@ -98,6 +98,12 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
         _push.RequestPush();
     }
 
+    public void PushBackward()
+    {
+        if (IsGrinding) return;
+        _push.RequestPushBackward();
+    }
+
     public void Turn(float direction)
     {
         if (IsGrinding) return;

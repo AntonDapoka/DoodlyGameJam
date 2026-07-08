@@ -1,6 +1,7 @@
 public interface ISkateboardActor
 {
     void Push();
+    void PushBackward();
     void Turn(float direction);
     void Jump();
 

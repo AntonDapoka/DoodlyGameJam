@@ -121,6 +121,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2802347317214697025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1609065953419571647}
+  m_Layer: 0
+  m_Name: GraffitiCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1609065953419571647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802347317214697025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5935202268443920772}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4690281779277256769
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +186,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6211525212690989746}
+  - {fileID: 1609065953419571647}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1769302970637327405
@@ -221,11 +253,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb5c3a2dbd31e549a1cbb575979b2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graffitiManagementInteractor: {fileID: 0}
-  _graffitiPresenter: {fileID: 0}
   _objectGraffitiHint: {fileID: 2615593072850847}
+  _collider: {fileID: 2567096477137950961}
+  graffitiCenter: {fileID: 1609065953419571647}
+  completionCurrent: 0
+  completionMax: 700
+  _fillMultiplier: 100
+  _maxFillDistance: 6
+  _distanceCurvePower: 5
+  _speedMultiplierMin: 3
+  _resetSpeed: 130
   _isTurnOn: 0
-  _isGraffitiPlayer: 0
 --- !u!136 &2567096477137950961
 CapsuleCollider:
   m_ObjectHideFlags: 0

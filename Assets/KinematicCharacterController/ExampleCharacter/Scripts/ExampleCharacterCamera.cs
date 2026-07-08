@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,10 +44,8 @@ namespace KinematicCharacterController.Examples
 
         void Awake()
         {
-            Transform = this.transform;
-
+            Transform = transform;
             _targetVerticalAngle = 0f;
-
             PlanarDirection = Vector3.forward;
         }
 
@@ -64,22 +61,15 @@ namespace KinematicCharacterController.Examples
         {
             if (FollowTransform)
             {
-                if (InvertX)
-                {
-                    rotationInput.x *= -1f;
-                }
-                if (InvertY)
-                {
-                    rotationInput.y *= -1f;
-                }
+                if (InvertX) rotationInput.x *= -1f;
+                if (InvertY) rotationInput.y *= -1f;
 
-                // Process rotation input
                 Quaternion rotationFromInput = Quaternion.Euler(FollowTransform.up * (rotationInput.x * RotationSpeed));
                 PlanarDirection = rotationFromInput * PlanarDirection;
                 PlanarDirection = Vector3.Cross(FollowTransform.up, Vector3.Cross(PlanarDirection, FollowTransform.up));
                 Quaternion planarRot = Quaternion.LookRotation(PlanarDirection, FollowTransform.up);
 
-                _targetVerticalAngle -= (rotationInput.y * RotationSpeed);
+                _targetVerticalAngle -= rotationInput.y * RotationSpeed;
                 _targetVerticalAngle = Mathf.Clamp(_targetVerticalAngle, MinVerticalAngle, MaxVerticalAngle);
                 Quaternion verticalRot = Quaternion.Euler(_targetVerticalAngle, 0, 0);
                 Quaternion targetRotation = Quaternion.Slerp(Transform.rotation, planarRot * verticalRot, 1f - Mathf.Exp(-RotationSharpness * deltaTime));

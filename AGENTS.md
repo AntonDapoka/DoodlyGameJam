@@ -105,6 +105,7 @@ Assets/Scripts/
 │   └── Marker/
 └── PlayerSystems/           # Everything player-related
     ├── Controller/          # Input mapping, commands, input reader
+    ├── Marker/              # Player marker used by graffiti triggers
     ├── MovementSystem/
     │   ├── Grinding/
     │   ├── Skating/         # Modular Rigidbody-based controller
@@ -115,10 +116,10 @@ Assets/Scripts/
 
 ### Main gameplay systems
 
-- **Player input:** `ControlsCollection` defines hard-coded `KeyCode`s (W/A/S/D, Space, Q, E, LeftShift). `SkateInputControllerScript` polls input and dispatches `Command` instances (`PushForwardCommand`, `TurnCommand`, `JumpCommand`) against an `ISkateboardActor`.
+- **Player input:** `ControlsCollection` defines hard-coded `KeyCode`s (W/A/S/D, Space, Q, E, LeftShift). `SkateInputControllerScript` polls input and dispatches `Command` instances (`PushForwardCommand`, `PushBackwardCommand`, `TurnCommand`, `JumpCommand`) against an `ISkateboardActor`.
 - **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
-  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward or its reverse, choosing whichever is closer to the camera's facing direction. The comparison is done by projecting the camera's look vector onto the board's local plane, so it stays correct when the board is vertical or upside-down. `SkateboardMovementInteractorScript` passes a `Camera` reference into the module; if none is assigned it falls back to `Camera.main`. Loop assist now only applies when the board is on a wall or ceiling (`transform.up.y <= 0.05`), so ordinary uphill ramps never get an artificial boost.
+  - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward or its reverse, choosing whichever is closer to the camera's facing direction. `PushBackwardCommand` (bound to S) uses the same logic but applies force in the opposite direction, so the player is pushed away from where the camera is facing. The comparison is done by projecting the camera's look vector onto the board's local plane, so it stays correct when the board is vertical or upside-down. `SkateboardMovementInteractorScript` passes a `Camera` reference into the module; if none is assigned it falls back to `Camera.main`. Loop assist now only applies when the board is on a wall or ceiling (`transform.up.y <= 0.05`), so ordinary uphill ramps never get an artificial boost.
   - `TurnModule` — yaw rotation around the board's local up and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode. Also maintains a second `cameraFacingIndicator` placed on the board end that is closest to the camera's facing direction.
   - `FrictionModule` — side-friction reduction and configurable planar deceleration while grounded (rolling resistance).
   - `JumpModule` — handles jump requests with configurable force, coyote time, jump buffering, forward boost, ground-normal influence blended with the board's local up, optional ceiling/wall jumping, and an optional speed-based force curve.
@@ -126,10 +127,11 @@ Assets/Scripts/
   - `DragModule` — empty `Tick` (removed from the controller; no longer instantiated).
 - **Tricks:** `TrickType` enum defines `Kickflip`, `Ollie`, `ThreeSixty`. `TrickInteractorScript` is an empty stub and not wired into input.
 - **Grinding:** `GrindableMarker` tags rail-capture triggers spawned by Unity Splines `Items To Instantiate`. `SplineGrindRailSetup` links markers to their `SplineContainer`. `GrindTriggerRelay` (added to the physics body at runtime) forwards trigger events to `GrindModule`. `GrindModule` latches the player onto the rail while airborne, preserves the landing orientation, moves them along the spline with configurable `landingBoost`, `grindAcceleration`, `maxGrindSpeed`, `uphillResistance`, `downhillAcceleration`, and `exitBoost`, and exits on jump or at the spline end.
-- **Score/Style:** `ScoreManagementScript` awards score on W/A/S/D keydowns and drives `SprayPaintUIScript`. `StyleSystem` maintains static global multiplier/refill/increment values and reads the player's grounded/grinding state.
-- **Graffiti:** `GraffitiInitializerScript` seeds initial opponent spots using a convex-hull (Jarvis march) perimeter check. `GraffitiManagementInteractorScript` tracks valid/active spots. `GraffitiScript` implements `IInteractable` for player reclaiming.
+- **Score/Style:** `StyleSystem` maintains static global multiplier/refill/increment values and reads the player's grounded/grinding state.
+- **Graffiti:** `GraffitiInitializerScript` seeds initial opponent spots using a convex-hull (Jarvis march) perimeter check. `GraffitiManagementInteractorScript` tracks valid/active spots. `GraffitiScript` acts as the model: it owns a trigger `CapsuleCollider`, fills `completionCurrent` while an object with `PlayerMarker` is inside and has line-of-sight to `graffitiCenter`, and raises events (`OnInteractionStarted`, `OnInteractionEnded`, `OnInteractionReset`, `OnProgressChanged`, `OnCompleted`, `OnStateChanged`). When the player leaves the trigger, `completionCurrent` drains gradually; the UI stays visible until it reaches 0, then `OnInteractionReset` fires and the UI hides.
+- **Graffiti presentation (Clean Architecture):** `GraffitiPresenterScript` is a singleton presenter that registers all graffiti models, receives their events, and coordinates the views. `GraffitiViewScript` is a pure world view that only sets graffiti sprites and plays the completion sound. `SprayPaintUIScript` is a pure UI view driven by the presenter: it starts off-screen, animates in when interaction starts, displays a deterministic sprite sequence (`spritesBasic` → `spritesSpraying` → `spritesSuper`) matching the current graffiti's completion percent, stays visible briefly at 100%, then animates out. Switching between graffiti resets UI state to the new model, preventing stale completion or animations from leaking across objects.
 - **Opponent:** `OpponentInteractorScript` picks target graffiti spots and moves toward them to convert them back to opponent graffiti.
-- **Interaction:** `ObjectInteractionScript` raycasts on the `E` key and calls `Interact()` on any `IInteractable`.
+- **Interaction:** Reclaiming graffiti is handled directly by `GraffitiScript` through trigger collisions with objects tagged by `PlayerMarker`; the old `ObjectInteractionScript` + `IInteractable` raycast flow is no longer used.
 - **Compass HUD:** `CompassUIScript` tracks world targets marked with `GraffitiMarker` or `OpponentMarker`.
 
 ## Build and Run
@@ -190,7 +192,8 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
 | Action | Key |
 |---|---|
 | Forward | W |
-| Backward | S |
+| Backward (push) | S (press) |
+| Backward (air/held) | S (hold) |
 | Left | A |
 | Right | D |
 | Jump | Space |
@@ -235,13 +238,13 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
 - Project name: DoodlyGameJam
 - Unity version: Unity 2022.3.62f3
 - Active scene:
-  - Name: TownScene
+  - Name: Graffiti
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: Player
+  - Name: Graffiti
   - Tag: Untagged
-  - Layer: 9
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

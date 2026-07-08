@@ -17112,6 +17112,7 @@ GameObject:
   - component: {fileID: 640362231}
   - component: {fileID: 640362229}
   - component: {fileID: 640362233}
+  - component: {fileID: 640362234}
   m_Layer: 9
   m_Name: PhysicsBody
   m_TagString: Untagged
@@ -17217,6 +17218,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ca136c37f8ae5a4b989e94d74f29d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &640362234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640362224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea25526166874dbd86d2f9a58f59bf8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &641625501
@@ -84456,6 +84469,7 @@ MonoBehaviour:
   - {fileID: 907147104, guid: ff2dbb9f841b15046b0bf97b365ef6aa, type: 3}
   - {fileID: -1731084417, guid: ff2dbb9f841b15046b0bf97b365ef6aa, type: 3}
   _graffitiView: {fileID: 286631716}
+  _sprayPaintUI: {fileID: 619840496}
   _graffitiJingleSound: {fileID: 8300000, guid: e50aed4ac8527b6438d78ce769cef26e, type: 3}
 --- !u!1 &1981480888
 GameObject:

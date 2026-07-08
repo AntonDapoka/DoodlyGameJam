@@ -17,6 +17,7 @@ public class PushModule : MonoBehaviour
     private GroundingEvaluator _grounding;
     private Camera _camera;
     private bool _requested;
+    private bool _backwardRequested;
     private float _cooldownTimer;
 
     public float CurrentSpeed { get; private set; }
@@ -36,6 +37,11 @@ public class PushModule : MonoBehaviour
         _requested = true;
     }
 
+    public void RequestPushBackward()
+    {
+        _backwardRequested = true;
+    }
+
     public void Tick(float deltaTime)
     {
         #if UNITY_EDITOR
@@ -46,13 +52,14 @@ public class PushModule : MonoBehaviour
 
         UpdateSpeed();
 
-        if (!_requested) return;
-
+        bool forwardPush = _requested;
+        bool backwardPush = _backwardRequested;
         _requested = false;
+        _backwardRequested = false;
 
-        if (!_grounding.IsGrounded || _cooldownTimer > 0f) return;
+        if ((!forwardPush && !backwardPush) || !_grounding.IsGrounded || _cooldownTimer > 0f) return;
 
-        Vector3 direction = GetThrustDirection();
+        Vector3 direction = backwardPush ? GetBackwardThrustDirection() : GetThrustDirection();
 
         if (direction.sqrMagnitude < EPSILON) return;
 
@@ -79,6 +86,12 @@ public class PushModule : MonoBehaviour
         if (cameraForward.sqrMagnitude < EPSILON) return transform.forward;
         cameraForward.Normalize();
         return Vector3.Dot(cameraForward, transform.forward) >= 0f ? transform.forward : -transform.forward;
+    }
+
+    private Vector3 GetBackwardThrustDirection()
+    {
+        Vector3 forwardDirection = GetThrustDirection();
+        return forwardDirection.sqrMagnitude < EPSILON ? -transform.forward : -forwardDirection;
     }
 
     private Vector3 ProjectOnBoardPlane(Vector3 vector)

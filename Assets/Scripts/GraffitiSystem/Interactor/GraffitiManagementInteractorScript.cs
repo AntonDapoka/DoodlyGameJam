@@ -5,7 +5,6 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 {
     [Header("References:")]
     [SerializeField] private GraffitiScript[] _graffitiSpots;
-    [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
     [SerializeField] private GraffitiJarvisAlgorithmFinderScript _graffitiJarvisAlgorithmFinder;
     [SerializeField] private GraffitiRandomFinderScript _graffitiRandomFinder;
 
@@ -98,14 +97,4 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
     {
         return _graffitiSpots;
     }
-
-    /*
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            int rand = Random.Range(0, _graffitiSpotsValid.Count);
-            SetRandomGraffitiSpot(_graffitiSpotsValid[rand]);
-        }
-    }*/
 }

@@ -1,24 +1,176 @@
 using UnityEngine;
 
-public class GraffitiScript : MonoBehaviour, IInteractable
+public class GraffitiScript : MonoBehaviour
 {
-    [SerializeField] private GraffitiManagementInteractorScript _graffitiManagementInteractor;
-    [SerializeField] private GraffitiPresenterScript _graffitiPresenter;
+    [Header("References")]
     [SerializeField] private GameObject _objectGraffitiHint;
+    [SerializeField] private CapsuleCollider _collider;
+
+    public event System.Action<GraffitiScript> OnInteractionStarted;
+    public event System.Action<GraffitiScript> OnInteractionEnded;
+    public event System.Action<GraffitiScript> OnInteractionReset;
+    public event System.Action<GraffitiScript> OnProgressChanged;
+    public event System.Action<GraffitiScript> OnCompleted;
+    public event System.Action<GraffitiScript> OnStateChanged;
+
+    [Header("Graffiti Center")]
+    public Transform graffitiCenter;
+
+    [Header("Completion")]
+    public float completionCurrent;
+    public float completionMax = 100f;
+
+    [Header("Fill Settings")]
+    [SerializeField] private float _fillMultiplier = 0.5f;
+    [SerializeField] private float _maxFillDistance = 5f;
+    [SerializeField] private float _distanceCurvePower = 2f;
+    [SerializeField] private float _speedMultiplierMin = 3f;
+
+    [Header("Reset Settings")]
+    [SerializeField] private float _resetSpeed = 15f;
+
     public bool _isTurnOn = false;
-    public GraffitiType _graffitiType; // true = Player, false = Opponent
+    private GraffitiType _graffitiType;
+    private bool _isCompleted;
+    private bool _isPlayerInside;
+    private Collider _playerCollider;
+
+    public bool IsCompleted => _isCompleted;
 
     private void Awake()
     {
         gameObject.SetActive(false);
-        _objectGraffitiHint.SetActive(false);
+        if (_objectGraffitiHint != null)
+            _objectGraffitiHint.SetActive(false);
+
         _graffitiType = GraffitiType.Opponent;
+        completionCurrent = 0f;
+        _isCompleted = false;
+        _isPlayerInside = false;
+        _playerCollider = null;
+
+        if (graffitiCenter == null)
+            graffitiCenter = transform;
+
+        if (_collider != null)
+            _collider.isTrigger = true;
+
+        if (GraffitiPresenterScript.Instance != null)
+            GraffitiPresenterScript.Instance.RegisterGraffiti(this);
     }
 
-    public void Interact()
+    private void OnEnable()
     {
-        if (_graffitiType == GraffitiType.Opponent)
+        if (GraffitiPresenterScript.Instance != null)
+            GraffitiPresenterScript.Instance.RegisterGraffiti(this);
+    }
+
+    private void OnDisable()
+    {
+        if (GraffitiPresenterScript.Instance != null)
+            GraffitiPresenterScript.Instance.UnregisterGraffiti(this);
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isCompleted) return;
+        if (_graffitiType != GraffitiType.Opponent) return;
+        if (!_isPlayerInside || _playerCollider == null) return;
+
+        TryFillProgress();
+    }
+
+    private void Update()
+    {
+        if (_isCompleted) return;
+        if (!_isPlayerInside && completionCurrent > 0f)
+        {
+            completionCurrent -= _resetSpeed * Time.deltaTime;
+            if (completionCurrent < 0f)
+                completionCurrent = 0f;
+
+            OnProgressChanged?.Invoke(this);
+
+            if (completionCurrent <= 0f)
+                OnInteractionReset?.Invoke(this);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_isCompleted) return;
+        if (_graffitiType != GraffitiType.Opponent) return;
+        if (other.GetComponent<PlayerMarker>() == null) return;
+
+        _isPlayerInside = true;
+        _playerCollider = other;
+        OnInteractionStarted?.Invoke(this);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_playerCollider != null && other != _playerCollider) return;
+        if (other.GetComponent<PlayerMarker>() == null) return;
+
+        _isPlayerInside = false;
+        _playerCollider = null;
+        OnInteractionEnded?.Invoke(this);
+
+        if (completionCurrent <= 0f)
+            OnInteractionReset?.Invoke(this);
+    }
+
+    private void TryFillProgress()
+    {
+        if (graffitiCenter == null) return;
+        if (_playerCollider == null) return;
+
+        if (!HasLineOfSightToCenter()) return;
+
+        float speed = _playerCollider.attachedRigidbody != null
+            ? _playerCollider.attachedRigidbody.velocity.magnitude
+            : 0f;
+
+        float distance = Vector3.Distance(_playerCollider.bounds.center, graffitiCenter.position);
+        float normalizedDistance = Mathf.Clamp01(distance / _maxFillDistance);
+        float distanceFactor = 1f - Mathf.Pow(normalizedDistance, _distanceCurvePower);
+
+        float speedMultiplier = Mathf.Max(speed, _speedMultiplierMin);
+
+        completionCurrent += Time.fixedDeltaTime * _fillMultiplier * speedMultiplier * distanceFactor;
+        OnProgressChanged?.Invoke(this);
+
+        if (completionCurrent >= completionMax)
+        {
+            completionCurrent = completionMax;
+            _isCompleted = true;
+            _isPlayerInside = false;
+            _playerCollider = null;
             RedrawGraffitiFromOpponentToPlayer();
+        }
+    }
+
+    private bool HasLineOfSightToCenter()
+    {
+        Vector3 origin = _playerCollider.bounds.center;
+        Vector3 target = graffitiCenter.position;
+        Vector3 direction = target - origin;
+        float distance = direction.magnitude;
+
+        if (distance <= 0f) return true;
+
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, distance);
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider == _playerCollider) continue;
+            if (hit.transform.IsChildOf(transform)) continue;
+
+            return false;
+        }
+
+        return true;
     }
 
     public void TurnOnPlayerGraffiti()
@@ -27,41 +179,71 @@ public class GraffitiScript : MonoBehaviour, IInteractable
         _graffitiType = GraffitiType.Player;
         gameObject.SetActive(true);
 
-        _graffitiPresenter.ManageGraffitiSprite(this, true);
+        completionCurrent = 0f;
+        _isCompleted = false;
+        _isPlayerInside = false;
+        _playerCollider = null;
+
+        OnStateChanged?.Invoke(this);
     }
-    
+
     public void TurnOnOpponentGraffiti()
     {
         _isTurnOn = true;
         _graffitiType = GraffitiType.Opponent;
         gameObject.SetActive(true);
-        _objectGraffitiHint.SetActive(true);
 
-        _graffitiPresenter.ManageGraffitiSprite(this, false);
+        completionCurrent = 0f;
+        _isCompleted = false;
+        _isPlayerInside = false;
+        _playerCollider = null;
+
+        if (_objectGraffitiHint != null)
+            _objectGraffitiHint.SetActive(true);
+
+        OnStateChanged?.Invoke(this);
     }
 
     public void RedrawGraffitiFromOpponentToPlayer()
     {
         _graffitiType = GraffitiType.Player;
-        _objectGraffitiHint.SetActive(false);
-        _graffitiPresenter.ManageGraffitiSound();
-        _graffitiPresenter.ManageGraffitiSprite(this, true);
+        _isCompleted = true;
 
-        //_graffitiManagementInteractor.SetRandomOpponentGraffitiSpot(this);
+        if (_objectGraffitiHint != null)
+            _objectGraffitiHint.SetActive(false);
+
+        OnStateChanged?.Invoke(this);
+        OnCompleted?.Invoke(this);
     }
 
     public void RedrawGraffitiFromPlayerToOpponent()
     {
         _graffitiType = GraffitiType.Opponent;
-        _objectGraffitiHint.SetActive(true);
-        _graffitiPresenter.ManageGraffitiSprite(this, false);
+        completionCurrent = 0f;
+        _isCompleted = false;
+        _isPlayerInside = false;
+        _playerCollider = null;
+
+        if (_objectGraffitiHint != null)
+            _objectGraffitiHint.SetActive(true);
+
+        OnStateChanged?.Invoke(this);
     }
 
     public void TurnOff()
     {
         _isTurnOn = false;
         gameObject.SetActive(false);
-        _objectGraffitiHint.SetActive(false);
+
+        if (_objectGraffitiHint != null)
+            _objectGraffitiHint.SetActive(false);
+
+        completionCurrent = 0f;
+        _isCompleted = false;
+        _isPlayerInside = false;
+        _playerCollider = null;
+
+        OnStateChanged?.Invoke(this);
     }
 
     public bool GetIsTurnOn()
@@ -72,5 +254,10 @@ public class GraffitiScript : MonoBehaviour, IInteractable
     public GraffitiType GetGraffitiType()
     {
         return _graffitiType;
+    }
+
+    public void SetGraffitiType(GraffitiType typeNew)
+    {
+        _graffitiType = typeNew;
     }
 }

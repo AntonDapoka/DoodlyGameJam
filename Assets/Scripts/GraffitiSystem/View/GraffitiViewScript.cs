@@ -1,19 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GraffitiViewScript : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSourceSFXTagging;
 
-    public void PlayGraffitiJingleSound(AudioClip audioClip)
+    public void SetGraffitiSprite(GraffitiScript graffiti, Sprite sprite)
     {
-        _audioSourceSFXTagging.clip = audioClip;
-        _audioSourceSFXTagging.Play();
+        if (graffiti == null)
+            return;
+
+        SpriteRenderer renderer = graffiti.gameObject.GetComponent<SpriteRenderer>();
+        if (renderer == null)
+            return;
+
+        renderer.sprite = sprite;
     }
 
-    public void SetSprite(GraffitiScript graffiti, Sprite sprite)
+    public void PlayCompletionSound(AudioClip audioClip)
     {
-        graffiti.gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        if (_audioSourceSFXTagging == null || audioClip == null)
+            return;
+
+        _audioSourceSFXTagging.clip = audioClip;
+        _audioSourceSFXTagging.Play();
     }
 }

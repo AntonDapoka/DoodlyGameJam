@@ -8,15 +8,13 @@ public class SkateInputControllerScript : MonoBehaviour
     {
         if (skateMovementInteractor == null) return;
 
-        if (Input.GetKeyDown(ControlsCollection.forward))
-            new PushForwardCommand(skateMovementInteractor).Execute();
+        if (Input.GetKeyDown(ControlsCollection.forward)) new PushForwardCommand(skateMovementInteractor).Execute();
+        if (Input.GetKeyDown(ControlsCollection.backward)) new PushBackwardCommand(skateMovementInteractor).Execute();
 
         int turn = (Input.GetKey(ControlsCollection.right) ? 1 : 0) - (Input.GetKey(ControlsCollection.left) ? 1 : 0);
-        if (turn != 0)
-            new TurnCommand(skateMovementInteractor, turn).Execute();
+        if (turn != 0) new TurnCommand(skateMovementInteractor, turn).Execute();
 
-        if (Input.GetKeyDown(ControlsCollection.jump))
-            new JumpCommand(skateMovementInteractor).Execute();
+        if (Input.GetKeyDown(ControlsCollection.jump)) new JumpCommand(skateMovementInteractor).Execute();
 
         skateMovementInteractor.SetForwardHeld(Input.GetKey(ControlsCollection.forward));
         skateMovementInteractor.SetReverseHeld(Input.GetKey(ControlsCollection.backward));

@@ -1,6 +1,14 @@
 public enum TrickType
 {
+    StaticJump,
     Kickflip,
     Ollie,
-    ThreeSixty
+    FackieOllie,
+    Nollie,
+    BonedOllie,
+    Shuvit,
+    FrontSide180,
+    FrontSide360,
+    BackSide180,
+    BackSide360
 }
