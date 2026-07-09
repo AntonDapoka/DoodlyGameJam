@@ -113,8 +113,7 @@ public class GraffitiPresenterScript : MonoBehaviour
         GraffitiType type = graffiti.GetGraffitiType();
         Sprite[] pool = type == GraffitiType.Player ? _graffitiSpritesPlayer : _graffitiSpritesOpponent;
 
-        if (pool == null || pool.Length == 0)
-            return;
+        if (pool == null || pool.Length == 0) return;
 
         Sprite sprite = pool[Random.Range(0, pool.Length)];
         _graffitiView.SetGraffitiSprite(graffiti, sprite);

@@ -238,13 +238,13 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
 - Project name: DoodlyGameJam
 - Unity version: Unity 2022.3.62f3
 - Active scene:
-  - Name: Graffiti
+  - Name: TownScene
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: Graffiti
+  - Name: Plant_01 (1)
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
