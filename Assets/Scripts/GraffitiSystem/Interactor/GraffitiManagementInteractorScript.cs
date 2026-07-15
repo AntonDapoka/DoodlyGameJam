@@ -13,29 +13,92 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
 
     private void Awake()
     {
-        int k = 0;
+        if (_graffitiSpotsValid == null)
+            _graffitiSpotsValid = new List<GraffitiScript>();
+        if (_graffitiSpotsActive == null)
+            _graffitiSpotsActive = new List<GraffitiScript>();
+
         foreach (var spot in _graffitiSpots)
         {
-            if (spot != null) _graffitiSpotsValid.Add(spot);
-            k++;
-            Debug.Log(k);
+            if (spot != null)
+                _graffitiSpotsValid.Add(spot);
         }
     }
 
     public void SetRandomInitialOpponentGraffitiSpots(int amount, float maxPerimeter, float minPerimeter)
     {
-        _graffitiSpotsActive = _graffitiJarvisAlgorithmFinder.GetMultipleRandomGraffitiSpots(_graffitiSpotsValid, amount, maxPerimeter, minPerimeter);
-       
-        if (_graffitiSpotsActive != null)
+        if (_graffitiSpotsValid == null)
+            _graffitiSpotsValid = new List<GraffitiScript>();
+        if (_graffitiSpotsActive == null)
+            _graffitiSpotsActive = new List<GraffitiScript>();
+
+        if (amount <= 0)
+            return;
+
+        UpdateGraffitiSpots();
+
+        // Opponent initial spots should be chosen from inactive graffiti only,
+        // so they do not overwrite player spots seeded just before this call.
+        List<GraffitiScript> candidateSpots = new();
+        foreach (GraffitiScript spot in _graffitiSpotsValid)
         {
-            foreach (GraffitiScript graffitiSpot in _graffitiSpotsActive)
-            {
-                if (graffitiSpot == null) continue;
+            if (spot == null) continue;
+            if (!spot.GetIsTurnOn())
+                candidateSpots.Add(spot);
+        }
 
-                graffitiSpot.TurnOnOpponentGraffiti();
+        if (amount > candidateSpots.Count)
+        {
+            Debug.LogWarning($"[GraffitiManagementInteractorScript] Requested {amount} opponent spots, but only {candidateSpots.Count} inactive spots are available. Clamping.");
+            amount = candidateSpots.Count;
+        }
 
-                _graffitiSpotsValid.Remove(graffitiSpot);
-            }
+        if (amount <= 0)
+            return;
+
+        List<GraffitiScript> opponentSpots = _graffitiJarvisAlgorithmFinder.GetMultipleRandomGraffitiSpots(candidateSpots, amount, maxPerimeter, minPerimeter);
+
+        if (opponentSpots == null)
+        {
+            Debug.LogWarning($"[GraffitiManagementInteractorScript] Could not find opponent spots matching perimeter constraints ({minPerimeter}-{maxPerimeter}). Falling back to random selection.");
+            opponentSpots = GetRandomSubset(candidateSpots, amount);
+        }
+
+        foreach (GraffitiScript graffitiSpot in opponentSpots)
+        {
+            if (graffitiSpot == null) continue;
+
+            graffitiSpot.TurnOnOpponentGraffiti();
+            _graffitiSpotsValid.Remove(graffitiSpot);
+        }
+
+        UpdateGraffitiSpots();
+    }
+
+    public void SetRandomInitialPlayerGraffitiSpots(int amount)
+    {
+        if (amount <= 0) return;
+
+        List<GraffitiScript> playerSpots = new();
+        int attempts = 0;
+
+        while (playerSpots.Count < amount && attempts < amount * 10 && _graffitiSpotsValid.Count > 0)
+        {
+            attempts++;
+            int index = Random.Range(0, _graffitiSpotsValid.Count);
+            GraffitiScript spot = _graffitiSpotsValid[index];
+
+            if (spot == null || playerSpots.Contains(spot)) continue;
+
+            playerSpots.Add(spot);
+        }
+
+        foreach (GraffitiScript graffitiSpot in playerSpots)
+        {
+            if (graffitiSpot == null) continue;
+
+            graffitiSpot.TurnOnPlayerGraffiti();
+            _graffitiSpotsValid.Remove(graffitiSpot);
         }
 
         UpdateGraffitiSpots();
@@ -72,8 +135,15 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
     }
     private void UpdateGraffitiSpots()
     {
+        if (_graffitiSpotsValid == null)
+            _graffitiSpotsValid = new List<GraffitiScript>();
+        if (_graffitiSpotsActive == null)
+            _graffitiSpotsActive = new List<GraffitiScript>();
+
         foreach (GraffitiScript graffiti in _graffitiSpots)
         {
+            if (graffiti == null) continue;
+
             bool isTurnedOn = graffiti.GetIsTurnOn();
             GraffitiType graffitiType = graffiti.GetGraffitiType();
 
@@ -91,6 +161,21 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
             }
             else _graffitiSpotsActive.Remove(graffiti);
         }
+    }
+
+    private List<GraffitiScript> GetRandomSubset(List<GraffitiScript> source, int count)
+    {
+        List<GraffitiScript> temp = new(source);
+        List<GraffitiScript> result = new();
+
+        for (int i = 0; i < count && temp.Count > 0; i++)
+        {
+            int index = Random.Range(0, temp.Count);
+            result.Add(temp[index]);
+            temp.RemoveAt(index);
+        }
+
+        return result;
     }
 
     public GraffitiScript[] GetGraffitiSpots()

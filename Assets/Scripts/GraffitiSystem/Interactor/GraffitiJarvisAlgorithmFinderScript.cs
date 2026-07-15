@@ -10,13 +10,13 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
     {
         if (amount < 1)
         {
-            Debug.Log("Something isn't right < 1");
+            Debug.LogWarning($"[GraffitiJarvisAlgorithmFinder] Requested amount ({amount}) is less than 1.");
             return null;
         }
 
         if (amount > graffitiSpots.Count)
         {
-            Debug.Log("Something isn't right mount > graffitiSpots.Count");
+            Debug.LogWarning($"[GraffitiJarvisAlgorithmFinder] Requested amount ({amount}) is greater than available spots ({graffitiSpots.Count}).");
             return null;
         }
 
@@ -31,7 +31,7 @@ public class GraffitiJarvisAlgorithmFinderScript : MonoBehaviour
 
             if (perimeter <= maxPerimeter && perimeter >= minPerimeter) return subset;
         }
-        Debug.Log("WHAT THE FUCK IS A PEREMITAAAAAAAAAAAR *gunshots* *gunshots* *gunshots* *eagle*");
+        Debug.LogWarning($"[GraffitiJarvisAlgorithmFinder] Could not find a graffiti subset of size {amount} with perimeter between {minPerimeter} and {maxPerimeter} after {_maxAttempts} attempts.");
         return null;
     }
 

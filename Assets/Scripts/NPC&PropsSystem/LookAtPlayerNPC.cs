@@ -8,8 +8,4 @@ public class LookAtPlayerNPC : LookAtPlayerBase
     {
         lockY = true;
     }
-    public override void LookAtPlayer(Transform player)
-    {
-        base.LookAtPlayer(player);
-    }
 }

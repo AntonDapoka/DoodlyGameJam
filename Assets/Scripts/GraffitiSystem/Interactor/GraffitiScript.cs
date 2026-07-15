@@ -5,6 +5,14 @@ public class GraffitiScript : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject _objectGraffitiHint;
     [SerializeField] private CapsuleCollider _collider;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    [Header("Materials")]
+    [Tooltip("Material applied when the graffiti belongs to the player.")]
+    [SerializeField] private Material _materialPlayer;
+    [Tooltip("Material applied when the graffiti belongs to the opponent.")]
+    [SerializeField] private Material _materialOpponent;
+    [SerializeField] private GameObject plane;
 
     public event System.Action<GraffitiScript> OnInteractionStarted;
     public event System.Action<GraffitiScript> OnInteractionEnded;
@@ -30,7 +38,7 @@ public class GraffitiScript : MonoBehaviour
     [SerializeField] private float _resetSpeed = 15f;
 
     public bool _isTurnOn = false;
-    private GraffitiType _graffitiType;
+   [SerializeField]   private GraffitiType _graffitiType;
     private bool _isCompleted;
     private bool _isPlayerInside;
     private Collider _playerCollider;
@@ -40,8 +48,12 @@ public class GraffitiScript : MonoBehaviour
     private void Awake()
     {
         gameObject.SetActive(false);
+        plane.SetActive(false);
         if (_objectGraffitiHint != null)
             _objectGraffitiHint.SetActive(false);
+
+        if (_spriteRenderer == null)
+            _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _graffitiType = GraffitiType.Opponent;
         completionCurrent = 0f;
@@ -54,6 +66,8 @@ public class GraffitiScript : MonoBehaviour
 
         if (_collider != null)
             _collider.isTrigger = true;
+
+        RefreshMaterial();
 
         if (GraffitiPresenterScript.Instance != null)
             GraffitiPresenterScript.Instance.RegisterGraffiti(this);
@@ -176,13 +190,16 @@ public class GraffitiScript : MonoBehaviour
     public void TurnOnPlayerGraffiti()
     {
         _isTurnOn = true;
-        _graffitiType = GraffitiType.Player;
+        SetGraffitiType(GraffitiType.Player);
         gameObject.SetActive(true);
 
         completionCurrent = 0f;
         _isCompleted = false;
         _isPlayerInside = false;
         _playerCollider = null;
+
+        plane.SetActive(false);
+
 
         OnStateChanged?.Invoke(this);
     }
@@ -190,13 +207,15 @@ public class GraffitiScript : MonoBehaviour
     public void TurnOnOpponentGraffiti()
     {
         _isTurnOn = true;
-        _graffitiType = GraffitiType.Opponent;
+        SetGraffitiType(GraffitiType.Opponent);
         gameObject.SetActive(true);
 
         completionCurrent = 0f;
         _isCompleted = false;
         _isPlayerInside = false;
         _playerCollider = null;
+
+        plane.SetActive(true);
 
         if (_objectGraffitiHint != null)
             _objectGraffitiHint.SetActive(true);
@@ -206,7 +225,7 @@ public class GraffitiScript : MonoBehaviour
 
     public void RedrawGraffitiFromOpponentToPlayer()
     {
-        _graffitiType = GraffitiType.Player;
+        SetGraffitiType(GraffitiType.Player);
         _isCompleted = true;
 
         if (_objectGraffitiHint != null)
@@ -218,7 +237,7 @@ public class GraffitiScript : MonoBehaviour
 
     public void RedrawGraffitiFromPlayerToOpponent()
     {
-        _graffitiType = GraffitiType.Opponent;
+        SetGraffitiType(GraffitiType.Opponent);
         completionCurrent = 0f;
         _isCompleted = false;
         _isPlayerInside = false;
@@ -258,6 +277,21 @@ public class GraffitiScript : MonoBehaviour
 
     public void SetGraffitiType(GraffitiType typeNew)
     {
+        if (_graffitiType == typeNew) return;
+
         _graffitiType = typeNew;
+        RefreshMaterial();
+
+        if (_isTurnOn)
+            OnStateChanged?.Invoke(this);
+    }
+
+    private void RefreshMaterial()
+    {
+        if (_spriteRenderer == null) return;
+
+        Material material = _graffitiType == GraffitiType.Player ? _materialPlayer : _materialOpponent;
+        if (material != null)
+            _spriteRenderer.material = material;
     }
 }

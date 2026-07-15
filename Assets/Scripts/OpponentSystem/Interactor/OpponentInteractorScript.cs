@@ -1,59 +1,122 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OpponentInteractorScript : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GraffitiManagementInteractorScript _graffityInteractor;
-    private GraffitiScript[] _graffitiSpots;
-    private Transform[] _graffitiTransform;
-    private GraffitiScript currentTarget;
+    [SerializeField] private GraffitiManagementInteractorScript _graffitiInteractor;
 
-    [Header("Movement")]
-    [SerializeField] private float speed = 3f;
-    [SerializeField] private float reachDistance = 0.1f;
+    [Header("Interaction")]
+    [Tooltip("Distance at which the opponent can start painting a graffiti spot.")]
+    [SerializeField] private float _interactionReach = 0.6f;
+    [Tooltip("Time the opponent spends painting one spot before claiming it.")]
+    [SerializeField] private float _paintDuration = 1f;
+    [Tooltip("Delay before picking the next target after finishing a paint action.")]
+    [SerializeField] private float _nextTargetDelay = 0.5f;
+
+    private OpponentNavigator _navigator;
+    private GraffitiScript _currentTarget;
+    private float _paintTimer;
+    private float _delayTimer;
+    private bool _isPainting;
+    private bool _isWaitingForNextTarget;
+
+    private void Awake()
+    {
+        _navigator = GetComponent<OpponentNavigator>();
+        if (_navigator == null)
+        {
+            _navigator = gameObject.AddComponent<OpponentNavigator>();
+        }
+    }
 
     private void Start()
     {
-        _graffitiSpots = _graffityInteractor.GetGraffitiSpots();
-
-        _graffitiTransform = new Transform[_graffitiSpots.Length];
-        for (int i = 0; i < _graffitiSpots.Length; i++)
-        {
-            if (_graffitiSpots[i] != null)
-            {
-                _graffitiTransform[i] = _graffitiSpots[i].transform;
-            }
-        }
-
         PickNewTarget();
     }
 
     private void Update()
     {
-        if (currentTarget == null || _graffitiTransform.Length == 0) return;
-
-        MoveToTarget();
-
-        if (Vector3.Distance(transform.position, currentTarget.transform.position) <= reachDistance)
+        if (_isWaitingForNextTarget)
         {
-            _graffityInteractor.UpdateRandomOpponentGraffitiSpot(currentTarget);
-            PickNewTarget();
-
+            _delayTimer += Time.deltaTime;
+            if (_delayTimer >= _nextTargetDelay)
+            {
+                _isWaitingForNextTarget = false;
+                _delayTimer = 0f;
+                PickNewTarget();
+            }
+            return;
         }
-    }
 
-    private void MoveToTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);
+        if (_isPainting)
+        {
+            UpdatePainting();
+            return;
+        }
+
+        if (_currentTarget == null)
+        {
+            PickNewTarget();
+            return;
+        }
+
+        if (_navigator.HasReachedTarget ||
+            Vector3.Distance(transform.position, _currentTarget.transform.position) <= _interactionReach)
+        {
+            StartPainting();
+        }
     }
 
     private void PickNewTarget()
     {
-        if (_graffitiTransform.Length == 0) return;
+        if (_graffitiInteractor == null)
+        {
+            _currentTarget = null;
+            _navigator.ClearTarget();
+            return;
+        }
 
-        currentTarget = _graffityInteractor.SetRandomOpponentGraffitiSpot(gameObject.transform);
+        _currentTarget = _graffitiInteractor.SetRandomOpponentGraffitiSpot(transform);
+
+        if (_currentTarget != null)
+        {
+            _navigator.SetTarget(_currentTarget.transform);
+        }
+        else
+        {
+            _navigator.ClearTarget();
+        }
+    }
+
+    private void StartPainting()
+    {
+        if (_currentTarget == null) return;
+
+        _isPainting = true;
+        _paintTimer = 0f;
+        _navigator.ClearTarget();
+    }
+
+    private void UpdatePainting()
+    {
+        _paintTimer += Time.deltaTime;
+        if (_paintTimer >= _paintDuration)
+        {
+            FinishPainting();
+        }
+    }
+
+    private void FinishPainting()
+    {
+        if (_currentTarget != null && _graffitiInteractor != null)
+        {
+            _graffitiInteractor.UpdateRandomOpponentGraffitiSpot(_currentTarget);
+        }
+
+        _isPainting = false;
+        _paintTimer = 0f;
+        _currentTarget = null;
+        _isWaitingForNextTarget = true;
+        _delayTimer = 0f;
     }
 }
-
