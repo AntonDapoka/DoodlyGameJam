@@ -1,20 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnvironmentInitializer : MonoBehaviour
 {
+    public static EnvironmentInitializer Instance { get; private set; }
+
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject[] environment;
+    private List<GameObject> environment = new();
 
     private void Awake()
     {
-        if (player == null) return;
-
-        foreach (var obj in environment)
+        if (Instance != null && Instance != this)
         {
-            if (obj != null && obj.TryGetComponent(out LookAtPlayerBase lookAtPlayer))
-            {
-                lookAtPlayer.SetPlayer(player.transform);
-            }
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void AddAnProp(GameObject prop)
+    {
+        environment.Add(prop);
+    }
+
+    public GameObject GetPlayer()
+    {
+        return player;
     }
 }

@@ -95,7 +95,7 @@ Assets/Scripts/
 │   ├── Marker/              # GraffitiMarker
 │   ├── Presenter/           # GraffitiPresenterScript
 │   └── View/                # GraffitiViewScript
-├── CameraSystem/            # Blends between smooth upright offset (small tilts) and fixed local board offset (large tilts / loops)
+├── CameraSystem/            # LateUpdate camera-target smoothing; blends upright and loop offsets
 │   └── CameraTargetFollower.cs
 ├── Main/                    # EnvironmentInitializer
 ├── NPC&PropsSystem/         # Reusable interactions, look-at-player, BPM pulse
@@ -117,7 +117,8 @@ Assets/Scripts/
 ### Main gameplay systems
 
 - **Player input:** `ControlsCollection` defines hard-coded `KeyCode`s (W/A/S/D, Space, Q, E, LeftShift). `SkateInputControllerScript` polls input and dispatches `Command` instances (`PushForwardCommand`, `PushBackwardCommand`, `TurnCommand`, `JumpCommand`) against an `ISkateboardActor`.
-- **Player movement:** `SkateboardMovementInteractorScript` is the main motor. It owns a separate physics body (`Rigidbody` + `SphereCollider`) and initializes/ticks modules in `FixedUpdate`:
+- **Player movement:** `SkateboardMovementInteractorScript` is the main motor. The controller `Player` is now a child of the separate physics body (`Rigidbody` + `SphereCollider`), so the visual transform rides directly with the interpolated Rigidbody instead of being copied each frame. All movement modules are ticked in `FixedUpdate`:
+- **Camera:** `CameraTargetFollower.cs` runs in `LateUpdate` and drives the real `Camera` transform directly. Camera position is copied tightly from the interpolated physics body; only rotation is lightly smoothed. The unused KCC camera (`ExamplePlayer`/`ExampleCharacterCamera`) is disabled. `Fixed Timestep` in `ProjectSettings/TimeManager` is set to `0.01666667` s (60 Hz) to eliminate physics/render beat-frequency stutter.
   - `GroundingEvaluator` — sphere check plus multi-probe board-relative raycast ground check (center/front/back) with a world-down fallback.
   - `PushModule` — accelerates the Rigidbody with `ForceMode.Acceleration` along the tilted board's local forward or its reverse, choosing whichever is closer to the camera's facing direction. `PushBackwardCommand` (bound to S) uses the same logic but applies force in the opposite direction, so the player is pushed away from where the camera is facing. The comparison is done by projecting the camera's look vector onto the board's local plane, so it stays correct when the board is vertical or upside-down. `SkateboardMovementInteractorScript` passes a `Camera` reference into the module; if none is assigned it falls back to `Camera.main`. Loop assist now only applies when the board is on a wall or ceiling (`transform.up.y <= 0.05`), so ordinary uphill ramps never get an artificial boost. The module also accepts `RequestTrickImpulse(float)` from `TrickModule` and applies it as an `Impulse` along the current horizontal movement direction (or the board's camera-facing direction if stationary).
   - `TurnModule` — yaw rotation around the board's local up and visual ground-surface tilt with a speed-scaled smoothing curve. The ground normal is now independently smoothed before tilting, which removes jitter on uneven surfaces. Supports a full 360° loop mode via quaternion alignment, plus a legacy clamped mode. Also maintains a second `cameraFacingIndicator` placed on the board end that is closest to the camera's facing direction.
@@ -244,7 +245,7 @@ There is no CI/CD or command-line build script in the repository. Builds are pro
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI
 - Active game object:
-  - Name: RoadPart_01 (3)
-  - Tag: Untagged
-  - Layer: Ground
+  - Name: Camera
+  - Tag: MainCamera
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

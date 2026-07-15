@@ -39,8 +39,6 @@ public class SkateboardMovementInteractorScript : MonoBehaviour, ISkateboardActo
 
     private void Awake()
     {
-        physicsBody.localPosition = Vector3.zero;
-
         Rigidbody = physicsBody.GetComponent<Rigidbody>();
         Collider = physicsBody.GetComponent<SphereCollider>();
 

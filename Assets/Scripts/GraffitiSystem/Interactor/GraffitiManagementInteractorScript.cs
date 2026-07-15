@@ -8,8 +8,8 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
     [SerializeField] private GraffitiJarvisAlgorithmFinderScript _graffitiJarvisAlgorithmFinder;
     [SerializeField] private GraffitiRandomFinderScript _graffitiRandomFinder;
 
-    public List<GraffitiScript> _graffitiSpotsValid = new();
-    public List<GraffitiScript> _graffitiSpotsActive = new();
+    [HideInInspector] private List<GraffitiScript> _graffitiSpotsValid = new();
+    [HideInInspector] private List<GraffitiScript> _graffitiSpotsActive = new();
 
     private void Awake()
     {

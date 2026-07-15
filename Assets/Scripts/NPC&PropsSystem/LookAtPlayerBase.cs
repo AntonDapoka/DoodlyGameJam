@@ -5,9 +5,20 @@ public abstract class LookAtPlayerBase : MonoBehaviour
     [SerializeField] protected bool lockY = true;
     [SerializeField] protected Transform playerTransform;
 
-    public void SetPlayer(Transform player)
+    private void Start()
     {
-        playerTransform = player;
+        if (EnvironmentInitializer.Instance != null)
+        {
+            EnvironmentInitializer.Instance.AddAnProp(gameObject);
+            playerTransform = EnvironmentInitializer.Instance.GetPlayer()?.transform;
+        }
+
+        if (playerTransform == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                playerTransform = player.transform;
+        }
     }
 
     protected virtual void LateUpdate()
