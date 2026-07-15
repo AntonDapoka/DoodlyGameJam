@@ -29,17 +29,17 @@ public class SkateBoardSpriteManager : MonoBehaviour
         spriteRenderer.sprite = spriteSkateboardIdle;
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (isAnimating)
             return;
-
+/*
         if (Input.GetKeyDown(animationKey) && animationSprites != null && animationSprites.Length > 0)
         {
             StartCoroutine(PlayAnimation());
             return;
-        }
-
+        }*/
+        /*
         pressedLeft = Input.GetKey(keyLeft);
         pressedRight = Input.GetKey(keyRight);
 
@@ -55,11 +55,11 @@ public class SkateBoardSpriteManager : MonoBehaviour
         {
             spriteRenderer.sprite = spriteSkateboardRight;
         }
-    }
+    }*/
 
     private IEnumerator PlayAnimation()
     {
-        isAnimating = true; 
+        isAnimating = true;
 
         foreach (Sprite frame in animationSprites)
         {
@@ -67,6 +67,27 @@ public class SkateBoardSpriteManager : MonoBehaviour
             yield return new WaitForSeconds(animationFrameTime);
         }
 
+        spriteRenderer.sprite = spriteSkateboardIdle;
+        isAnimating = false;
+    }
+
+    public void PlayTrickAnimation(Sprite[] frames, float frameTime)
+    {
+        if (frames == null || frames.Length == 0) return;
+        if (isAnimating)
+            StopAllCoroutines();
+        StartCoroutine(PlayTrickAnimationCoroutine(frames, frameTime));
+    }
+
+    private IEnumerator PlayTrickAnimationCoroutine(Sprite[] frames, float frameTime)
+    {
+        isAnimating = true;
+        foreach (Sprite frame in frames)
+        {
+            if (frame != null)
+                spriteRenderer.sprite = frame;
+            yield return new WaitForSeconds(frameTime);
+        }
         spriteRenderer.sprite = spriteSkateboardIdle;
         isAnimating = false;
     }

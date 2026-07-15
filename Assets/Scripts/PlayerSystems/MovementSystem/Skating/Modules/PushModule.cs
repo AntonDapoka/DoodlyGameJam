@@ -18,6 +18,8 @@ public class PushModule : MonoBehaviour
     private Camera _camera;
     private bool _requested;
     private bool _backwardRequested;
+    private bool _trickImpulseRequested;
+    private float _trickImpulseForce;
     private float _cooldownTimer;
 
     public float CurrentSpeed { get; private set; }
@@ -42,6 +44,17 @@ public class PushModule : MonoBehaviour
         _backwardRequested = true;
     }
 
+    public void RequestTrickImpulse(float force)
+    {
+        _trickImpulseRequested = true;
+        _trickImpulseForce = force;
+    }
+
+    public Vector3 GetCurrentFacingDirection()
+    {
+        return GetThrustDirection();
+    }
+
     public void Tick(float deltaTime)
     {
         #if UNITY_EDITOR
@@ -57,14 +70,36 @@ public class PushModule : MonoBehaviour
         _requested = false;
         _backwardRequested = false;
 
-        if ((!forwardPush && !backwardPush) || !_grounding.IsGrounded || _cooldownTimer > 0f) return;
+        if ((forwardPush || backwardPush) && _grounding.IsGrounded && _cooldownTimer <= 0f)
+        {
+            Vector3 direction = backwardPush ? GetBackwardThrustDirection() : GetThrustDirection();
 
-        Vector3 direction = backwardPush ? GetBackwardThrustDirection() : GetThrustDirection();
+            if (direction.sqrMagnitude >= EPSILON)
+            {
+                ApplyAcceleration(direction);
+                _cooldownTimer = pushCooldown;
+            }
+        }
 
-        if (direction.sqrMagnitude < EPSILON) return;
+        if (_trickImpulseRequested)
+        {
+            ApplyTrickImpulse(_trickImpulseForce);
+            _trickImpulseRequested = false;
+        }
+    }
 
-        ApplyAcceleration(direction);
-        _cooldownTimer = pushCooldown;
+    private void ApplyTrickImpulse(float force)
+    {
+        if (force <= 0f) return;
+
+        Vector3 velocity = _rigidbody.velocity;
+        Vector3 horizontal = new Vector3(velocity.x, 0f, velocity.z);
+        Vector3 direction = horizontal.sqrMagnitude > EPSILON
+            ? horizontal.normalized
+            : GetCurrentFacingDirection();
+        if (direction.sqrMagnitude < EPSILON) direction = transform.forward;
+
+        _rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
 
     private void ApplyAcceleration(Vector3 direction)

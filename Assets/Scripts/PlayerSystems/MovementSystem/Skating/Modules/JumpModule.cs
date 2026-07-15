@@ -17,6 +17,7 @@ public class JumpModule : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float jumpCooldown = 0.18f;
     [SerializeField] private float coyoteTimeWindow = 0.12f;
+    [SerializeField] private float grindCoyoteTimeWindow = 0.15f;
     [SerializeField] private float jumpBufferWindow = 0.1f;
     [SerializeField, Range(0f, 1f)] private float minGroundNormalDot = 0.65f;
     [Tooltip("If true, the player can jump on walls and ceilings (needed for loops).")]
@@ -39,6 +40,7 @@ public class JumpModule : MonoBehaviour
     private bool _requested;
     private float _cooldownTimer;
     private float _coyoteTimer;
+    private float _grindCoyoteTimer;
     private float _bufferTimer;
 
     public bool IsJumping { get; private set; }
@@ -57,6 +59,11 @@ public class JumpModule : MonoBehaviour
         _requested = true;
     }
 
+    public void NotifyGrindEnded()
+    {
+        _grindCoyoteTimer = grindCoyoteTimeWindow;
+    }
+
     public void Tick(float deltaTime)
     {
         JumpRequestedThisFrame = false;
@@ -73,19 +80,22 @@ public class JumpModule : MonoBehaviour
         bool groundSuitable = _grounding != null && _grounding.IsGrounded;
         if (!allowJumpOnCeiling)
             groundSuitable &= _grounding.GroundNormal.y >= minGroundNormalDot;
-        bool canUseCoyote = _coyoteTimer > 0f;
+        bool canUseCoyote = _coyoteTimer > 0f || _grindCoyoteTimer > 0f;
         bool hasBufferedInput = _bufferTimer > 0f;
 
+        bool performedJumpThisTick = false;
         if (hasBufferedInput && _cooldownTimer <= 0f && (groundSuitable || canUseCoyote))
         {
             PerformJump();
+            performedJumpThisTick = true;
             _bufferTimer = 0f;
             _cooldownTimer = jumpCooldown;
         }
 
-        if (_grounding != null && _grounding.IsGrounded)
+        if (_grounding != null && _grounding.IsGrounded && !performedJumpThisTick)
         {
             _coyoteTimer = coyoteTimeWindow;
+            _grindCoyoteTimer = 0f;
             IsJumping = false;
         }
     }
@@ -94,6 +104,7 @@ public class JumpModule : MonoBehaviour
     {
         if (_cooldownTimer > 0f) _cooldownTimer -= deltaTime;
         if (_coyoteTimer > 0f) _coyoteTimer -= deltaTime;
+        if (_grindCoyoteTimer > 0f) _grindCoyoteTimer -= deltaTime;
         if (_bufferTimer > 0f) _bufferTimer -= deltaTime;
     }
 
@@ -145,6 +156,7 @@ public class JumpModule : MonoBehaviour
     {
         if (jumpBufferWindow < 0f) jumpBufferWindow = 0f;
         if (coyoteTimeWindow < 0f) coyoteTimeWindow = 0f;
+        if (grindCoyoteTimeWindow < 0f) grindCoyoteTimeWindow = 0f;
         if (jumpCooldown < 0f) jumpCooldown = 0f;
         if (minGroundNormalDot < 0f) minGroundNormalDot = 0f;
         if (minGroundNormalDot > 1f) minGroundNormalDot = 1f;

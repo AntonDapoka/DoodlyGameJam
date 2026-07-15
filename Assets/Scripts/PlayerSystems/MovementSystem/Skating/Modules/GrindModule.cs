@@ -309,6 +309,9 @@ public class GrindModule : MonoBehaviour
             _rigidbody.angularVelocity = Vector3.zero;
         }
 
+        if (!withJump && _jumpModule != null)
+            _jumpModule.NotifyGrindEnded();
+
         _reentryUnlockTime = Time.time + grindReentryCooldown;
         DisposeCachedNativeSpline();
         ClearGrindState();
@@ -328,6 +331,9 @@ public class GrindModule : MonoBehaviour
             _rigidbody.velocity = new(horizontal.x, 0f, horizontal.z);
             _rigidbody.angularVelocity = Vector3.zero;
         }
+
+        if (_jumpModule != null)
+            _jumpModule.NotifyGrindEnded();
 
         _reentryUnlockTime = Time.time + grindReentryCooldown;
         DisposeCachedNativeSpline();
