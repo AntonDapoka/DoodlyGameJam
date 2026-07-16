@@ -27,6 +27,8 @@ public class OpponentNavigator : MonoBehaviour
 
     private NavMeshAgent _agent;
     private Transform _target;
+    private Vector3 _targetPosition;
+    private bool _hasTargetPosition;
     private bool _hasReachedTarget;
 
     private float _stuckCheckTimer;
@@ -34,11 +36,16 @@ public class OpponentNavigator : MonoBehaviour
     private Vector3 _lastCheckPosition;
     private bool _isDirectMoving;
     private float _directMoveTimer;
+    private float _ignoreObstaclesTimer;
+    private float _forceDirectMovementTimer;
 
     public Transform Target => _target;
     public bool HasReachedTarget => _hasReachedTarget;
     public bool IsDirectMoving => _isDirectMoving;
+    public bool IsStuck => _stuckDuration >= _stuckTimeout;
     public float RemainingDistance => _agent != null && _agent.isOnNavMesh ? _agent.remainingDistance : float.PositiveInfinity;
+
+    private Vector3 TargetPosition => _hasTargetPosition ? _targetPosition : (_target != null ? _target.position : transform.position);
 
     private void Awake()
     {
@@ -54,9 +61,18 @@ public class OpponentNavigator : MonoBehaviour
 
     private void Update()
     {
-        if (_target == null)
+        if (!_hasTargetPosition && _target == null)
         {
             _hasReachedTarget = false;
+            return;
+        }
+
+        if (_forceDirectMovementTimer > 0f)
+        {
+            _forceDirectMovementTimer = Mathf.Max(0f, _forceDirectMovementTimer - Time.deltaTime);
+            if (!_isDirectMoving)
+                EnterDirectMovement();
+            UpdateDirectMovement(Time.deltaTime);
             return;
         }
 
@@ -79,7 +95,7 @@ public class OpponentNavigator : MonoBehaviour
             return;
         }
 
-        EnsureDestination(_target.position);
+        EnsureDestination(TargetPosition);
         CheckStuck(Time.deltaTime);
 
         if (_agent.hasPath && _agent.remainingDistance <= _stoppingDistance)
@@ -107,6 +123,7 @@ public class OpponentNavigator : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
+        _hasTargetPosition = false;
         _hasReachedTarget = false;
         ResetStuckState();
 
@@ -119,13 +136,46 @@ public class OpponentNavigator : MonoBehaviour
 
         if (_agent != null && _agent.isOnNavMesh)
         {
-            SetDestination(_target.position);
+            SetDestination(TargetPosition);
+        }
+    }
+
+    public void SetTarget(Vector3 position)
+    {
+        _target = null;
+        _targetPosition = position;
+        _hasTargetPosition = true;
+        _hasReachedTarget = false;
+        ResetStuckState();
+
+        if (_agent != null && _agent.isOnNavMesh)
+        {
+            SetDestination(_targetPosition);
         }
     }
 
     public void ClearTarget()
     {
-        SetTarget(null);
+        _target = null;
+        _targetPosition = transform.position;
+        _hasTargetPosition = false;
+        _hasReachedTarget = false;
+        _forceDirectMovementTimer = 0f;
+        _ignoreObstaclesTimer = 0f;
+
+        if (_agent != null && _agent.isOnNavMesh)
+            _agent.ResetPath();
+    }
+
+    /// <summary>
+    /// Forces direct movement that ignores colliders for the specified duration.
+    /// Useful for getting unstuck from walls or reaching elevated graffiti.
+    /// </summary>
+    public void IgnoreObstacles(float duration)
+    {
+        _ignoreObstaclesTimer = duration;
+        _forceDirectMovementTimer = duration;
+        EnterDirectMovement();
     }
 
     private void EnsureDestination(Vector3 destination)
@@ -196,14 +246,15 @@ public class OpponentNavigator : MonoBehaviour
 
     private void UpdateDirectMovement(float deltaTime)
     {
-        if (_target == null)
+        if (!_hasTargetPosition && _target == null)
         {
             _isDirectMoving = false;
             _hasReachedTarget = false;
             return;
         }
 
-        Vector3 toTarget = _target.position - transform.position;
+        Vector3 destination = TargetPosition;
+        Vector3 toTarget = destination - transform.position;
         float distance = toTarget.magnitude;
         if (distance <= _stoppingDistance)
         {
@@ -220,7 +271,12 @@ public class OpponentNavigator : MonoBehaviour
         Vector3 from = transform.position;
         Vector3 to = from + step;
 
-        if (Physics.Linecast(from, to, out RaycastHit hit, _passThroughObstacles))
+        if (_ignoreObstaclesTimer > 0f)
+        {
+            _ignoreObstaclesTimer = Mathf.Max(0f, _ignoreObstaclesTimer - deltaTime);
+            transform.position = to;
+        }
+        else if (Physics.Linecast(from, to, out RaycastHit hit, _passThroughObstacles))
         {
             transform.position = hit.point + direction * 0.05f;
         }
@@ -244,7 +300,7 @@ public class OpponentNavigator : MonoBehaviour
             if (_agent != null && _agent.isOnNavMesh)
             {
                 _agent.isStopped = false;
-                SetDestination(_target.position);
+                SetDestination(destination);
             }
         }
     }
@@ -254,8 +310,8 @@ public class OpponentNavigator : MonoBehaviour
         _isDirectMoving = false;
         _directMoveTimer = 0f;
         ResetStuckState();
-        if (_target != null && _agent.isOnNavMesh)
-            SetDestination(_target.position);
+        if (_agent.isOnNavMesh)
+            SetDestination(TargetPosition);
     }
 
     private void ResetStuckState()

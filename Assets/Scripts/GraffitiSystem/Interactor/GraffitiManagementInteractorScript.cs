@@ -114,6 +114,31 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         else return newSpot; 
     }
 
+    /// <summary>
+    /// Returns a random valid graffiti spot that is not already owned by the opponent.
+    /// Used as a fallback when the distance-based finder cannot find a target.
+    /// </summary>
+    public GraffitiScript GetFallbackOpponentGraffitiSpot()
+    {
+        UpdateGraffitiSpots();
+
+        if (_graffitiSpotsValid == null || _graffitiSpotsValid.Count == 0)
+            return null;
+
+        List<GraffitiScript> candidates = new();
+        foreach (GraffitiScript spot in _graffitiSpotsValid)
+        {
+            if (spot == null) continue;
+            if (!spot.GetIsTurnOn() || spot.GetGraffitiType() != GraffitiType.Opponent)
+                candidates.Add(spot);
+        }
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
+    }
+
     public void UpdateRandomOpponentGraffitiSpot(GraffitiScript newSpot)
     {
         UpdateGraffitiSpots();
@@ -131,7 +156,7 @@ public class GraffitiManagementInteractorScript : MonoBehaviour
         else
             Debug.Log("SOME BUG IDK");
 
-        //UpdateGraffitiSpots();
+        UpdateGraffitiSpots();
     }
     private void UpdateGraffitiSpots()
     {
